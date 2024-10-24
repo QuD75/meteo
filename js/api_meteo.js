@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (weather === 14) return 'icons/weather/wsymbol_0024_thunderstorms.png';
         else if (weather === 114) return 'icons/weather/wsymbol_0040_thunderstorms_night.png';
         else if (weather === 15) return 'icons/weather/wsymbol_0048_drizzle.png';
-        else if (weather === 115) return 'icons/weather/wsymbol_0066_drizzle_night.pngg';
+        else if (weather === 115) return 'icons/weather/wsymbol_0066_drizzle_night.png';
         else if (weather === 16) return 'icons/weather/wsymbol_0056_dust_sand.png'
         else if (weather === 116) return 'icons/weather/wsymbol_0074_dust_sand_night.png';
         else return 'icons/weather/wsymbol_0999_unknown.png';
