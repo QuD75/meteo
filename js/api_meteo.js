@@ -9,11 +9,11 @@ const params = 't_2m:C,msl_pressure:hPa,precip_1h:mm,wind_speed_10m:ms,wind_dir_
 // Récupérer la date actuelle et la formater en ISO
 const currentDate = new Date();
 currentDate.setMinutes(0, 0, 0);
-const beginDate = currentDate.toISOString().split('.')[0] + 'Z'; // Date actuelle
-// Calculer la date + 7 jours
+const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
+// Calculer la date du lendemain
 const futureDate = new Date(currentDate);
-futureDate.setDate(currentDate.getDate() + 7);
-const endDate = futureDate.toISOString().split('.')[0] + 'Z'; // Date + 7 jours
+futureDate.setDate(currentDate.getDate() + 1);
+const endDate = futureDate.toISOString().split('.')[0] + 'Z'; //
 
 const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
