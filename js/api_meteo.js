@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getPrecipitationColor(value) {
         let color;
         let textColor = 'black'; // Couleur du texte par défaut
+        console.log(value.toFixed);
         if (value === 0) {
             // Couleur blanche pour une précipitation de 0
             color = `rgb(255, 255, 255)`; // Blanc
