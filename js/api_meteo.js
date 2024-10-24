@@ -47,12 +47,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const hoursRow = document.getElementById('hours-24h-row');
     
         // Remplir les en-têtes des heures
-        data.data[0].coordinates[0].dates.forEach(dateData => {
+        let currentDate = null; // Pour suivre la date actuelle
+        let dateCell; // Pour stocker la cellule de date fusionnée
+        let hourCount = 0; // Compte le nombre d'heures
+    
+        data.data[0].coordinates[0].dates.forEach((dateData, index) => {
             const hour = new Date(dateData.date).getUTCHours();
+    
+            // Vérifier si nous avons changé de date
+            const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long'
+            });
+    
+            if (currentDate !== newDate) {
+                // Si c'est une nouvelle date, créer une nouvelle cellule
+                if (dateCell) {
+                    // Fusionner les cellules de la date pour les heures précédentes
+                    dateCell.setAttribute('colspan', hourCount);
+                }
+                currentDate = newDate; // Mettre à jour la date actuelle
+                dateCell = document.createElement('th'); // Créer une nouvelle cellule de date
+                dateCell.textContent = currentDate; // Définir le texte de la cellule
+                dateCell.setAttribute('rowspan', '1'); // Initialiser rowspan
+                hoursRow.appendChild(dateCell); // Ajouter la cellule de date à la ligne d'en-tête des heures
+                hourCount = 1; // Réinitialiser le compteur d'heures
+            } else {
+                hourCount++; // Incrémenter le compteur d'heures
+            }
+    
+            // Créer une cellule d'heure
             const th = document.createElement('th');
             th.textContent = `${hour}h`; // Afficher l'heure au format XXh
-            hoursRow.appendChild(th);
+            hoursRow.appendChild(th); // Ajouter la cellule d'heure à la ligne d'en-tête des heures
         });
+    
+        // Fusionner la dernière cellule de date
+        if (dateCell) {
+            dateCell.setAttribute('colspan', hourCount);
+        }
     
         // Remplir les données de température
         data.data[0].coordinates[0].dates.forEach(dateData => {
@@ -69,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherData(data, pressureRow, 1);  // Pression atmosphérique
         fillWeatherData(data, weatherRow, 5);  // Ciel (symboles météo)
     }
+    
 
     function fillWeatherData(data, rowElement, paramIndex, conversionFactor = 1) {
         // Remplir les lignes pour d'autres paramètres
