@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = 'nIg974UeEM';
     const lat = '47.2917';
     const lon = '-2.5201';
-    const params = 't_2m:C,msl_pressure:hPa,precip_1h:mm,wind_speed_10m:ms,wind_dir_10m:d,weather_symbol_1h:idx';
+    const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx';
 
     const currentDate = new Date();
     currentDate.setMinutes(0, 0, 0);
@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherData(data, temperatureRow, 1, 1, 0); // Température
         fillWeatherData(data, rainRow, 2, 1, 1);  // Précipitations
         fillWeatherData(data, windRow, 3, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
-        fillWeatherData(data, windGustRow, 3, 3.6, 0);  // Vent rafales (si applicable)
-        fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
-        fillWeatherData(data, pressureRow, 1, 1, 0);  // Pression atmosphérique
-        fillWeatherData(data, weatherRow, 5, 1, 0);  // Ciel (symboles météo)
+        fillWeatherData(data, windGustRow, 4, 3.6, 0);  // Vent rafales (si applicable)
+        fillWeatherData(data, windDirectionRow, 5, 1, 0);  // Direction du vent
+        fillWeatherData(data, pressureRow, 6, 1, 0);  // Pression atmosphérique
+        fillWeatherData(data, weatherRow, 7, 1, 0);  // Ciel (symboles météo)
     }
     
 
