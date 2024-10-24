@@ -198,16 +198,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getWindColor(value) {
+        let color;
         if (value <= 20) {
             // Bleu pour le vent faible
-            return `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
+            color = `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
         } else if (value > 20 && value <= 50) {
             // Vert pour le vent moyen
-            return `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 30))})`;
+            color = `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 30))})`;
         } else {
             // Rouge pour le vent fort
-            return `rgb(255, ${Math.round(255 - ((value - 50) * 255 / 50))}, 0)`;
+            color = `rgb(255, ${Math.round(255 - ((value - 50) * 255 / 50))}, 0)`;
         }
+        return color;
     }
 
     function getParisTimezoneOffset(date) {
