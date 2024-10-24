@@ -87,28 +87,22 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
     
-        // Remplir les données de température
-        data.data[0].coordinates[0].dates.forEach(dateData => {
-            const td = document.createElement('td');
-            td.textContent = dateData.value.toFixed(1); // Température avec 1 décimale
-            temperatureRow.appendChild(td);
-        });
-    
         // Remplir les autres lignes avec les bonnes données
-        fillWeatherData(data, rainRow, 2);  // Précipitations
-        fillWeatherData(data, windRow, 3, 3.6);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
-        fillWeatherData(data, windGustRow, 3, 3.6);  // Vent rafales (si applicable)
-        fillWeatherData(data, windDirectionRow, 4);  // Direction du vent
-        fillWeatherData(data, pressureRow, 1);  // Pression atmosphérique
-        fillWeatherData(data, weatherRow, 5);  // Ciel (symboles météo)
+        fillWeatherData(data, temperatureRow, 1, 1, 0); // Température
+        fillWeatherData(data, rainRow, 2, 1, 1);  // Précipitations
+        fillWeatherData(data, windRow, 3, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
+        fillWeatherData(data, windGustRow, 3, 3.6, 0);  // Vent rafales (si applicable)
+        fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
+        fillWeatherData(data, pressureRow, 1, 1, 0);  // Pression atmosphérique
+        fillWeatherData(data, weatherRow, 5, 1, 0);  // Ciel (symboles météo)
     }
     
 
-    function fillWeatherData(data, rowElement, paramIndex, conversionFactor = 1) {
+    function fillWeatherData(data, rowElement, paramIndex, conversionFactor = 1, round) {
         // Remplir les lignes pour d'autres paramètres
         data.data[paramIndex].coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
-            td.textContent = (dateData.value * conversionFactor).toFixed(1); // Appliquer la conversion si nécessaire
+            td.textContent = (dateData.value * conversionFactor).toFixed(round); // Appliquer la conversion si nécessaire
             rowElement.appendChild(td);
         });
     }
