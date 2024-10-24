@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
-            const value = dateData.value*multiple.toFixed(round);
+            let value = dateData.value*multiple.toFixed(round);
             if (floor != null) value = Math.floor(value / floor) * floor;
             const { color, textColor } = colorFunc(value);
             td.textContent = value;
