@@ -86,9 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (dateCell) {
             dateCell.setAttribute('colspan', hourCount);
         }
+
+        // Remplir les données de température
+        data.data[0].coordinates[0].dates.forEach(dateData => {
+        const td = document.createElement('td');
+        td.textContent = dateData.value.toFixed(0); // Température avec 1 décimale
+        td.style.backgroundColor = getTemperatureColor(dateData.value); // Appliquer la couleur
+        temperatureRow.appendChild(td);
+        });
     
         // Remplir les autres lignes avec les bonnes données
-        fillWeatherData(data, temperatureRow, 0, 1, 0); // Température
+        //fillWeatherData(data, temperatureRow, 0, 1, 0); // Température
         fillWeatherData(data, rainRow, 1, 1, 1);  // Précipitations
         fillWeatherData(data, windRow, 2, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
         fillWeatherData(data, windGustRow, 3, 3.6, 0);  // Vent rafales (si applicable)
@@ -105,6 +113,32 @@ document.addEventListener('DOMContentLoaded', () => {
             td.textContent = (dateData.value * conversionFactor).toFixed(round); // Appliquer la conversion si nécessaire
             rowElement.appendChild(td);
         });
+    }
+
+    function getTemperatureColor(value) {
+        let color;
+        if (value < 2) {
+            // Dégradé de bleu (foncé à clair)
+            const blueValue = Math.floor((value + 2) * (255 / 2)); // Convertir à une valeur entre 0 et 255
+            color = `rgb(0, 0, ${blueValue})`;
+        } else if (value >= 2 && value <= 10) {
+            // Dégradé de vert (clair à normal)
+            const greenValue = Math.floor((value - 2) * (255 / 8)); // Convertir à une valeur entre 0 et 255
+            color = `rgb(0, ${greenValue}, 0)`;
+        } else if (value > 10 && value <= 20) {
+            // Dégradé de jaune (clair à orange)
+            const redValue = Math.floor((value - 10) * (255 / 10)); // Convertir à une valeur entre 0 et 255
+            const greenValue = 255 - redValue; // Réduire le vert
+            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune à orange
+        } else if (value > 20 && value <= 30) {
+            // Dégradé de orange à rouge
+            const redValue = Math.floor((value - 20) * (255 / 10)); // Convertir à une valeur entre 0 et 255
+            color = `rgb(255, ${255 - redValue}, 0)`; // Orange à rouge
+        } else {
+            // Au-dessus de 30, rouge foncé
+            color = `rgb(255, 0, 0)`; // Rouge foncé
+        }
+        return color;
     }
 
     // Appel de la fonction
