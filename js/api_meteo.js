@@ -112,8 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
         fillWeatherData(data, pressureRow, 5, 1, 0);  // Pression atmosphérique
         fillWeatherData(data, weatherRow, 6, 1, 0);  // Ciel (symboles météo)
-    }
-    
+    } 
 
     function fillWeatherData(data, rowElement, paramIndex, conversionFactor = 1, round) {
         // Remplir les lignes pour d'autres paramètres
@@ -133,18 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (value >= 0 && value <= 10) {
             // Dégradé de vert (clair à normal) pour les températures entre 0 et 10
             const greenValue = Math.floor((value - 0) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(0, ${greenValue}, 0)`;
-        } else if (value > 10 && value <= 50) {
-            // Dégradé de jaune clair à rouge foncé pour les températures entre 10 et 50
-            const redValue = Math.floor((value - 10) * (255 / 40)); // Convertir à une valeur entre 0 et 255
-            const greenValue = Math.floor(255 - (redValue * (255 / 255))); // Réduire le vert
-            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à rouge foncé
+            color = `rgb(0, ${greenValue}, 0)`; // Vert clair à vert normal
+        } else if (value > 10 && value < 20) {
+            // Dégradé de jaune clair à orange pour les températures entre 10 et 20
+            const redValue = Math.floor((value - 10) * (255 / 10)); // Convertir à une valeur entre 0 et 255
+            const greenValue = Math.floor(255 - redValue * (255 / 255)); // Réduire le vert
+            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à orange
+        } else if (value >= 20 && value < 30) {
+            // Dégradé d'orange à rouge clair pour les températures entre 20 et 30
+            const redValue = Math.floor((value - 20) * (255 / 10)); // Convertir à une valeur entre 0 et 255
+            color = `rgb(255, ${255 - redValue}, 0)`; // Orange à rouge clair
         } else {
-            // Au-dessus de 50, rouge foncé
+            // Au-dessus de 30, rouge foncé
             color = `rgb(255, 0, 0)`; // Rouge foncé
         }
         return color;
-    }
+    }    
     
     function getPrecipitationColor(value) {
         let color;
