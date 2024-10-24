@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Créer une cellule d'heure
             const timeParis = getParisTimezoneOffset(new Date());
             const targetHour = hour+timeParis;
+            if (targetHour === 24) targetHour = 0;
+            if (targetHour === 25) targetHour = 1;
             const th = document.createElement('th');
             th.textContent = `${targetHour}h`; // Afficher l'heure au format XXh
             hoursRow.appendChild(th); // Ajouter la cellule d'heure à la ligne d'en-tête des heures
