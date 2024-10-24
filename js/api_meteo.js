@@ -93,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remplir les données de température
         data.data[0].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
-        td.textContent = dateData.value.toFixed(0); // Température avec 1 décimale
+        const temperatureValue = dateData.value.toFixed(0);
+        td.textContent = temperatureValue;
         const { color, textColor } = getTemperatureColor(temperatureValue);
         td.style.backgroundColor = color;
         td.style.color = textColor;
