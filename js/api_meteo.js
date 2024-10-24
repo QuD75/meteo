@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     
             // Créer une cellule d'heure
-            const timezoneOffset = 1; // Décalage horaire pour Paris en heures (UTC+1)
+            const timezoneOffset = getParisTimezoneOffset(currentDate); // Décalage horaire pour Paris en heures (UTC+1)
             data.data.forEach((coordinate) => {
                 const dates = coordinate.coordinates[0].dates; // Récupérer les dates
                 dates.forEach((dateObj) => {
@@ -134,26 +134,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTemperatureColor(value) {
         let color;
+    
         if (value < 0) {
-            // Dégradé de bleu (foncé à clair) pour les températures < 0
+            // Dégradé de bleu foncé à bleu clair pour les températures < 0
             const blueValue = Math.floor((value + 0) * (255 / 0)); // Convertir à une valeur entre 0 et 255
             color = `rgb(0, 0, ${255 - blueValue})`; // Inverser pour obtenir bleu foncé à bleu clair
         } else if (value >= 0 && value <= 10) {
-            // Dégradé de vert (clair à normal) pour les températures entre 0 et 10
-            const greenValue = Math.floor((value - 0) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(0, ${greenValue}, 0)`;
+            // Dégradé de vert clair à vert normal pour les températures entre 0 et 10
+            const greenValue = Math.floor((value / 10) * 255); // Convertir à une valeur entre 0 et 255
+            color = `rgb(0, ${greenValue}, 0)`; // Vert
         } else if (value > 10 && value <= 50) {
             // Dégradé de jaune clair à rouge foncé pour les températures entre 10 et 50
-            const range = value - 10; // Écart à partir de 10
-            const redValue = Math.floor((range / 40) * (255)); // Plus lent jusqu'à 50
-            const greenValue = Math.max(255 - Math.floor((range / 40) * 255), 0); // Réduire le vert progressivement
+            const redValue = Math.min(Math.floor((value - 10) * (255 / 40)), 255); // Convertir à une valeur entre 0 et 255
+            const greenValue = Math.max(255 - Math.floor((value - 10) * (255 / 40)), 0); // Réduire le vert
             color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à rouge foncé
         } else {
             // Au-dessus de 50, rouge foncé
             color = `rgb(255, 0, 0)`; // Rouge foncé
         }
+    
         return color;
-    }      
+    }         
     
     function getPrecipitationColor(value) {
         let color;
@@ -171,6 +172,23 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `rgb(0, 0, 139)`; // DarkBlue
         }
         return color;
+    }
+
+    function getParisTimezoneOffset(date) {
+        // Date de début de l'heure d'été : dernier dimanche de mars
+        const startDST = new Date(date.getFullYear(), 2, 31); // Mars a l'index 2
+        startDST.setDate(31 - (startDST.getDay() + 1) % 7); // Dernier dimanche de mars
+    
+        // Date de fin de l'heure d'été : dernier dimanche d'octobre
+        const endDST = new Date(date.getFullYear(), 9, 31); // Octobre a l'index 9
+        endDST.setDate(31 - (endDST.getDay() + 1) % 7); // Dernier dimanche d'octobre
+    
+        // Vérifier si la date donnée est dans l'heure d'été
+        if (date >= startDST && date < endDST) {
+            return 2; // Heure d'été (UTC+2)
+        } else {
+            return 1; // Heure d'hiver (UTC+1)
+        }
     }
 
     // Appel de la fonction
