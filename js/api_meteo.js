@@ -131,9 +131,19 @@ document.addEventListener('DOMContentLoaded', () => {
         td.style.color = textColor;
         windGustRow.appendChild(td);
         });
+        data.data[4].coordinates[0].dates.forEach(dateData => {
+        const td = document.createElement('td');
+        td.style.backgroundColor = '#ADD8E6'; // Bleu clair
+        const windDirection = dateData.value.toFixed(0);
+        const windDirectionIcon = document.createElement('img');
+        windDirectionIcon.style.width = "30px";
+        windDirectionIcon.style.height = "30px";
+        windDirectionIcon.src = getWindDirectionIcon(windDirection);
+        td.appendChild(windDirectionIcon);
+        windDirectionRow.appendChild(td);
+        });
     
         // Remplir les autres lignes avec les bonnes données
-        fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
         fillWeatherData(data, pressureRow, 5, 1, 0);  // Pression atmosphérique
         fillWeatherData(data, weatherRow, 6, 1, 0);  // Ciel (symboles météo)
     } 
@@ -235,6 +245,37 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             return 1; // Heure d'hiver (UTC+1)
         }
+    }
+
+    function getWindDirectionIcon(wind_deg) {
+        console.log("Direction vent : " + wind_deg);
+        const directions = [
+            { min: 348.75, max: 360, icon: 'icons/wind/n.png' },
+            { min: 0, max: 11.25, icon: 'icons/wind/n' },
+            { min: 11.25, max: 33.75, icon: 'icons/wind/nne.png' },
+            { min: 33.75, max: 56.25, icon: 'icons/wind/ne.png' },
+            { min: 56.25, max: 78.75, icon: 'icons/wind/ene.png' },
+            { min: 78.75, max: 101.25, icon: 'icons/wind/e.png' },
+            { min: 101.25, max: 123.75, icon: 'icons/wind/ese.png' },
+            { min: 123.75, max: 146.25, icon: 'icons/wind/se.png' },
+            { min: 146.25, max: 168.75, icon: 'icons/wind/sse.png' },
+            { min: 168.75, max: 191.25, icon: 'icons/wind/s.png' },
+            { min: 191.25, max: 213.75, icon: 'icons/wind/sso.png' },
+            { min: 213.75, max: 236.25, icon: 'icons/wind/so.png' },
+            { min: 236.25, max: 258.75, icon: 'icons/wind/oso.png' },
+            { min: 258.75, max: 281.25, icon: 'icons/wind/o.png' },
+            { min: 281.25, max: 303.75, icon: 'icons/wind/ono.png' },
+            { min: 303.75, max: 326.25, icon: 'icons/wind/no.png' },
+            { min: 326.25, max: 348.75, icon: 'icons/wind/nno.png' }
+        ];
+
+        for (const direction of directions) {
+            if (wind_deg >= direction.min && wind_deg < direction.max) {
+                return direction.icon;
+            }
+        }
+
+        return 'icons/question-mark.png';
     }
 
     // Appel de la fonction
