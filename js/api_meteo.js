@@ -123,29 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTemperatureColor(value) {
         let color;
-        if (value < 2) {
-            // Dégradé de bleu (foncé à clair)
-            const blueValue = Math.floor((value + 2) * (255 / 2)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(0, 0, ${blueValue})`;
-        } else if (value >= 2 && value <= 10) {
-            // Dégradé de vert (clair à normal)
-            const greenValue = Math.floor((value - 2) * (255 / 8)); // Convertir à une valeur entre 0 et 255
+        if (value < 0) {
+            // Dégradé de bleu (foncé à clair) pour les températures < 0
+            const blueValue = Math.floor((value + 0) * (255 / 0)); // Convertir à une valeur entre 0 et 255
+            color = `rgb(0, 0, ${255 - blueValue})`; // Inverser pour obtenir bleu foncé à bleu clair
+        } else if (value >= 0 && value <= 10) {
+            // Dégradé de vert (clair à normal) pour les températures entre 0 et 10
+            const greenValue = Math.floor((value - 0) * (255 / 10)); // Convertir à une valeur entre 0 et 255
             color = `rgb(0, ${greenValue}, 0)`;
-        } else if (value > 10 && value < 20) {
-            // Dégradé de jaune (clair à orange)
-            const redValue = Math.floor((value - 10) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            const greenValue = 255 - redValue; // Réduire le vert
-            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune à orange
-        } else if (value >= 20 && value < 30) {
-            // Dégradé d'orange à rouge
-            const redValue = Math.floor((value - 20) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(255, ${255 - redValue}, 0)`; // Orange à rouge
+        } else if (value > 10 && value <= 50) {
+            // Dégradé de jaune clair à rouge foncé pour les températures entre 10 et 50
+            const redValue = Math.floor((value - 10) * (255 / 40)); // Convertir à une valeur entre 0 et 255
+            const greenValue = Math.floor(255 - (redValue * (255 / 255))); // Réduire le vert
+            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à rouge foncé
         } else {
-            // Au-dessus de 30, rouge foncé
+            // Au-dessus de 50, rouge foncé
             color = `rgb(255, 0, 0)`; // Rouge foncé
         }
         return color;
     }
+    
 
     function getPrecipitationColor(value) {
         let color;
