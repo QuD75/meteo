@@ -136,8 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (value > 10 && value < 20) {
             // Dégradé de jaune clair à orange pour les températures entre 10 et 20
             const redValue = Math.floor((value - 10) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            const greenValue = Math.floor(255 - redValue * (255 / 255)); // Réduire le vert
-            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à orange
+            color = `rgb(${redValue + 255}, ${255 - redValue}, 0)`; // Jaune clair à orange
         } else if (value >= 20 && value < 30) {
             // Dégradé d'orange à rouge clair pour les températures entre 20 et 30
             const redValue = Math.floor((value - 20) * (255 / 10)); // Convertir à une valeur entre 0 et 255
@@ -147,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `rgb(255, 0, 0)`; // Rouge foncé
         }
         return color;
-    }    
+    }       
     
     function getPrecipitationColor(value) {
         let color;
