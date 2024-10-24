@@ -111,10 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         rainRow.appendChild(td);
         });
+
+        // Remplir les données de vent
+        data.data[2].coordinates[0].dates.forEach(dateData => {
+        const td = document.createElement('td');
+        td.textContent = (Math.floor(dateData.value / 5) * 5).toFixed(0);
+        windRow.appendChild(td);
+        });
+        data.data[3].coordinates[0].dates.forEach(dateData => {
+        const td = document.createElement('td');
+        td.textContent = (Math.floor(dateData.value / 5) * 5).toFixed(0);
+        windGustRow.appendChild(td);
+        });
     
         // Remplir les autres lignes avec les bonnes données
-        fillWeatherData(data, windRow, 2, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
-        fillWeatherData(data, windGustRow, 3, 3.6, 0);  // Vent rafales (si applicable)
         fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
         fillWeatherData(data, pressureRow, 5, 1, 0);  // Pression atmosphérique
         fillWeatherData(data, weatherRow, 6, 1, 0);  // Ciel (symboles météo)
@@ -138,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             textColor = 'white'; // Texte en blanc
         } else if (value >= -10 && value < 2) {
             color = 'rgb(173, 216, 230)'; // Bleu clair
-            textColor = 'black'; // Texte en noir
         } else if (value >= 2 && value < 5) {
             color = 'rgb(144, 238, 144)'; // Vert clair
             textColor = 'black'; // Texte en noir
