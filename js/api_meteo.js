@@ -125,13 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Dégradé de vert (clair à normal)
             const greenValue = Math.floor((value - 2) * (255 / 8)); // Convertir à une valeur entre 0 et 255
             color = `rgb(0, ${greenValue}, 0)`;
-        } else if (value > 10 && value <= 20) {
+        } else if (value > 10 && value < 20) {
             // Dégradé de jaune (clair à orange)
             const redValue = Math.floor((value - 10) * (255 / 10)); // Convertir à une valeur entre 0 et 255
             const greenValue = 255 - redValue; // Réduire le vert
             color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune à orange
-        } else if (value > 20 && value <= 30) {
-            // Dégradé de orange à rouge
+        } else if (value >= 20 && value < 30) {
+            // Dégradé d'orange à rouge
             const redValue = Math.floor((value - 20) * (255 / 10)); // Convertir à une valeur entre 0 et 255
             color = `rgb(255, ${255 - redValue}, 0)`; // Orange à rouge
         } else {
