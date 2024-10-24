@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const { color, textColor } = getWindColor(windValue);
         td.style.backgroundColor = color;
         td.style.color = textColor;
-        windRow.appendChild(td);
+        windGustRow.appendChild(td);
         });
     
         // Remplir les autres lignes avec les bonnes données
