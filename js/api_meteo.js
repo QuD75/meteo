@@ -116,11 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
         data.data[2].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
         td.textContent = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
+        td.color = getWindColor(dateData.value*3.6);
         windRow.appendChild(td);
         });
         data.data[3].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
         td.textContent = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
+        td.color = getWindColor(dateData.value*3.6);
         windGustRow.appendChild(td);
         });
     
@@ -193,6 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `rgb(0, 0, 139)`; // DarkBlue
         }
         return color;
+    }
+
+    function getWindColor(value) {
+        if (value <= 20) {
+            // Bleu pour le vent faible
+            return `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
+        } else if (value > 20 && value <= 50) {
+            // Vert pour le vent moyen
+            return `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 30))})`;
+        } else {
+            // Rouge pour le vent fort
+            return `rgb(255, ${Math.round(255 - ((value - 50) * 255 / 50))}, 0)`;
+        }
     }
 
     function getParisTimezoneOffset(date) {
