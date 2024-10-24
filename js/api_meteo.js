@@ -100,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const td = document.createElement('td');
         td.textContent = dateData.value.toFixed(1); // Pluie avec 1 décimale
         td.style.backgroundColor = getPrecipitationColor(dateData.value); // Appliquer la couleur
+        if (dateData.value > 2) {
+            td.style.color = 'white';
+        }
         rainRow.appendChild(td);
         });
     
