@@ -77,9 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     
             // Créer une cellule d'heure
-            const th = document.createElement('th');
-            th.textContent = `${hour}h`; // Afficher l'heure au format XXh
-            hoursRow.appendChild(th); // Ajouter la cellule d'heure à la ligne d'en-tête des heures
+            const timezoneOffset = 1; // Décalage horaire pour Paris en heures (UTC+1)
+            data.data.forEach((coordinate) => {
+                const dates = coordinate.coordinates[0].dates; // Récupérer les dates
+                dates.forEach((dateObj) => {
+                    const date = new Date(dateObj.date);
+                    const hour = (date.getUTCHours() + timezoneOffset) % 24; // Ajuster l'heure pour Paris
+                    // Créer une cellule d'heure
+                    const th = document.createElement('th');
+                    th.textContent = `${hour}h`; // Afficher l'heure au format XXh
+                    hoursRow.appendChild(th); // Ajouter la cellule d'heure à la ligne d'en-tête des heures
+                });
+            });
         });
     
         // Fusionner la dernière cellule de date
@@ -132,21 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (value >= 0 && value <= 10) {
             // Dégradé de vert (clair à normal) pour les températures entre 0 et 10
             const greenValue = Math.floor((value - 0) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(0, ${greenValue}, 0)`; // Vert clair à vert normal
-        } else if (value > 10 && value < 20) {
-            // Dégradé de jaune clair à orange pour les températures entre 10 et 20
-            const redValue = Math.floor((value - 10) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(${redValue + 255}, ${255 - redValue}, 0)`; // Jaune clair à orange
-        } else if (value >= 20 && value < 30) {
-            // Dégradé d'orange à rouge clair pour les températures entre 20 et 30
-            const redValue = Math.floor((value - 20) * (255 / 10)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(255, ${255 - redValue}, 0)`; // Orange à rouge clair
+            color = `rgb(0, ${greenValue}, 0)`;
+        } else if (value > 10 && value <= 50) {
+            // Dégradé de jaune clair à rouge foncé pour les températures entre 10 et 50
+            const range = value - 10; // Écart à partir de 10
+            const redValue = Math.floor((range / 40) * (255)); // Plus lent jusqu'à 50
+            const greenValue = Math.max(255 - Math.floor((range / 40) * 255), 0); // Réduire le vert progressivement
+            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à rouge foncé
         } else {
-            // Au-dessus de 30, rouge foncé
+            // Au-dessus de 50, rouge foncé
             color = `rgb(255, 0, 0)`; // Rouge foncé
         }
         return color;
-    }       
+    }      
     
     function getPrecipitationColor(value) {
         let color;
