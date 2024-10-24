@@ -94,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         data.data[0].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
         td.textContent = dateData.value.toFixed(0); // Température avec 1 décimale
-        td.style.backgroundColor = getTemperatureColor(dateData.value); // Appliquer la couleur
+        const { color, textColor } = getTemperatureColor(temperatureValue);
+        td.style.backgroundColor = color;
+        td.style.color = textColor;
         temperatureRow.appendChild(td);
         });
 
@@ -128,28 +130,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTemperatureColor(value) {
         let color;
+        let textColor = 'black'; // Couleur du texte par défaut
     
-        if (value < 0) {
-            // Dégradé de bleu foncé à bleu clair pour les températures < 0
-            const blueValue = Math.floor((value + 0) * (255 / 0)); // Convertir à une valeur entre 0 et 255
-            color = `rgb(0, 0, ${255 - blueValue})`; // Inverser pour obtenir bleu foncé à bleu clair
-        } else if (value >= 0 && value <= 10) {
-            // Dégradé de vert clair à vert normal pour les températures entre 0 et 10
-            const greenValue = Math.floor((value / 10) * 255); // Convertir à une valeur entre 0 et 255
-            color = `rgb(0, ${greenValue}, 0)`; // Vert
-        } else if (value > 10 && value <= 50) {
-            // Dégradé de jaune clair à rouge foncé pour les températures entre 10 et 50
-            const redValue = Math.min(Math.floor((value - 10) * (255 / 40)), 255); // Convertir à une valeur entre 0 et 255
-            const greenValue = Math.max(255 - Math.floor((value - 10) * (255 / 40)), 0); // Réduire le vert
-            color = `rgb(${redValue}, ${greenValue}, 0)`; // Jaune clair à rouge foncé
+        if (value < -10) {
+            color = 'rgb(0, 0, 139)'; // Bleu foncé
+            textColor = 'white'; // Texte en blanc
+        } else if (value >= -10 && value < 2) {
+            color = 'rgb(173, 216, 230)'; // Bleu clair
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 2 && value < 5) {
+            color = 'rgb(144, 238, 144)'; // Vert clair
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 5 && value < 10) {
+            color = 'rgb(0, 128, 0)'; // Vert normal
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 10 && value < 15) {
+            color = 'rgb(255, 255, 224)'; // Jaune clair
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 15 && value < 20) {
+            color = 'rgb(255, 255, 0)'; // Jaune normal
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 20 && value < 25) {
+            color = 'rgb(255, 165, 0)'; // Orange
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 25 && value < 30) {
+            color = 'rgb(255, 99, 71)'; // Rouge clair
+            textColor = 'black'; // Texte en noir
+        } else if (value >= 30 && value < 35) {
+            color = 'rgb(255, 0, 0)'; // Rouge foncé
+            textColor = 'black'; // Texte en noir
         } else {
-            // Au-dessus de 50, rouge foncé
-            color = `rgb(255, 0, 0)`; // Rouge foncé
+            color = 'rgb(128, 0, 128)'; // Violet
+            textColor = 'black'; // Texte en noir
         }
     
-        return color;
-    }         
-    
+        return { color, textColor };
+    }
+            
     function getPrecipitationColor(value) {
         let color;
         if (value === 0) {
