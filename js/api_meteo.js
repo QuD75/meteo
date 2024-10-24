@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     futureDate.setDate(currentDate.getDate() + 1);
     const endDate = futureDate.toISOString().split('.')[0] + 'Z';
 
-    const apiUrl = `https://${username}:${password}@api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
+    const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
     async function getApiData() {
-        //const encodedCredentials = btoa(`${username}:${password}`);
+        const encodedCredentials = btoa(`${username}:${password}`);
         fetch(proxyUrl + apiUrl, {
             method: 'GET',
             headers: {
-                //'Authorization': 'Basic ' + encodedCredentials,
+                'Authorization': 'Basic ' + encodedCredentials,
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
             },
