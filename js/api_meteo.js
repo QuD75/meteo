@@ -88,13 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         // Remplir les autres lignes avec les bonnes données
-        fillWeatherData(data, temperatureRow, 1, 1, 0); // Température
-        fillWeatherData(data, rainRow, 2, 1, 1);  // Précipitations
-        fillWeatherData(data, windRow, 3, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
-        fillWeatherData(data, windGustRow, 4, 3.6, 0);  // Vent rafales (si applicable)
-        fillWeatherData(data, windDirectionRow, 5, 1, 0);  // Direction du vent
-        fillWeatherData(data, pressureRow, 6, 1, 0);  // Pression atmosphérique
-        fillWeatherData(data, weatherRow, 7, 1, 0);  // Ciel (symboles météo)
+        fillWeatherData(data, temperatureRow, 0, 1, 0); // Température
+        fillWeatherData(data, rainRow, 1, 1, 1);  // Précipitations
+        fillWeatherData(data, windRow, 2, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
+        fillWeatherData(data, windGustRow, 3, 3.6, 0);  // Vent rafales (si applicable)
+        fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
+        fillWeatherData(data, pressureRow, 5, 1, 0);  // Pression atmosphérique
+        fillWeatherData(data, weatherRow, 6, 1, 0);  // Ciel (symboles météo)
     }
     
 
