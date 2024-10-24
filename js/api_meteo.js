@@ -74,19 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
 
-        fillWeatherRow(data.data[0], temperatureRow, getTemperatureColor);
-        fillWeatherRow(data.data[1], rainRow, getPrecipitationColor);
-        fillWeatherRow(data.data[2], windRow, getWindColor);
-        fillWeatherRow(data.data[3], windGustRow, getWindColor);
+        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTemperatureColor);
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getPrecipitationColor);
+        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
+        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
         fillWindDirectionRow(data.data[4], windDirectionRow);
-        fillWeatherRow(data.data[5], pressureRow, () => ({ color: 'white', textColor: 'black' }));
-        fillWeatherRow(data.data[6], weatherRow, () => ({ color: 'white', textColor: 'black' }));
+        fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
+        fillWeatherRow(data.data[6], 0, 1, null, weatherRow, () => ({ color: 'white', textColor: 'black' }));
     }
 
-    function fillWeatherRow(data, rowElement, colorFunc) {
+    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
-            const value = dateData.value.toFixed(1);
+            const value = dateData.value*multiple.toFixed(round);
+            if (floor != null) value = Math.floor(value / floor) * floor;
             const { color, textColor } = colorFunc(value);
             td.textContent = value;
             td.style.backgroundColor = color;
