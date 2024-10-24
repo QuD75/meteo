@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.data[2].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
         td.textContent = (Math.floor(dateData.value / 5) * 5).toFixed(0);
+        td.textContent = dateData.value.toFixed(0);
         windRow.appendChild(td);
         });
         data.data[3].coordinates[0].dates.forEach(dateData => {
