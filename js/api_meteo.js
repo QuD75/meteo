@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentDate.setMinutes(0, 0, 0);
     const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
 
-    const futureDate = new Date(currentDate);
-    futureDate.setDate(currentDate.getDate() + 1);
+    const futureDate = new Date(currentDate.getTime() + 23 * 60 * 60 * 1000);
     const endDate = futureDate.toISOString().split('.')[0] + 'Z';
 
     const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
