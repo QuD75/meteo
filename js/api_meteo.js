@@ -94,10 +94,16 @@ document.addEventListener('DOMContentLoaded', () => {
         td.style.backgroundColor = getTemperatureColor(dateData.value); // Appliquer la couleur
         temperatureRow.appendChild(td);
         });
+
+        // Remplir les données de pluie
+        data.data[1].coordinates[0].dates.forEach(dateData => {
+        const td = document.createElement('td');
+        td.textContent = dateData.value.toFixed(1); // Pluie avec 1 décimale
+        td.style.backgroundColor = getPrecipitationColor(dateData.value); // Appliquer la couleur
+        rainRow.appendChild(td);
+        });
     
         // Remplir les autres lignes avec les bonnes données
-        //fillWeatherData(data, temperatureRow, 0, 1, 0); // Température
-        fillWeatherData(data, rainRow, 1, 1, 1);  // Précipitations
         fillWeatherData(data, windRow, 2, 3.6, 0);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
         fillWeatherData(data, windGustRow, 3, 3.6, 0);  // Vent rafales (si applicable)
         fillWeatherData(data, windDirectionRow, 4, 1, 0);  // Direction du vent
@@ -137,6 +143,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Au-dessus de 30, rouge foncé
             color = `rgb(255, 0, 0)`; // Rouge foncé
+        }
+        return color;
+    }
+
+    function getPrecipitationColor(value) {
+        let color;
+        if (value < 1) {
+            // Bleu clair
+            color = `rgb(173, 216, 230)`; // LightSkyBlue
+        } else if (value >= 1 && value <= 2) {
+            // Bleu normal
+            color = `rgb(0, 191, 255)`; // DeepSkyBlue
+        } else {
+            // Bleu foncé
+            color = `rgb(0, 0, 139)`; // DarkBlue
         }
         return color;
     }
