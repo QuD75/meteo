@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fusionner la dernière cellule de date
         if (dateCell) {
-            //dateCell.setAttribute('colspan', hourCount);
+            dateCell.setAttribute('colspan', hourCount);
         }
 
         // Remplir les données de température
@@ -172,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTemperatureColor(value) {
         let color;
         let textColor = 'black'; // Couleur du texte par défaut
-
         if (value < -10) {
             color = 'rgb(0, 0, 139)'; // Bleu foncé
             textColor = 'white'; // Texte en blanc
@@ -269,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getWindDirectionIcon(wind_deg) {
-        console.log("Direction vent : " + wind_deg);
         const directions = [{
                 min: 348.75,
                 max: 360,
@@ -356,13 +354,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon: 'icons/wind/nno.png'
             }
         ];
-
         for (const direction of directions) {
             if (wind_deg >= direction.min && wind_deg < direction.max) {
                 return direction.icon;
             }
         }
-
         return 'icons/question-mark.png';
     }
 
