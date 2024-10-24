@@ -115,13 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remplir les données de vent
         data.data[2].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
-        td.textContent = (Math.floor(dateData.value / 5) * 5).toFixed(0);
-        td.textContent = dateData.value.toFixed(0);
+        td.textContent = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
         windRow.appendChild(td);
         });
         data.data[3].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
-        td.textContent = (Math.floor(dateData.value / 5) * 5).toFixed(0);
+        td.textContent = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
         windGustRow.appendChild(td);
         });
     
