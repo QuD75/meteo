@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherIcon.style.width = "30px";
             weatherIcon.style.height = "30px";
             weatherIcon.src = getWeatherIcon(dateData.value);
-            if (value === 0) weatherIcon.src
             td.appendChild(weatherIcon);
             rowElement.appendChild(td);
         });
