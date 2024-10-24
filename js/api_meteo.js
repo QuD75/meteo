@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (weather === 0) return 'icons/weather/wsymbol_0999_unknown.png';
         else if (weather === 1) return 'icons/weather/wsymbol_0001_sunny.png';
         else if (weather === 101) return 'icons/weather/wsymbol_0008_clear_sky_night.png';
-        else if (weather === 2) return 'icons/weather/wsymbol_0002_sunny_intervals.pngg';
+        else if (weather === 2) return 'icons/weather/wsymbol_0002_sunny_intervals.png';
         else if (weather === 102) return 'icons/weather/wsymbol_0041_partly_cloudy_night.png';
         else if (weather === 3) return 'icons/weather/wsymbol_0043_mostly_cloudy.png';
         else if (weather === 103) return 'icons/weather/wsymbol_0044_mostly_cloudy_night.png';
