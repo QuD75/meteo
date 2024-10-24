@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const pressureRow = document.getElementById('pressure-24h-row');
         const weatherRow = document.getElementById('weather-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
-    
-        // Remplir les en-têtes des heures
+        const daysRow = document.getElementById('days-24h-row');
+        
         let currentDate = null; // Pour suivre la date actuelle
         let dateCell; // Pour stocker la cellule de date fusionnée
         let hourCount = 0; // Compte le nombre d'heures
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dateCell = document.createElement('th'); // Créer une nouvelle cellule de date
                 dateCell.textContent = currentDate; // Définir le texte de la cellule
                 dateCell.setAttribute('rowspan', '1'); // Initialiser rowspan
-                hoursRow.appendChild(dateCell); // Ajouter la cellule de date à la ligne d'en-tête des heures
+                daysRow.appendChild(dateCell); // Ajouter la cellule de date à la ligne de dates
                 hourCount = 1; // Réinitialiser le compteur d'heures
             } else {
                 hourCount++; // Incrémenter le compteur d'heures
@@ -87,6 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
     
+        // Ajouter la ligne de dates et la ligne d'heures au tableau
+        const weatherTable = document.querySelector('.weather-table tbody');
+        weatherTable.insertBefore(daysRow, hoursRow); // Insérer la ligne de dates avant la ligne des heures
+        weatherTable.insertBefore(hoursRow, hoursRow); // Insérer la ligne d'en-tête des heures avant les données de température
+    
         // Remplir les données de température
         data.data[0].coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
@@ -102,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherData(data, pressureRow, 1);  // Pression atmosphérique
         fillWeatherData(data, weatherRow, 5);  // Ciel (symboles météo)
     }
+    
 
     function fillWeatherData(data, rowElement, paramIndex, conversionFactor = 1) {
         // Remplir les lignes pour d'autres paramètres
