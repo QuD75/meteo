@@ -45,25 +45,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const pressureRow = document.getElementById('pressure-24h-row');
         const weatherRow = document.getElementById('weather-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
-
+    
         // Remplir les en-têtes des heures
         data.data[0].coordinates[0].dates.forEach(dateData => {
             const hour = new Date(dateData.date).getUTCHours();
             const th = document.createElement('th');
-            th.textContent = `${hour}:00`;
+            th.textContent = `${hour}h`; // Afficher l'heure au format XXh
             hoursRow.appendChild(th);
         });
-
+    
         // Remplir les données de température
         data.data[0].coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             td.textContent = dateData.value.toFixed(1); // Température avec 1 décimale
             temperatureRow.appendChild(td);
         });
-
+    
         // Remplir les autres lignes avec les bonnes données
         fillWeatherData(data, rainRow, 2);  // Précipitations
-        fillWeatherData(data, windRow, 3, 3.6);  // Vent en km/h (1 m/s = 3.6 km/h)
+        fillWeatherData(data, windRow, 3, 3.6);  // Vent moyen en km/h (1 m/s = 3.6 km/h)
         fillWeatherData(data, windGustRow, 3, 3.6);  // Vent rafales (si applicable)
         fillWeatherData(data, windDirectionRow, 4);  // Direction du vent
         fillWeatherData(data, pressureRow, 1);  // Pression atmosphérique
