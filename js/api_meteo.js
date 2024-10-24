@@ -87,11 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
     
-        // Ajouter la ligne de dates et la ligne d'heures au tableau
-        const weatherTable = document.querySelector('.weather-table tbody');
-        weatherTable.insertBefore(daysRow, hoursRow); // Insérer la ligne de dates avant la ligne des heures
-        weatherTable.insertBefore(hoursRow, hoursRow); // Insérer la ligne d'en-tête des heures avant les données de température
-    
         // Remplir les données de température
         data.data[0].coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
