@@ -104,26 +104,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remplir les données de pluie
         data.data[1].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
-        td.textContent = dateData.value.toFixed(1); // Pluie avec 1 décimale
-        td.style.backgroundColor = getPrecipitationColor(dateData.value); // Appliquer la couleur
-        if (dateData.value > 2) {
-            td.style.color = 'white';
-        }
+        const rainValue = dateData.value.toFixed(1);
+        td.textContent = rainValue;
+        const { color, textColor } = getPrecipitationColor(rainValue);
+        td.style.backgroundColor = color;
+        td.style.color = textColor;
         rainRow.appendChild(td);
         });
 
         // Remplir les données de vent
         data.data[2].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
-        td.textContent = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
-        td.color = getWindColor(dateData.value*3.6);
+        const windValue = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
+        td.textContent = windValue
+        const { color, textColor } = getWindColor(windValue);
+        td.style.backgroundColor = color;
+        td.style.color = textColor;
         windRow.appendChild(td);
         });
         data.data[3].coordinates[0].dates.forEach(dateData => {
         const td = document.createElement('td');
-        td.textContent = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
-        td.color = getWindColor(dateData.value*3.6);
-        windGustRow.appendChild(td);
+        const windValue = (Math.floor(dateData.value*3.6 / 5) * 5).toFixed(0);
+        td.textContent = windValue
+        const { color, textColor } = getWindColor(windValue);
+        td.style.backgroundColor = color;
+        td.style.color = textColor;
+        windRow.appendChild(td);
         });
     
         // Remplir les autres lignes avec les bonnes données
@@ -175,12 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
             color = 'rgb(128, 0, 128)'; // Violet
             textColor = 'black'; // Texte en noir
         }
-    
         return { color, textColor };
     }
             
     function getPrecipitationColor(value) {
         let color;
+        let textColor = 'black'; // Couleur du texte par défaut
         if (value === 0) {
             // Couleur blanche pour une précipitation de 0
             color = `rgb(255, 255, 255)`; // Blanc
@@ -193,12 +199,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Bleu foncé
             color = `rgb(0, 0, 139)`; // DarkBlue
+            textColor = 'white';
         }
-        return color;
+        return { color, textColor };
     }
 
     function getWindColor(value) {
         let color;
+        let textColor = 'black'; // Couleur du texte par défaut
         if (value <= 20) {
             // Bleu pour le vent faible
             color = `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
@@ -209,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Rouge pour le vent fort
             color = `rgb(255, ${Math.round(255 - ((value - 50) * 255 / 50))}, 0)`;
         }
-        return color;
+        return { color, textColor };
     }
 
     function getParisTimezoneOffset(date) {
