@@ -77,18 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     
             // Créer une cellule d'heure
-            const timezoneOffset = getParisTimezoneOffset(currentDate); // Décalage horaire pour Paris en heures (UTC+1)
-            data.data.forEach((coordinate) => {
-                const dates = coordinate.coordinates[0].dates; // Récupérer les dates
-                dates.forEach((dateObj) => {
-                    const date = new Date(dateObj.date);
-                    const hour = (date.getUTCHours() + timezoneOffset) % 24; // Ajuster l'heure pour Paris
-                    // Créer une cellule d'heure
-                    const th = document.createElement('th');
-                    th.textContent = `${hour}h`; // Afficher l'heure au format XXh
-                    hoursRow.appendChild(th); // Ajouter la cellule d'heure à la ligne d'en-tête des heures
-                });
-            });
+            const timeParis = getParisTimezoneOffset(new Date());
+            const targetHour = hour+timeParis;
+            const th = document.createElement('th');
+            th.textContent = `${targetHour}h`; // Afficher l'heure au format XXh
+            hoursRow.appendChild(th); // Ajouter la cellule d'heure à la ligne d'en-tête des heures
         });
     
         // Fusionner la dernière cellule de date
