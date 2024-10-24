@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
-        fillWeatherRow(data.data[6], 0, 1, null, weatherRow, () => ({ color: 'white', textColor: 'black' }));
+        fillSymbolRow(data.data[6], weatherRow);
     }
 
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
@@ -93,6 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
             td.textContent = value;
             td.style.backgroundColor = color;
             td.style.color = textColor;
+            rowElement.appendChild(td);
+        });
+    }
+
+    function fillSymbolRow(data, rowElement) {
+        data.coordinates[0].dates.forEach(dateData => {
+            const td = document.createElement('td');
+            const weatherIcon = document.createElement('img');
+            weatherIcon.style.width = "30px";
+            weatherIcon.style.height = "30px";
+            weatherIcon.src = getWeatherIcon(dateData.value);
+            if (value === 0) weatherIcon.src
+            td.appendChild(weatherIcon);
             rowElement.appendChild(td);
         });
     }
@@ -168,6 +181,43 @@ document.addEventListener('DOMContentLoaded', () => {
             { min: 326.25, max: 348.75, icon: 'icons/wind/nno.png' }
         ];
         return directions.find(d => wind_deg >= d.min && wind_deg <= d.max)?.icon || 'icons/wind/unknown.png';
+    }
+
+    function getWeatherIcon(weather) {
+        if (weather === 0) return 'icons/weather/wsymbol_0999_unknown.png';
+        else if (weather === 1) return 'icons/weather/wsymbol_0001_sunny.png';
+        else if (weather === 101) return 'icons/weather/wsymbol_0008_clear_sky_night.png';
+        else if (weather === 2) return 'icons/weather/wsymbol_0002_sunny_intervals.pngg';
+        else if (weather === 102) return 'icons/weather/wsymbol_0041_partly_cloudy_night.png';
+        else if (weather === 3) return 'icons/weather/wsymbol_0043_mostly_cloudy.png';
+        else if (weather === 103) return 'icons/weather/wsymbol_0044_mostly_cloudy_night.png';
+        else if (weather === 4) return 'icons/weather/wsymbol_0003_white_cloud.png';
+        else if (weather === 104) return 'icons/weather/wsymbol_0042_cloudy_night.png';
+        else if (weather === 5) return 'icons/weather/wsymbol_0018_cloudy_with_heavy_rain.png';
+        else if (weather === 105) return 'icons/weather/wsymbol_0034_cloudy_with_heavy_rain_night.png';
+        else if (weather === 6) return 'icons/weather/wsymbol_0021_cloudy_with_sleet.png';
+        else if (weather === 106) return 'icons/weather/wsymbol_0037_cloudy_with_sleet_night.png';
+        else if (weather === 7) return 'icons/weather/wsymbol_0020_cloudy_with_heavy_snow.png';
+        else if (weather === 107) return 'icons/weather/wsymbol_0036_cloudy_with_heavy_snow_night.png';
+        else if (weather === 8) return 'icons/weather/wsymbol_0009_light_rain_showers.png';
+        else if (weather === 108) return 'icons/weather/wsymbol_0025_light_rain_showers_night.png';
+        else if (weather === 9) return 'icons/weather/wsymbol_0011_light_snow_showers.png';
+        else if (weather === 109) return 'icons/weather/wsymbol_0027_light_snow_showers_night.png';
+        else if (weather === 10) return 'icons/weather/wsymbol_0013_sleet_showers.png';
+        else if (weather === 110) return 'icons/weather/wsymbol_0029_sleet_showers_night.png';
+        else if (weather === 11) return 'icons/weather/wsymbol_0006_mist.png';
+        else if (weather === 111) return 'icons/weather/wsymbol_0063_mist_night.png';
+        else if (weather === 12) return 'icons/weather/wsymbol_0007_fog.png';
+        else if (weather === 112) return 'icons/weather/wsymbol_0064_fog_night.png';
+        else if (weather === 13) return 'icons/weather/wsymbol_0050_freezing_rain.png';
+        else if (weather === 113) return 'icons/weather/wsymbol_0068_freezing_rain_night.png';
+        else if (weather === 14) return 'icons/weather/wsymbol_0024_thunderstorms.png';
+        else if (weather === 114) return 'icons/weather/wsymbol_0040_thunderstorms_night.png';
+        else if (weather === 15) return 'icons/weather/wsymbol_0048_drizzle.png';
+        else if (weather === 115) return 'icons/weather/wsymbol_0066_drizzle_night.pngg';
+        else if (weather === 16) return 'icons/weather/wsymbol_0056_dust_sand.png'
+        else if (weather === 116) return 'icons/weather/wsymbol_0074_dust_sand_night.png';
+        else return 'icons/weather/wsymbol_0999_unknown.png';
     }
 
     getApiData();
