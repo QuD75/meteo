@@ -146,10 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return color;
     }
     
-
     function getPrecipitationColor(value) {
         let color;
-        if (value < 1) {
+        if (value === 0) {
+            // Couleur blanche pour une précipitation de 0
+            color = `rgb(255, 255, 255)`; // Blanc
+        } else if (value < 1) {
             // Bleu clair
             color = `rgb(173, 216, 230)`; // LightSkyBlue
         } else if (value >= 1 && value <= 2) {
