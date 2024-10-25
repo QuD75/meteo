@@ -131,20 +131,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getTemperatureColor(value) {
-        const colors = [
-            { range: [-Infinity, -10], color: 'rgb(0, 0, 139)', textColor: 'white' },
-            { range: [-10, 2], color: 'rgb(173, 216, 230)', textColor: 'black' },
-            { range: [2, 5], color: 'rgb(144, 238, 144)', textColor: 'black' },
-            { range: [5, 10], color: 'rgb(0, 128, 0)', textColor: 'black' },
-            { range: [10, 15], color: 'rgb(255, 255, 224)', textColor: 'black' },
-            { range: [15, 20], color: 'rgb(255, 255, 0)', textColor: 'black' },
-            { range: [20, 25], color: 'rgb(255, 165, 0)', textColor: 'black' },
-            { range: [25, 30], color: 'rgb(255, 99, 71)', textColor: 'black' },
-            { range: [30, 35], color: 'rgb(255, 0, 0)', textColor: 'black' },
-            { range: [35, Infinity], color: 'rgb(128, 0, 128)', textColor: 'black' }
-        ];
-        return colors.find(c => value >= c.range[0] && value < c.range[1]) || { color: 'white', textColor: 'black' };
+        let color, textColor;
+        if (value < -10) {
+            color = 'purple';
+        } else if (value < -5) {
+            color = 'darkblue';
+        } else if (value < 1) {
+            const ratio = (value + 5) / 6;
+            color = `rgb(0, 0, ${Math.round(139 + (116 * ratio))})`;
+        } else if (value < 15) {
+            const ratio = (value - 1) / 14;
+            color = `rgb(${Math.round(173 + (82 * ratio))}, 255, 0)`;
+        } else if (value < 25) {
+            const ratio = (value - 15) / 10;
+            color = `rgb(255, ${Math.round(255 - (127 * ratio))}, 0)`;
+        } else if (value < 40) {
+            const ratio = (value - 25) / 15;
+            color = `rgb(255, ${Math.round(102 - (102 * ratio))}, ${Math.round(102 - (102 * ratio))})`;
+        } else {
+            color = 'purple';
+        }
+        // Calcul de la luminosité pour définir la couleur du texte
+        const rgb = color.match(/\d+/g).map(Number);
+        const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
+        textColor = luminosity < 128 ? 'white' : 'black';
+        return { color, textColor };
     }
+    
 
     function getPrecipitationColor(value) {
         if (value < 0.1) return { color: 'rgb(255, 255, 255)', textColor: 'black' };
