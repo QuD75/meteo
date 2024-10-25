@@ -59,7 +59,7 @@ main p {
     color: #666;
 }
 
-.temperatureChart {
+#temperatureChart {
     margin-left: auto;
     margin-right: auto;
     width: 70%;
