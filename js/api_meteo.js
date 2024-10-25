@@ -286,12 +286,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById('temperatureChart').getContext('2d');
         
         // Récupère le contenu texte et transforme-le en tableau
-        const labelsText = document.getElementById('hours-24h-row').textContent;
-        const temperatureText = document.getElementById('temperature-24h-row').textContent;
+        const labelsText = document.getElementById('hours-24h-row').innerText;
+        const temperatureText = document.getElementById('temperature-24h-row').innerText;
         
         // Transforme les chaînes de texte en tableaux (supposons qu'elles soient séparées par des virgules)
         const labels = labelsText.split(',').map(label => label.trim());
         const temperatureData = temperatureText.split(',').map(temp => parseFloat(temp.trim()));
+
+        console.log("Labels:", labels);
+        console.log("Temperature Data:", temperatureData);
     
         const temperatureChart = new Chart(ctx, {
             type: 'line',
@@ -314,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     y: {
-                        beginAtZero: true,
                         title: {
                             display: true,
                             text: 'Température (°C)'
