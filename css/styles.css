@@ -108,10 +108,10 @@ main p {
 }
 
 .chart-container {
-    display: flex;
-    justify-content: flex-start; /* Aligne à gauche */
+    display: block;
     width: 35%; /* Limite la largeur du conteneur pour ne pas dépasser le tableau */
-    margin: 0 auto; /* Centre le conteneur dans la page */
+    margin-left: 0; /* Aligne le conteneur à gauche */
+    margin-right: auto; /* Pour éviter un centrage accidentel */
 }
 #temperature-chart {
     width: 100%; /* 35% de la largeur du conteneur */
