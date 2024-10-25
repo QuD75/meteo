@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fillTable(data) {
+        const daysRow = document.getElementById('days-24h-row');
+        const hoursRow = document.getElementById('hours-24h-row');
         const temperatureRow = document.getElementById('temperature-24h-row');
         const rainRow = document.getElementById('rain-24h-row');
         const windRow = document.getElementById('wind-24h-row');
@@ -40,9 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const windDirectionRow = document.getElementById('wind-direction-24h-row');
         const pressureRow = document.getElementById('pressure-24h-row');
         const weatherRow = document.getElementById('weather-24h-row');
-        const hoursRow = document.getElementById('hours-24h-row');
-        const daysRow = document.getElementById('days-24h-row');
-
+        const uvRow = document.getElementById('uv-24h-row');
+        
         let currentDate = null;
         let dateCell;
         let hourCount = 0;
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
         fillSymbolRow(data.data[6], weatherRow);
+        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
 
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
@@ -158,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }
     
-
     function getPrecipitationColor(value) {
         if (value < 0.1) return { color: 'rgb(255, 255, 255)', textColor: 'black' };
         if (value < 1) return { color: 'rgb(173, 216, 230)', textColor: 'black' };
@@ -238,6 +239,22 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (weather === 16) return 'icons/weather/wsymbol_0056_dust_sand.png'
         else if (weather === 116) return 'icons/weather/wsymbol_0074_dust_sand_night.png';
         else return 'icons/weather/wsymbol_0999_unknown.png';
+    }
+
+    function getUVColor(value) {
+        // Normalisation de la valeur entre 0 et 10
+        const clampedValue = Math.min(Math.max(value, 0), 10);
+        
+        // Calcul des canaux de couleur pour obtenir un dégradé
+        const red = Math.round(255 * (clampedValue / 10));     // Rouge passe de 0 à 255
+        const green = Math.round(255 * (1 - clampedValue / 10)); // Vert passe de 255 à 0
+        const color = `rgb(${red}, ${green}, ${green})`;
+    
+        // Déterminer si le texte doit être en blanc ou noir en fonction de la luminosité
+        const luminosity = 0.299 * red + 0.587 * green + 0.114 * green;
+        const textColor = luminosity < 128 ? 'white' : 'black';
+    
+        return { color, textColor };
     }
 
     getApiData();
