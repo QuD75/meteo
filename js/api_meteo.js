@@ -243,18 +243,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getUVColor(value) {
-        // Normalisation de la valeur entre 0 et 10
-        const clampedValue = Math.min(Math.max(value, 0), 10);
-        
-        // Calcul des canaux de couleur pour obtenir un dégradé
-        const red = Math.round(255 * (clampedValue / 10));     // Rouge passe de 0 à 255
-        const green = Math.round(255 * (1 - clampedValue / 10)); // Vert passe de 255 à 0
-        const color = `rgb(${red}, ${green}, ${green})`;
-    
-        // Déterminer si le texte doit être en blanc ou noir en fonction de la luminosité
-        const luminosity = 0.299 * red + 0.587 * green + 0.114 * green;
-        const textColor = luminosity < 128 ? 'white' : 'black';
-    
+        let color;
+        if (value === 0) {
+            // Blanc pour un indice UV de 0
+            color = 'rgb(255, 255, 255)';
+        } else if (value < 10) {
+            // Dégradé de jaune à orange entre 1 et 9
+            const red = 255;
+            const green = Math.round(255 - (value * 15));  // Passe de 255 à 120
+            const blue = 0;
+            color = `rgb(${red}, ${green}, ${blue})`;
+        } else {
+            // Rouge foncé pour un indice UV de 10
+            color = 'rgb(139, 0, 0)';
+        }
+        const textColor = getTextColor(color);
         return { color, textColor };
     }
 
