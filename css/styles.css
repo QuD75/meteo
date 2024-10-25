@@ -67,7 +67,7 @@ main p {
 #temperature-chart {
     display: block;
     width: 35%;
-    margin-left: auto;
+    margin-left: 0px;
     margin-right: auto;
     margin-top: 20px;
 }
