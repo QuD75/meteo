@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getTemperatureColor(value) {
-        let color, textColor;
+        let color;
         if (value < -10) {
             color = 'purple';
         } else if (value < -5) {
@@ -155,10 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             color = 'purple';
         }
-        // Calcul de la luminosité pour définir la couleur du texte
-        const rgb = color.match(/\d+/g).map(Number);
-        const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-        textColor = luminosity < 128 ? 'white' : 'black';
+        const textColor = getTextColor(color);
         return { color, textColor };
     }
     
@@ -170,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getWindColor(value) {
-        let color, textColor;
+        let color;
         if (value < 20) {
             // Couleur dégradée de bleu clair à bleu foncé pour les valeurs < 20
             color = `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
@@ -181,10 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Couleur dégradée de vert à rouge pour les valeurs > 40
             color = `rgb(${Math.round((value - 40) * 255 / 60)}, ${Math.round(255 - ((value - 40) * 255 / 60))}, 0)`;
         }
-        // Calcul de la luminosité pour définir la couleur du texte
-        const rgb = color.match(/\d+/g).map(Number);
-        const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-        textColor = luminosity < 128 ? 'white' : 'black';
+        const textColor = getTextColor(color);
         return { color, textColor };
     }
 
@@ -262,6 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = luminosity < 128 ? 'white' : 'black';
     
         return { color, textColor };
+    }
+
+    function getTextColor(color) {
+        // Calcul de la luminosité pour définir la couleur du texte
+        const rgb = color.match(/\d+/g).map(Number);
+        const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
+        return luminosity < 128 ? 'white' : 'black';
     }
 
     getApiData();
