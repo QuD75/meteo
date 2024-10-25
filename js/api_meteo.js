@@ -293,8 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const temperatures = dataTemp.dates.map(dateData => dateData.value);
 
         // Calculer les valeurs minimales et maximales des températures
-        const minTemp = Math.min(...temperatures)-0.5;
-        const maxTemp = Math.max(...temperatures)+0.5;
+        const minTemp = Math.floor(Math.min(...temperatures));
+        const maxTemp = Math.floor(Math.max(...temperatures)+1);
      
         const temperatureChart = new Chart(ctx, {
             type: 'line',
@@ -335,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
 
     getApiData();
 });
