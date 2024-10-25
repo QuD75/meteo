@@ -316,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         display: false // Désactiver la légende
                     }
                 },
-                maintainAspectRatio: false,
                 scales: {
                     x: {
                         title: {

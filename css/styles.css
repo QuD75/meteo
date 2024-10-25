@@ -59,11 +59,18 @@ main p {
     color: #666;
 }
 
-#temperatureChart {
+.one-day {
+    height: 500px;
+    display: flex;
+    align-items: flex-start; /* Aligne le graphique et le tableau en haut */
+    gap: 20px; /* Espacement entre le graphique et le tableau */
+}
+
+#temperature-chart {
     margin-left: auto;
     margin-right: auto;
     width: 35%;
-    height: 50%;
+    height: 100%;
 }
 
 #weather-table {
