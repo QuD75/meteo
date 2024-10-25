@@ -154,10 +154,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getWindColor(value) {
-        if (value <= 20) return { color: `rgb(0, ${Math.round(255 * (value / 20))}, 255)`, textColor: 'black' };
-        if (value <= 50) return { color: `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 30))})`, textColor: 'black' };
-        return { color: `rgb(255, ${Math.round(255 - ((value - 50) * 255 / 50))}, 0)`, textColor: 'black' };
+        if (value < 20) {
+            // Couleur dégradée de bleu clair à bleu foncé pour les valeurs < 20
+            return { color: `rgb(0, ${Math.round(255 * (value / 20))}, 255)`, textColor: 'black' };
+        } else if (value <= 40) {
+            // Couleur dégradée de bleu clair à vert pour les valeurs entre 20 et 40
+            return { color: `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 20))})`, textColor: 'black' };
+        } else {
+            // Couleur dégradée de vert à rouge pour les valeurs > 40
+            return { color: `rgb(${Math.round((value - 40) * 255 / 60)}, ${Math.round(255 - ((value - 40) * 255 / 60))}, 0)`, textColor: 'black' };
+        }
     }
+    
 
     function getWindDirectionIcon(wind_deg) {
         const directions = [
