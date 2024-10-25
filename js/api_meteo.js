@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
             fillTable(cachedData.data);
+            getTemperatureChart();
         } else {
             // Sinon, on fait l'appel API
             const encodedCredentials = btoa(`${username}:${password}`);
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
+                getTemperatureChart();
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
@@ -278,6 +280,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const rgb = color.match(/\d+/g).map(Number);
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
         return luminosity < 128 ? 'white' : 'black';
+    }
+
+    function getTemperatureChart(){
+        const ctx = document.getElementById('temperatureChart').getContext('2d');
+        const labels = document.getElementById('hours-24h-row');
+        const temperatureData = document.getElementById('temperature-24h-row');
+
+        const temperatureChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+            label: 'Température (°C)',
+            data: temperatureData,
+            borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
+            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+            borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+            x: {
+                title: {
+                display: true,
+                text: 'Heure'
+                }
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                display: true,
+                text: 'Température (°C)'
+                }
+            }
+            }
+        }
+        });
     }
 
     getApiData();
