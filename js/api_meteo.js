@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let color;
         if (value < 1) {
             // Blanc pour un indice UV de 0
-            color = 'white';
+            color = 'rgb(255, 255, 255)';
         } else if (value < 10) {
             // Dégradé de jaune à orange entre 1 et 9
             const red = 255;
