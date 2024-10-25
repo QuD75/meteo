@@ -305,8 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     data: temperatures,
                     borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
-                    borderWidth: 1,
-                    tension: 0.4, // Tension pour lisser la courbe
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    tension: 0.5, // Tension pour lisser la courbe
                     cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
                 }]
             },
