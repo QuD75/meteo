@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = 'nIg974UeEM';
     const lat = '47.2917';
     const lon = '-2.5201';
-    const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx';
+    const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
 
     const currentDate = new Date();
     currentDate.setMinutes(0, 0, 0);
