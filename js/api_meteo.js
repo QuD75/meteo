@@ -293,8 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const labels = labelsText.split('\t').map(label => label.trim());
         const temperatureData = temperatureText.split('\t').map(label => label.trim());
 
-        console.log("Labels:", labels);
-        console.log("Temperature Data:", temperatureData);
+        // Calculer les valeurs min et max
+        const minTemp = Math.min(...temperatureData) - 0.5; // 0,5 degré en dessous du minimum
+        const maxTemp = Math.max(...temperatureData) + 0.5; // 0,5 degré au-dessus du maximum
      
         const temperatureChart = new Chart(ctx, {
             type: 'line',
@@ -305,10 +306,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     data: temperatureData,
                     borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
-                    borderWidth: 1
+                    borderWidth: 1,
+                    tension: 0.4, // Tension pour lisser la courbe
+                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
                 }]
             },
             options: {
+                plugins: {
+                    legend: {
+                        display: false // Désactiver la légende
+                    }
+                },
                 scales: {
                     x: {
                         title: {
@@ -317,6 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     y: {
+                        min: minTemp, // Valeur minimum ajustée
+                        max: maxTemp, // Valeur maximum ajustée
                         title: {
                             display: true,
                             text: 'Température (°C)'

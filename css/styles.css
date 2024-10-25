@@ -59,14 +59,7 @@ main p {
     color: #666;
 }
 
-@media screen and (max-width: 600px) {
-    .weather-table {
-        width: 100%;
-        font-size: 14px;
-    }
-}
-
-#precipitation-chart {
+.temperatureChart {
     margin-left: auto;
     margin-right: auto;
     width: 70%;
