@@ -59,6 +59,11 @@ main p {
     color: #666;
 }
 
+.one-day {
+    width: 75%;
+    height: auto;
+}
+
 .one-day h2 {
     text-align: center;
     margin-bottom: 20px;
