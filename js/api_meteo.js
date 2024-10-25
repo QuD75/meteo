@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getTemperatureChart(dataTemp){
-        const ctx = document.getElementById('temperatureChart').getContext('2d');
+        const ctx = document.getElementById('temperature-chart').getContext('2d');
         
         // Extraire les heures et les températures des données
         const labels = dataTemp.dates.map(dateData => {
