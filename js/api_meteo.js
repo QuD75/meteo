@@ -170,18 +170,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getWindColor(value) {
+        let color, textColor;
         if (value < 20) {
             // Couleur dégradée de bleu clair à bleu foncé pour les valeurs < 20
-            return { color: `rgb(0, ${Math.round(255 * (value / 20))}, 255)`, textColor: 'black' };
+            color = `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
         } else if (value <= 40) {
             // Couleur dégradée de bleu clair à vert pour les valeurs entre 20 et 40
-            return { color: `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 20))})`, textColor: 'black' };
+            color = `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 20))})`;
         } else {
             // Couleur dégradée de vert à rouge pour les valeurs > 40
-            return { color: `rgb(${Math.round((value - 40) * 255 / 60)}, ${Math.round(255 - ((value - 40) * 255 / 60))}, 0)`, textColor: 'black' };
+            color = `rgb(${Math.round((value - 40) * 255 / 60)}, ${Math.round(255 - ((value - 40) * 255 / 60))}, 0)`;
         }
+        // Calcul de la luminosité pour définir la couleur du texte
+        const rgb = color.match(/\d+/g).map(Number);
+        const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
+        textColor = luminosity < 128 ? 'white' : 'black';
+        return { color, textColor };
     }
-    
 
     function getWindDirectionIcon(wind_deg) {
         const directions = [
