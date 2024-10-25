@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Vérification de la validité du cache
         if (cachedData && cachedTime) {
             const cachedDate = new Date(cachedTime);
-            if (cachedDate.getHours() === now.getHours() && now.getMinutes() < 5) {
+            if (cachedDate.getHours() === now.getHours() && now.getMinutes() > 5) {
                 fillTable(JSON.parse(cachedData)); // Utiliser les données mises en cache
                 return;
             }
