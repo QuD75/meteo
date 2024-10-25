@@ -107,6 +107,7 @@ main p {
 #temperature-chart {
     width: 35%; /* 35% de la largeur du conteneur */
     height: auto; /* Ajuste la hauteur automatiquement */
+    max-width: 100%;
 }
 
 footer {
