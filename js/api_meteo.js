@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = 'nIg974UeEM';
     const lat = '47.2917';
     const lon = '-2.5201';
-    //const lat = '16.7665';
-    //const lon = '-3.0025';
     const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
 
     const currentDate = new Date();
@@ -15,22 +13,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
+    const cacheKey = 'weatherDataCache';
+    const cacheDuration = 59 * 60 * 1000; // 1 heure en millisecondes
+
     async function getApiData() {
-        const encodedCredentials = btoa(`${username}:${password}`);
-        try {
-            const response = await fetch(proxyUrl + apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Basic ' + encodedCredentials,
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-            });
-            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-            const data = await response.json();
-            fillTable(data);
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données :", error);
+        const cachedData = JSON.parse(localStorage.getItem(cacheKey));
+        const now = new Date().getTime();
+
+        // Vérifie si les données en cache sont encore valides
+        if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
+            console.log("Données chargées depuis le cache");
+            fillTable(cachedData.data);
+        } else {
+            // Sinon, on fait l'appel API
+            const encodedCredentials = btoa(`${username}:${password}`);
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Basic ' + encodedCredentials,
+                        'Content-Type': 'application/json'
+                    },
+                });
+                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                const data = await response.json();
+
+                // Mise en cache des données avec un timestamp
+                localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+                console.log("Données chargées depuis l'API et mises en cache");
+                
+                fillTable(data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données :", error);
+            }
         }
     }
 
