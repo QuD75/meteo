@@ -13,39 +13,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
-    const cacheKey = 'weatherDataCache';
-    const cacheDuration = 59 * 60 * 1000; // 1 heure en millisecondes
-
     async function getApiData() {
-        const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-        const now = new Date().getTime();
+        const cacheKey = 'apiData';
+        const cacheTimeKey = 'apiDataTime';
 
-        // Vérifie si les données en cache sont encore valides
-        if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
-            console.log("Données chargées depuis le cache");
-            fillTable(cachedData.data);
-        } else {
-            // Sinon, on fait l'appel API
-            const encodedCredentials = btoa(`${username}:${password}`);
-            try {
-                const response = await fetch(proxyUrl + apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Basic ' + encodedCredentials,
-                        'Content-Type': 'application/json'
-                    },
-                });
-                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-                const data = await response.json();
+        // Récupération des données de cache
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTime = localStorage.getItem(cacheTimeKey);
+        const now = new Date();
 
-                // Mise en cache des données avec un timestamp
-                localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                console.log("Données chargées depuis l'API et mises en cache");
-                
-                fillTable(data);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données :", error);
+        // Vérification de la validité du cache
+        if (cachedData && cachedTime) {
+            const cachedDate = new Date(cachedTime);
+            if (cachedDate.getHours() === now.getHours() && now.getMinutes() < 5) {
+                fillTable(JSON.parse(cachedData)); // Utiliser les données mises en cache
+                return;
             }
+        }
+
+        // Si le cache n'est pas valide, on fait une nouvelle requête API
+        const encodedCredentials = btoa(`${username}:${password}`);
+        try {
+            const response = await fetch(proxyUrl + apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + encodedCredentials,
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+            });
+            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+            const data = await response.json();
+            fillTable(data);
+
+            // Stocker les données et le timestamp dans le cache
+            localStorage.setItem(cacheKey, JSON.stringify(data));
+            localStorage.setItem(cacheTimeKey, now.toISOString());
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données :", error);
         }
     }
 
