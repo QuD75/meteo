@@ -66,17 +66,15 @@ main p {
 
 #temperature-chart {
     display: block;
+    margin-left: 0;
     width: 35%;
-    margin-left: 0px;
-    margin-right: auto;
-    margin-top: 20px;
+    height: auto; /* Permet de garder le ratio tout en respectant la hauteur */
 }
 
 #weather-table {
+    margin: 0 auto;
     width: 70%;
     border-collapse: collapse;
-    margin: auto;
-    table-layout: auto;
 }
 #weather-table th, .weather-table td {
     text-align: center;
