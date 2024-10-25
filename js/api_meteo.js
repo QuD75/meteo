@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sinon, on fait l'appel API
             const encodedCredentials = btoa(`${username}:${password}`);
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(proxyUrl + apiUrl, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Basic ' + encodedCredentials,
