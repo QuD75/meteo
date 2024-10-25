@@ -49,6 +49,7 @@ main {
     padding: 20px;
     text-align: center;
     flex: 1;
+    width: 70%;
 }
 main h2 {
     font-size: 2em;
