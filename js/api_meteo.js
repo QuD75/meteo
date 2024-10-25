@@ -322,6 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         title: {
                             display: true,
                             text: 'Heure'
+                        },
+                        ticks: {
+                            maxRotation: 30, // Incline les étiquettes à 30°
+                            minRotation: 30   // Incline les étiquettes à 30°
                         }
                     },
                     y: {
@@ -330,6 +334,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         title: {
                             display: true,
                             text: 'Température (°C)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
+                            }
                         }
                     }
                 }
