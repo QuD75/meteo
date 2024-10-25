@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
             fillTable(cachedData.data);
-            getTemperatureChart(cachedData.data.data[0]);
+            getTemperatureChart(cachedData.data.data[0].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
             const encodedCredentials = btoa(`${username}:${password}`);
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
-                getTemperatureChart(cachedData.data.data[0]);
+                getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
