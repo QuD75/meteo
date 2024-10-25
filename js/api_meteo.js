@@ -291,11 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Transforme les chaînes de texte en tableaux (supposons qu'elles soient séparées par des virgules)
         const labels = labelsText.split('\t').map(label => label.trim());
-        const temperatureData = temperatureText.toString;
+        const temperatureData = temperatureText.split('\t').map(label => label.trim());
 
         console.log("Labels:", labels);
         console.log("Temperature Data:", temperatureData);
-    
+     
         const temperatureChart = new Chart(ctx, {
             type: 'line',
             data: {
