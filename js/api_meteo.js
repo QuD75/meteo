@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
-            console.log("Données chargées depuis le cache");
             fillTable(cachedData.data);
         } else {
             // Sinon, on fait l'appel API
@@ -40,8 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                console.log("Données chargées depuis l'API et mises en cache");
-                
                 fillTable(data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
