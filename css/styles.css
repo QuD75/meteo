@@ -64,13 +64,6 @@ main p {
     margin-bottom: 20px;
 }
 
-#temperature-chart {
-    display: block;
-    margin-left: 0;
-    width: 35%;
-    height: auto; /* Permet de garder le ratio tout en respectant la hauteur */
-}
-
 #weather-table {
     margin: 0 auto;
     width: 70%;
@@ -112,6 +105,17 @@ main p {
 #weather-table-7d th:last-child,
 #weather-table-7d td:last-child {
     width: 21%; /* Largeur pour la dernière colonne */
+}
+
+.chart-container {
+    display: flex;
+    justify-content: flex-start; /* Aligne à gauche */
+    width: 70%; /* Limite la largeur du conteneur pour ne pas dépasser le tableau */
+    margin: 0 auto; /* Centre le conteneur dans la page */
+}
+#temperature-chart {
+    width: 35%; /* 35% de la largeur du conteneur */
+    height: auto; /* Ajuste la hauteur automatiquement */
 }
 
 footer {
