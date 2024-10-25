@@ -290,8 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const temperatureText = document.getElementById('temperature-24h-row').innerText;
         
         // Transforme les chaînes de texte en tableaux (supposons qu'elles soient séparées par des virgules)
-        const labels = labelsText.split(',').map(label => label.trim());
-        const temperatureData = temperatureText.split(',').map(temp => parseFloat(temp.trim()));
+        const labels = labelsText.split('\t').map(label => label.trim());
+        const temperatureData = temperatureText.toString;
 
         console.log("Labels:", labels);
         console.log("Temperature Data:", temperatureData);
