@@ -244,13 +244,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getUVColor(value) {
         let color;
-        if (value === 0) {
+        if (value < 1) {
             // Blanc pour un indice UV de 0
             color = 'white';
         } else if (value < 10) {
             // Dégradé de jaune à orange entre 1 et 9
             const red = 255;
-            const green = Math.round(255 - (value * 28));  // Passe de 255 à 120
+            const green = Math.round(255 - ((value-1) * 31));  // Passe de 255 à 120
             const blue = 0;
             color = `rgb(${red}, ${green}, ${blue})`;
         } else {
