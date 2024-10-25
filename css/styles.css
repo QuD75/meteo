@@ -59,11 +59,6 @@ main p {
     color: #666;
 }
 
-.one-day h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 #weather-table {
     margin: 0 auto;
     width: 70%;
@@ -107,12 +102,6 @@ main p {
     width: 21%; /* Largeur pour la dernière colonne */
 }
 
-.chart-container {
-    display: block;
-    width: 35%; /* Limite la largeur du conteneur pour ne pas dépasser le tableau */
-    margin-left: 0; /* Aligne le conteneur à gauche */
-    margin-right: auto; /* Pour éviter un centrage accidentel */
-}
 #temperature-chart {
     width: 100%; /* 35% de la largeur du conteneur */
     height: auto; /* Ajuste la hauteur automatiquement */
