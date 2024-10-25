@@ -105,9 +105,8 @@ main p {
 }
 
 #temperature-chart {
-    width: 35% !important; /* 35% de la largeur du conteneur */
-    height: auto; /* Ajuste la hauteur automatiquement */
-    max-width: 100%;
+    width:50% !important;
+    height: 300px;
 }
 
 footer {
