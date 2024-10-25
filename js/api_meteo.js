@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
             fillTable(cachedData.data);
-            getTemperatureChart();
+            getTemperatureChart(cachedData.data.data[0]);
         } else {
             // Sinon, on fait l'appel API
             const encodedCredentials = btoa(`${username}:${password}`);
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
-                getTemperatureChart();
+                getTemperatureChart(cachedData.data.data[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
@@ -282,20 +282,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return luminosity < 128 ? 'white' : 'black';
     }
 
-    function getTemperatureChart(){
+    function getTemperatureChart(dataTemp){
         const ctx = document.getElementById('temperatureChart').getContext('2d');
         
-        // Récupère le contenu texte et transforme-le en tableau
-        const labelsText = document.getElementById('hours-24h-row').innerText;
-        const temperatureText = document.getElementById('temperature-24h-row').innerText;
-        
-        // Transforme les chaînes de texte en tableaux (supposons qu'elles soient séparées par des virgules)
-        const labels = labelsText.split('\t').map(label => label.trim());
-        const temperatureData = temperatureText.split('\t').map(label => label.trim());
+        // Extraire les heures et les températures des données
+        const labels = dataTemp.dates.map(dateData => {
+            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        });
 
-        // Calculer les valeurs min et max
-        const minTemp = Math.min(...temperatureData) - 0.5; // 0,5 degré en dessous du minimum
-        const maxTemp = Math.max(...temperatureData) + 0.5; // 0,5 degré au-dessus du maximum
+        const temperatures = dataTemp.dates.map(dateData => dateData.value);
+
+        // Calculer les valeurs minimales et maximales des températures
+        const minTemp = Math.min(...temperatures)-0.5;
+        const maxTemp = Math.max(...temperatures)+0.5;
      
         const temperatureChart = new Chart(ctx, {
             type: 'line',
@@ -303,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels: labels,
                 datasets: [{
                     label: 'Température (°C)',
-                    data: temperatureData,
+                    data: temperatures,
                     borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
                     borderWidth: 1,
