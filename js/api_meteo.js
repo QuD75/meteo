@@ -284,40 +284,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTemperatureChart(){
         const ctx = document.getElementById('temperatureChart').getContext('2d');
-        const labels = document.getElementById('hours-24h-row');
-        const temperatureData = document.getElementById('temperature-24h-row');
-
+        
+        // Récupère le contenu texte et transforme-le en tableau
+        const labelsText = document.getElementById('hours-24h-row').textContent;
+        const temperatureText = document.getElementById('temperature-24h-row').textContent;
+        
+        // Transforme les chaînes de texte en tableaux (supposons qu'elles soient séparées par des virgules)
+        const labels = labelsText.split(',').map(label => label.trim());
+        const temperatureData = temperatureText.split(',').map(temp => parseFloat(temp.trim()));
+    
         const temperatureChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-            label: 'Température (°C)',
-            data: temperatureData,
-            borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
-            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
-            borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-            x: {
-                title: {
-                display: true,
-                text: 'Heure'
-                }
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Température (°C)',
+                    data: temperatureData,
+                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+                    borderWidth: 1
+                }]
             },
-            y: {
-                beginAtZero: true,
-                title: {
-                display: true,
-                text: 'Température (°C)'
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Heure'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Température (°C)'
+                        }
+                    }
                 }
             }
-            }
-        }
         });
     }
+    
 
     getApiData();
 });
