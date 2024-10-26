@@ -92,10 +92,26 @@ main p {
       ". Wind Pressure ."; 
 }
 .Tableau { grid-area: Tableau; }
-.Temp { grid-area: Temp; }
-.Rain { grid-area: Rain; }
-.Wind { grid-area: Wind; }
-.Pressure { grid-area: Pressure; }
+.Temp {
+    grid-area: Temp; 
+    width: 100% !important; 
+    height: 100% !important; 
+  }
+.Rain {
+    grid-area: Rain; 
+    width: 100% !important; 
+    height: 100% !important; 
+}
+.Wind {
+    grid-area: Wind; 
+    width: 100% !important; 
+    height: 100% !important; 
+}
+.Pressure {
+    grid-area: Pressure; 
+    width: 100% !important; 
+    height: 100% !important; 
+}
 
 footer {
     background-color: #0073e6;
