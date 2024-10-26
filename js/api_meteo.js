@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
         const now = new Date().getTime();
-    
+
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
         } else {
-            // Appel de l'API via le proxy AllOrigins
+            // Sinon, on fait l'appel API
             const encodedCredentials = btoa(`${username}:${password}`);
             try {
                 const response = await fetch(proxyUrl, {
@@ -35,22 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json'
                     },
                 });
-    
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
-    
-                // Parse le contenu JSON
-                const apiData = JSON.parse(data);
-    
+
                 // Mise en cache des données avec un timestamp
-                localStorage.setItem(cacheKey, JSON.stringify({ data: apiData, timestamp: now }));
-                fillTable(apiData);
-                getTemperatureChart(apiData.data[0].coordinates[0]);
+                localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+                fillTable(data);
+                getTemperatureChart(cachedData.data.data[0].coordinates[0]);
+                getTemperatureChart(data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
         }
-    }    
+    }   
 
     function fillTable(data) {
         const daysRow = document.getElementById('days-24h-row');
