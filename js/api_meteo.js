@@ -1,20 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const lat = '47.2917';
-    const lon = '-2.5201';
-    const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
+    //const lat = '47.2917';
+    //const lon = '-2.5201';
 
-    const currentDate = new Date();
-    currentDate.setMinutes(0, 0, 0);
-    const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
-    const endDate = new Date(currentDate.getTime() + 23 * 60 * 60 * 1000).toISOString().split('.')[0] + 'Z';
+    document.getElementById('submitCoords').addEventListener('click', function() {
+        const latitude = document.getElementById('latitude').value;
+        const longitude = document.getElementById('longitude').value;
+    
+        if (latitude && longitude) {
+            getApiData(latitude, longitude);
+        } else {
+            alert('Veuillez entrer une latitude et une longitude valides.');
+        }
+    });
 
-    const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
-    const proxyUrl = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrl}`;
+    async function getApiData(lat, lon) {
+        const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
 
-    const cacheKey = 'weatherDataCache';
-    const cacheDuration = 15 * 60 * 1000;
+        const currentDate = new Date();
+        currentDate.setMinutes(0, 0, 0);
+        const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
+        const endDate = new Date(currentDate.getTime() + 23 * 60 * 60 * 1000).toISOString().split('.')[0] + 'Z';
+    
+        const cacheKey = 'weatherDataCache';
+        const cacheDuration = 15 * 60 * 1000;
 
-    async function getApiData() {
+        const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
+        const proxyUrl = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrl}`;
+
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
         const now = new Date().getTime();
 

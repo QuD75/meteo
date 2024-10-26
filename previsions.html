@@ -18,6 +18,16 @@
     <main>
 
         <div>
+            <label for="latitude">Latitude :</label>
+            <input type="number" id="latitude" placeholder="Entrez la latitude" />
+        
+            <label for="longitude">Longitude :</label>
+            <input type="number" id="longitude" placeholder="Entrez la longitude" />
+        
+            <button id="submitCoords">Envoyer</button>
+        </div>
+
+        <div>
             <h2>Météo pour les prochaines 24h</h2>
             <table id="weather-table">
                 <thead>
@@ -54,7 +64,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="day-container">
             <canvas id="temperature-chart"></canvas>
             <canvas id="precipitation-chart"></canvas>
