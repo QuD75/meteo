@@ -279,15 +279,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return luminosity < 128 ? 'white' : 'black';
     }
 
-    function getTemperatureChart(dataTemp){
+    function getTemperatureChart(data){
         const ctx = document.getElementById('temperature-chart').getContext('2d');
         
         // Extraire les heures et les températures des données
-        const labels = dataTemp.dates.map(dateData => {
+        const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
 
-        const temperatures = dataTemp.dates.map(dateData => dateData.value);
+        const temperatures = data.dates.map(dateData => dateData.value);
 
         // Calculer les valeurs minimales et maximales des températures
         let minTemp = Math.min(...temperatures);
@@ -355,31 +355,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function getPrecipitationChart(dataTemp){
+    function getPrecipitationChart(data){
         const ctx = document.getElementById('precipitation-chart').getContext('2d');
         
-        // Extraire les heures et les températures des données
-        const labels = dataTemp.dates.map(dateData => {
+        const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
 
-        const temperatures = dataTemp.dates.map(dateData => dateData.value);
+        const rains = data.dates.map(dateData => dateData.value);
 
-        // Calculer les valeurs minimales et maximales des températures
-        let minTemp = Math.min(...temperatures);
-        if (Number.isInteger(minTemp)) {
-            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
-        } else {
-            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
-        }
-        const maxTemp = Math.floor(Math.max(...temperatures)+1);
+        const maxRain = Math.floor(Math.max(...rains)+1);
      
-        const temperatureChart = new Chart(ctx, {
+        const rainChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Température (°C)',
+                    label: 'Précipitations (mm)',
                     data: temperatures,
                     borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
@@ -396,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     title: {
                         display: true,
-                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
+                        text: 'Précipitations dans les prochaines 24h', // Titre du graphique
                         font: {
                             size: 20 // Taille de la police du titre
                         }
@@ -414,15 +406,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     y: {
-                        min: minTemp, // Valeur minimum ajustée
-                        max: maxTemp, // Valeur maximum ajustée
+                        max: maxRain, // Valeur maximum ajustée
                         title: {
                             display: true,
-                            text: 'Température (°C)'
+                            text: 'Précipitations (mm)'
                         },
                         ticks: {
                             callback: function(value) {
-                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
+                                return value.toFixed(1);
                             }
                         }
                     }
