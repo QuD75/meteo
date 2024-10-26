@@ -108,14 +108,18 @@ main p {
 }
 
 .day-container {
-    display: flex; /* Utilise le modèle flexbox */
-    justify-content: space-between; /* Espace entre les éléments */
-    margin-top: 20px; /* Un peu d'espace au-dessus des canvases */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes de taille égale */
+    grid-template-rows: 1fr 1fr;    /* 2 lignes de taille égale */
+    gap: 10px;                       /* Espace entre les graphiques */
+    width: 100%;                     /* Largeur totale du conteneur */
+    height: 400px;                   /* Ajustez la hauteur selon vos besoins */
 }
 
 canvas {
-    width: 48% !important;
-    height: 300px !important;
+    width: 100%;                     /* Largeur des canvas */
+    height: 100%;                    /* Hauteur des canvas */
+    border: 1px solid #ccc;          /* Optionnel : bordure pour visualiser les canvas */
 }
 
 footer {

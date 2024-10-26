@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
+            getWindChart(cachedData.data.data[0].coordinates[0]);
+            getPressureChart(cachedData.data.data[0].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
             try {
@@ -37,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 fillTable(data);
                 getTemperatureChart(data.data[0].coordinates[0]);
                 getPrecipitationChart(data.data[1].coordinates[0]);
+                getWindChart(data.data.data[0].coordinates[0]);
+                getPressureChart(data.data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
@@ -413,6 +417,158 @@ document.addEventListener('DOMContentLoaded', () => {
                         ticks: {
                             callback: function(value) {
                                 return value.toFixed(1); // Arrondi à 1 chiffre après la virgule
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function getWindChart(data){
+        const ctx = document.getElementById('temperature-chart').getContext('2d');
+        
+        // Extraire les heures et les températures des données
+        const labels = data.dates.map(dateData => {
+            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        });
+
+        const temperatures = data.dates.map(dateData => dateData.value);
+
+        // Calculer les valeurs minimales et maximales des températures
+        let minTemp = Math.min(...temperatures);
+        if (Number.isInteger(minTemp)) {
+            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
+        } else {
+            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
+        }
+        const maxTemp = Math.floor(Math.max(...temperatures)+1);
+     
+        const temperatureChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Température (°C)',
+                    data: temperatures,
+                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    tension: 0.5, // Tension pour lisser la courbe
+                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false // Désactiver la légende
+                    },
+                    title: {
+                        display: true,
+                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
+                        font: {
+                            size: 20 // Taille de la police du titre
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Heure'
+                        },
+                        ticks: {
+                            maxRotation: 30, // Incline les étiquettes à 30°
+                            minRotation: 30   // Incline les étiquettes à 30°
+                        }
+                    },
+                    y: {
+                        min: minTemp, // Valeur minimum ajustée
+                        max: maxTemp, // Valeur maximum ajustée
+                        title: {
+                            display: true,
+                            text: 'Température (°C)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function getPressureChart(data){
+        const ctx = document.getElementById('temperature-chart').getContext('2d');
+        
+        // Extraire les heures et les températures des données
+        const labels = data.dates.map(dateData => {
+            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        });
+
+        const temperatures = data.dates.map(dateData => dateData.value);
+
+        // Calculer les valeurs minimales et maximales des températures
+        let minTemp = Math.min(...temperatures);
+        if (Number.isInteger(minTemp)) {
+            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
+        } else {
+            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
+        }
+        const maxTemp = Math.floor(Math.max(...temperatures)+1);
+     
+        const temperatureChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Température (°C)',
+                    data: temperatures,
+                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    tension: 0.5, // Tension pour lisser la courbe
+                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false // Désactiver la légende
+                    },
+                    title: {
+                        display: true,
+                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
+                        font: {
+                            size: 20 // Taille de la police du titre
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Heure'
+                        },
+                        ticks: {
+                            maxRotation: 30, // Incline les étiquettes à 30°
+                            minRotation: 30   // Incline les étiquettes à 30°
+                        }
+                    },
+                    y: {
+                        min: minTemp, // Valeur minimum ajustée
+                        max: maxTemp, // Valeur maximum ajustée
+                        title: {
+                            display: true,
+                            text: 'Température (°C)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
                             }
                         }
                     }
