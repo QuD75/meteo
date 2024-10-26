@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const th = document.createElement('th');
             const targetHour = (hour + getParisTimezoneOffset(new Date())) % 24;
-            console.log(targetHour.toLocaleString);
             th.textContent = `${targetHour}h`;
             hoursRow.appendChild(th);
         });
