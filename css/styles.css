@@ -107,15 +107,15 @@ main p {
 }
 
 .Temp, .Rain, .Wind, .Pressure {
-    width: 100%; 
-    height: 100%; 
+    width: auto; 
+    height: auto; 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 canvas {
-    width: 100% !important; /* Force le canvas à remplir l'espace */
+    width: auto !important; /* Force le canvas à remplir l'espace */
     height: auto !important; /* Permet de gérer l'aspect ratio */
     max-height: 300px; /* Ajustez cette valeur selon votre besoin */
 }
