@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels: labels,
                 datasets: [{
                     label: 'Précipitations (mm)',
-                    data: temperatures,
+                    data: rains,
                     borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
                     borderWidth: 3,
