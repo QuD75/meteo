@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getWindChart(data){
-        const ctx = document.getElementById('temperature-chart').getContext('2d');
+        const ctx = document.getElementById('wind-chart').getContext('2d');
         
         // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
@@ -502,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getPressureChart(data){
-        const ctx = document.getElementById('temperature-chart').getContext('2d');
+        const ctx = document.getElementById('pressure-chart').getContext('2d');
         
         // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
