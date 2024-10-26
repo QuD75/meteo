@@ -105,9 +105,8 @@ main p {
     margin: 0;
 }
 .Temp, .Rain, .Wind, .Pressure {
-    width: 100%; 
+    width: 45% !important; 
     height: auto; 
-    aspect-ratio: 1; /* Assure un carré */
     max-width: 100%; /* Pour rester dans les limites de la grille */
     max-height: 100%;
     display: flex;
