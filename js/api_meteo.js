@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
-                getTemperatureChart(cachedData.data.data[0].coordinates[0]);
+                getTemperatureChart(data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
