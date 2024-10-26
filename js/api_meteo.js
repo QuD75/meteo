@@ -355,30 +355,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function getPrecipitationChart(data){
+    function getPrecipitationChart(data) {
         const ctx = document.getElementById('precipitation-chart').getContext('2d');
-        
+    
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
-
+    
         const rains = data.dates.map(dateData => dateData.value);
-
-        const maxRain = Math.floor(Math.max(...rains)+1);
-     
+    
+        const maxRain = Math.floor(Math.max(...rains) + 1);
+    
         const rainChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar', // Change le type de graphique en histogramme
             data: {
                 labels: labels,
                 datasets: [{
                     label: 'Précipitations (mm)',
                     data: rains,
-                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    tension: 0.5, // Tension pour lisser la courbe
-                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
+                    backgroundColor: 'rgba(0, 0, 139, 1)', // Couleur des colonnes (bleu foncé)
+                    borderColor: 'rgba(0, 0, 139, 1)', // Couleur de la bordure des colonnes
+                    borderWidth: 2, // Épaisseur de la bordure
+                    tension: 0.4, // Tension pour lisser la courbe (pas nécessaire pour un histogramme, mais peut être laissé)
+                    barPercentage: 0.6 // Ajuste la largeur des colonnes
                 }]
             },
             options: {
@@ -413,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         },
                         ticks: {
                             callback: function(value) {
-                                return value.toFixed(1);
+                                return value.toFixed(1); // Arrondi à 1 chiffre après la virgule
                             }
                         }
                     }
@@ -421,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
 
     getApiData();
 });
