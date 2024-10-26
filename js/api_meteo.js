@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
     
-                // Parse le contenu JSON reçu de AllOrigins
-                const apiData = JSON.parse(data.contents);
+                // Parse le contenu JSON
+                const apiData = JSON.parse(data);
     
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: apiData, timestamp: now }));
