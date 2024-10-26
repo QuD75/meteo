@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    //const username = 'quentin_dusserre_quentin';
-    //const password = 'nIg974UeEM';
     const lat = '47.2917';
     const lon = '-2.5201';
     const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
@@ -26,14 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
-            //const encodedCredentials = btoa(`${username}:${password}`);
             try {
                 const response = await fetch(proxyUrl, {
                     method: 'GET',
-                    headers: {
-                        //'Authorization': 'Basic ' + encodedCredentials,
-                        'Content-Type': 'application/json'
-                    },
                 });
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
