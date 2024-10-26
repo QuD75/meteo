@@ -91,7 +91,11 @@ main p {
       ". Temp Rain ."
       ". Wind Pressure ."; 
 }
-.Tableau { grid-area: Tableau; }
+.Tableau {
+    grid-area: Tableau; 
+    width: 100% !important; 
+    height: 100% !important; 
+  }
 .Temp {
     grid-area: Temp; 
     width: 100% !important; 
