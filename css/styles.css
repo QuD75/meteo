@@ -107,19 +107,18 @@ main p {
 }
 
 .Temp, .Rain, .Wind, .Pressure {
-    width: auto; 
-    height: auto; 
+    width: 100%; 
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 canvas {
-    width: auto !important; /* Force le canvas à remplir l'espace */
-    height: auto !important; /* Permet de gérer l'aspect ratio */
+    width: 100% !important; /* Remplir toute la largeur de l'élément parent */
+    height: 100% !important; /* Remplir toute la hauteur de l'élément parent */
     max-height: 300px; /* Ajustez cette valeur selon votre besoin */
 }
-
 
 footer {
     background-color: #0073e6;
