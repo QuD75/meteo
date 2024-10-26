@@ -69,7 +69,7 @@ main p {
 #weather-table th, #weather-table td {
     text-align: center;
     border: 1px solid #ddd;
-    height: 50px;
+    height: 40px;
 }
 #weather-table th {
     background-color: #007bff;
