@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mise en cache des données avec un timestamp
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
-                getTemperatureChart(cachedData.data.data[0].coordinates[0]);
                 getTemperatureChart(data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
@@ -289,7 +288,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const temperatures = dataTemp.dates.map(dateData => dateData.value);
 
         // Calculer les valeurs minimales et maximales des températures
-        const minTemp = Math.floor(Math.min(...temperatures));
+        let minTemp = Math.min(...temperatures);
+        if (Number.isInteger(minTemp)) {
+            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
+        } else {
+            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
+        }
         const maxTemp = Math.floor(Math.max(...temperatures)+1);
      
         const temperatureChart = new Chart(ctx, {
@@ -311,6 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: {
                         display: false // Désactiver la légende
+                    },
+                    title: {
+                        display: true,
+                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
+                        font: {
+                            size: 16 // Taille de la police du titre
+                        }
                     }
                 },
                 scales: {
