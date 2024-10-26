@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sinon, on fait l'appel API
             try {
                 document.getElementById("loading-message").style.display = "block";
-                document.getElementById("weather-table-container").style.display = "none";
+                document.getElementById("day-container-id").style.display = "none";
                 const response = await fetch(proxyUrl, {
                     method: 'GET',
                 });
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Mise en cache des données avec un timestamp
                 document.getElementById("loading-message").style.display = "none";
-                document.getElementById("weather-table-container").style.display = "block";
+                document.getElementById("day-container-id").style.display = "block";
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
                 getTemperatureChart(data.data[0].coordinates[0]);
