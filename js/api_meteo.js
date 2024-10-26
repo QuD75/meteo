@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch(proxyUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Basic ' + encodedCredentials,
+                        //'Authorization': 'Basic ' + encodedCredentials,
                         'Content-Type': 'application/json'
                     },
                 });
