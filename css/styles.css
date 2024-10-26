@@ -66,9 +66,10 @@ main p {
     width: 100%;
     border-collapse: collapse;
 }
-#weather-table th, .weather-table td {
+#weather-table th, #weather-table td {
     text-align: center;
     border: 1px solid #ddd;
+    height: 50px;
 }
 #weather-table th {
     background-color: #007bff;
