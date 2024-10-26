@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
-            getPrecipitationChart(cachedData.data.data[0].coordinates[0]);
+            getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
             try {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
                 getTemperatureChart(data.data[0].coordinates[0]);
-                getPrecipitationChart(data.data[0].coordinates[0]);
+                getPrecipitationChart(data.data[1].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
