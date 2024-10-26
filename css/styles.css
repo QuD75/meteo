@@ -65,7 +65,7 @@ main p {
     margin: 0 auto;
     width: 100%;
     border-collapse: collapse;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
 }
 #weather-table th, #weather-table td {
