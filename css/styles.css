@@ -107,9 +107,15 @@ main p {
     width: 21%; /* Largeur pour la dernière colonne */
 }
 
-#temperature-chart {
-    width:50% !important;
-    height: 300px !important;
+.day-container {
+    display: flex; /* Utilise le modèle flexbox */
+    justify-content: space-between; /* Espace entre les éléments */
+    margin-top: 20px; /* Un peu d'espace au-dessus des canvases */
+}
+
+canvas {
+    width: 48%; /* Ajuste la largeur de chaque canvas pour qu'ils ne débordent pas */
+    height: auto; /* Ajuste automatiquement la hauteur */
 }
 
 footer {
