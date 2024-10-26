@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const endDate = new Date(currentDate.getTime() + 23 * 60 * 60 * 1000).toISOString().split('.')[0] + 'Z';
 
     const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const proxyUrl = `https://api.allorigins.win/get?url=${apiUrl}`;
 
     const cacheKey = 'weatherDataCache';
     const cacheDuration = 15 * 60 * 1000;
@@ -19,34 +19,38 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
         const now = new Date().getTime();
-
+    
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
         } else {
-            // Sinon, on fait l'appel API
+            // Appel de l'API via le proxy AllOrigins
             const encodedCredentials = btoa(`${username}:${password}`);
             try {
-                const response = await fetch(proxyUrl + apiUrl, {
+                const response = await fetch(proxyUrl, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Basic ' + encodedCredentials,
                         'Content-Type': 'application/json'
                     },
                 });
+    
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
-
+    
+                // Parse le contenu JSON reçu de AllOrigins
+                const apiData = JSON.parse(data.contents);
+    
                 // Mise en cache des données avec un timestamp
-                localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                fillTable(data);
-                getTemperatureChart(data.data[0].coordinates[0]);
+                localStorage.setItem(cacheKey, JSON.stringify({ data: apiData, timestamp: now }));
+                fillTable(apiData);
+                getTemperatureChart(apiData.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
         }
-    }
+    }    
 
     function fillTable(data) {
         const daysRow = document.getElementById('days-24h-row');
