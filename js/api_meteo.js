@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 fillTable(data);
                 getTemperatureChart(data.data[0].coordinates[0]);
                 getPrecipitationChart(data.data[1].coordinates[0]);
-                getWindChart(data.data.data[0].coordinates[0]);
-                getPressureChart(data.data.data[0].coordinates[0]);
+                getWindChart(data.data[0].coordinates[0]);
+                getPressureChart(data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
             }
