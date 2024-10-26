@@ -105,8 +105,8 @@ main p {
     margin: 0;
 }
 .Temp, .Rain, .Wind, .Pressure {
-    width: 90%; /* Réduisez la taille pour l'ajuster dans chaque cellule */
-    height: 90%;
+    width: 90% !important;
+    height: 90% !important;
     display: flex;
     align-items: center;
     justify-content: center;
