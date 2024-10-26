@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         display: true,
                         text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
                         font: {
-                            size: 16 // Taille de la police du titre
+                            size: 20 // Taille de la police du titre
                         }
                     }
                 },
