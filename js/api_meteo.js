@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Sinon, on fait l'appel API
             try {
+                document.getElementById("loading-message").style.display = "block";
+                document.getElementById("weather-table-container").style.display = "none";
                 const response = await fetch(proxyUrl, {
                     method: 'GET',
                 });
@@ -35,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 // Mise en cache des données avec un timestamp
+                document.getElementById("loading-message").style.display = "none";
+                document.getElementById("weather-table-container").style.display = "block";
                 localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 fillTable(data);
                 getTemperatureChart(data.data[0].coordinates[0]);
@@ -43,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 getPressureChart(data.data[0].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
+                document.getElementById("loading-message").textContent = "Une erreur est survenue.";
             }
         }
     }   
