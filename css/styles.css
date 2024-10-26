@@ -95,31 +95,19 @@ main p {
 }
 .Tableau {
     grid-area: Tableau; 
-    width: 100% !important;
-    height: 100% !important;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.Temp {
-    grid-area: Temp; 
-    width: 100% !important; 
-    height: 100% !important; 
-  }
-.Rain {
-    grid-area: Rain; 
-    width: 100% !important; 
-    height: 100% !important; 
+.Tableau h2 {
+    text-align: center;
 }
-.Wind {
-    grid-area: Wind; 
-    width: 100% !important; 
-    height: 100% !important; 
-}
-.Pressure {
-    grid-area: Pressure; 
-    width: 100% !important; 
-    height: 100% !important; 
+.Temp, .Rain, .Wind, .Pressure {
+    width: 100%; /* Utilise toute la largeur de la cellule */
+    height: 100%; /* Utilise toute la hauteur de la cellule */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 footer {
