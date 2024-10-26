@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
     const endDate = new Date(currentDate.getTime() + 23 * 60 * 60 * 1000).toISOString().split('.')[0] + 'Z';
 
-    //const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
-    const apiUrl = `https://quentin_dusserre_quentin:nIg974UeEM@api.meteomatics.com/2024-10-24T00:00:00Z--2024-10-25T00:00:00Z:PT1H/t_2m:C,msl_pressure:hPa,precip_1h:mm,wind_speed_10m:ms,wind_dir_10m:d,weather_symbol_1h:idx,uv:idx/47.2917,-2.5201/json`;
+    const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
     const proxyUrl = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrl}`;
 
     const cacheKey = 'weatherDataCache';
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch(proxyUrl, {
                     method: 'GET',
                     headers: {
-                        //'Authorization': 'Basic ' + encodedCredentials,
+                        'Authorization': 'Basic ' + encodedCredentials,
                         'Content-Type': 'application/json'
                     },
                 });
