@@ -90,12 +90,17 @@ main p {
       ". Tableau Tableau ."
       ". Temp Rain ."
       ". Wind Pressure ."; 
+    align-items: center;
+    justify-items: center;
 }
 .Tableau {
     grid-area: Tableau; 
-    width: 100% !important; 
-    height: 100% !important; 
-  }
+    width: 100% !important;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .Temp {
     grid-area: Temp; 
     width: 100% !important; 
