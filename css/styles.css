@@ -84,29 +84,6 @@ main p {
     background-color: #f1f1f1;
 }
 
-#weather-table-7d {
-    width: 75%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-#weather-table-7d th,
-#weather-table-7d td {
-    border: 1px solid #ddd; /* Bordure des cellules */
-    padding: 10px; /* Rembourrage interne */
-    text-align: center; /* Centre le texte horizontalement */
-}
-#weather-table-7d th {
-    background-color: #007bff;
-}
-#weather-table-7d th:nth-last-child(n+1),
-#weather-table-7d td:nth-last-child(n+1) {
-    width: 7%; /* Ajuste la largeur des colonnes sauf la dernière */
-}
-#weather-table-7d th:last-child,
-#weather-table-7d td:last-child {
-    width: 21%; /* Largeur pour la dernière colonne */
-}
-
 .day-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
