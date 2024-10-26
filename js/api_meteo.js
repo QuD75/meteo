@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const th = document.createElement('th');
             const targetHour = (hour + getParisTimezoneOffset(new Date())) % 24;
+            console.log(targetHour.toLocaleString);
             th.textContent = `${targetHour}h`;
             hoursRow.appendChild(th);
         });
@@ -140,12 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getParisTimezoneOffset(date) {
-        const startDST = new Date(date.getFullYear(), 2, 31);
-        startDST.setDate(31 - (startDST.getDay() + 1) % 7);
-        const endDST = new Date(date.getFullYear(), 9, 31);
-        endDST.setDate(31 - (endDST.getDay() + 1) % 7);
-
-        return date >= startDST && date < endDST ? 2 : 1;
+        // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
+        const january = new Date(date.getFullYear(), 0, 1); // Janvier
+        const july = new Date(date.getFullYear(), 6, 1);    // Juillet
+    
+        // Compare les décalages horaires entre la date donnée et janvier/juillet
+        const isDST = date.getTimezoneOffset() < Math.max(january.getTimezoneOffset(), july.getTimezoneOffset());
+    
+        return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
 
     function getTemperatureColor(value) {
