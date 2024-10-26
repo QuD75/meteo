@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
+            document.getElementById("loading-message").style.display = "none";
+            document.getElementById("day-container-id").style.display = "block";
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
