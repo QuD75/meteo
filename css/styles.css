@@ -63,7 +63,7 @@ main p {
 
 #weather-table {
     margin: 0 auto;
-    width: 70%;
+    width: 75%;
     border-collapse: collapse;
 }
 #weather-table th, .weather-table td {
@@ -82,8 +82,8 @@ main p {
 }
 
 #weather-table-7d {
-    width: 70%; /* Utilise toute la largeur disponible */
-    border-collapse: collapse; /* Évite les espaces entre les cellules */
+    width: 75%;
+    border-collapse: collapse;
     table-layout: fixed;
 }
 #weather-table-7d th,
