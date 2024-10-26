@@ -433,6 +433,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-
-    getApiData();
 });
