@@ -89,19 +89,20 @@ main p {
 }
 
 .day-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    height: 600px;
+    display: grid; 
+    grid-template-columns: 1fr 5fr 5fr 1fr; 
+    grid-template-rows: 2fr 1fr 1fr; 
+    gap: 10px 10px; 
+    grid-template-areas: 
+      ". Tableau Tableau ."
+      ". Temp Rain ."
+      ". Wind Pressure ."; 
 }
-
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    border: 1px solid #ccc;
-}
+.Tableau { grid-area: Tableau; }
+.Temp { grid-area: Temp; }
+.Rain { grid-area: Rain; }
+.Wind { grid-area: Wind; }
+.Pressure { grid-area: Pressure; }
 
 footer {
     background-color: #0073e6;
