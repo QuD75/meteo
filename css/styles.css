@@ -115,7 +115,7 @@ main p {
 
 canvas {
     width: 48%; /* Ajuste la largeur de chaque canvas pour qu'ils ne débordent pas */
-    height: auto; /* Ajuste automatiquement la hauteur */
+    height: 300px; /* Ajuste automatiquement la hauteur */
 }
 
 footer {
