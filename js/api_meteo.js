@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     label: 'Température (°C)',
                     data: temperatures,
                     borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderWidth: 3,
                     pointRadius: 0,
                     tension: 0.5, // Tension pour lisser la courbe
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 datasets: [{
                     label: 'Précipitations (mm)',
                     data: rains,
-                    backgroundColor: 'rgba(0, 0, 139, 1)', // Couleur des colonnes (bleu foncé)
+                    backgroundColor: 'rgba(0, 0, 139, 0.2)', // Couleur des colonnes (bleu foncé)
                     borderColor: 'rgba(0, 0, 139, 1)', // Couleur de la bordure des colonnes
                     borderWidth: 2, // Épaisseur de la bordure
                     tension: 0.4, // Tension pour lisser la courbe (pas nécessaire pour un histogramme, mais peut être laissé)
@@ -511,31 +511,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function getPressureChart(data) {
         const ctx = document.getElementById('pressure-chart').getContext('2d');
 
-        // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
 
-        const temperatures = data.dates.map(dateData => dateData.value);
+        const pressures = data.dates.map(dateData => dateData.value);
 
-        // Calculer les valeurs minimales et maximales des températures
-        let minTemp = Math.min(...temperatures);
-        if (Number.isInteger(minTemp)) {
-            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
-        } else {
-            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
-        }
-        const maxTemp = Math.floor(Math.max(...temperatures) + 1);
+        // Calculer les valeurs minimales et maximales
+        const minPressure = Math.floor(Math.min(...pressures));
+        const maxPressure = Math.floor(Math.max(...pressures) + 1);
 
-        const temperatureChart = new Chart(ctx, {
+        const pressureChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Température (°C)',
+                    label: 'Pression (hPa)',
                     data: temperatures,
-                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+                    borderColor: 'rgba(0, 100, 0, 1)',
+                    backgroundColor: 'rgba(0, 100, 0, 0.2)',
                     borderWidth: 3,
                     pointRadius: 0,
                     tension: 0.5, // Tension pour lisser la courbe
@@ -549,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     title: {
                         display: true,
-                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
+                        text: 'Évolution de la pression dans les prochaines 24h', // Titre du graphique
                         font: {
                             size: 20 // Taille de la police du titre
                         }
@@ -567,11 +561,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     y: {
-                        min: minTemp, // Valeur minimum ajustée
-                        max: maxTemp, // Valeur maximum ajustée
+                        min: minPressure, // Valeur minimum ajustée
+                        max: maxPressure, // Valeur maximum ajustée
                         title: {
                             display: true,
-                            text: 'Température (°C)'
+                            text: 'Pression (hPa)'
                         },
                         ticks: {
                             callback: function (value) {
