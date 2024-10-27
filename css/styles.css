@@ -120,6 +120,11 @@ footer a:hover {
     width: 40px; /* Ajuster la largeur selon les besoins */
     max-width: 40px;
 }
+/* Donne une largeur uniforme aux autres colonnes */
+#weather-table th:not(:first-child),
+#weather-table td:not(:first-child) {
+    width: 10px; /* Ajuste la largeur selon les besoins */
+}
 
 /* Conteneurs des graphiques */
 .Temp, .Rain, .Wind, .Pressure {
