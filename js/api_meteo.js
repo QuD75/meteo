@@ -434,41 +434,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getWindChart(wind, windGust) {
         const ctx = document.getElementById('wind-chart').getContext('2d');
-
+    
         const labels = windGust.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
-
-        const winds = wind.dates.map(dateData => dateData.value*3.6);
+    
+        const winds = wind.dates.map(dateData => dateData.value * 3.6);
         const minWind = Math.floor(Math.min(...winds));
-
-        const windGusts = windGust.dates.map(dateData => dateData.value*3.6);
+    
+        const windGusts = windGust.dates.map(dateData => dateData.value * 3.6);
         const maxWindGust = Math.floor(Math.max(...windGusts) + 1);
-
+    
         const windChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Vent (km/h)',
-                    data: winds,
-                    borderColor: 'rgba(204, 153, 0, 1)', // Couleur de la ligne en jaune foncé
-                    backgroundColor: 'rgba(204, 153, 0, 0.2)', // Couleur de fond jaune foncé avec une opacité de 20%
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    tension: 0.5, // Tension pour lisser la courbe
-                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
-                },
-                {
-                    label: 'Vent (km/h)',
-                    data: windGusts,
-                    borderColor: 'rgba(204, 153, 0, 1)', // Couleur de la ligne en jaune foncé
-                    backgroundColor: 'rgba(204, 153, 0, 0.2)', // Couleur de fond jaune foncé avec une opacité de 20%
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    tension: 0.5, // Tension pour lisser la courbe
-                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
-                }]
+                datasets: [
+                    {
+                        label: 'Vent (km/h)',
+                        data: winds,
+                        borderColor: 'rgba(204, 153, 0, 1)', // Couleur de la ligne en jaune foncé
+                        backgroundColor: 'rgba(204, 153, 0, 0.2)', // Couleur de fond jaune clair pour l'aire sous la courbe
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0.5, // Tension pour lisser la courbe
+                        cubicInterpolationMode: 'monotone', // Mode d'interpolation cubique pour la courbe lissée
+                        fill: true // Remplit l'aire sous la courbe en jaune
+                    },
+                    {
+                        label: 'Rafales (km/h)',
+                        data: windGusts,
+                        borderColor: 'rgba(255, 165, 0, 1)', // Couleur de la ligne en orange
+                        backgroundColor: 'rgba(255, 165, 0, 0.2)', // Couleur de fond orange clair pour l'aire entre les courbes
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0.5, // Tension pour lisser la courbe
+                        cubicInterpolationMode: 'monotone', // Mode d'interpolation cubique pour la courbe lissée
+                        fill: '-1' // Remplit l'aire entre windGust et wind en orange
+                    }
+                ]
             },
             options: {
                 plugins: {
@@ -510,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    }
+    }    
 
     function getPressureChart(data) {
         const ctx = document.getElementById('pressure-chart').getContext('2d');
