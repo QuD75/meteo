@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
-            getWindChart(cachedData.data.data[2].coordinates[0]);
+            getWindChart(cachedData.data.data[2].coordinates[0], cachedData.data.data[3].coordinates[0]);
             getPressureChart(cachedData.data.data[5].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
@@ -45,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fillTable(data);
                 getTemperatureChart(data.data[0].coordinates[0]);
                 getPrecipitationChart(data.data[1].coordinates[0]);
-                getWindChart(data.data[2].coordinates[0]);
-                getWindGustChart(data.data[3].coordinates[0]);
+                getWindChart(data.data[2].coordinates[0], data.data[3].coordinates[0]);
                 getPressureChart(data.data[5].coordinates[0]);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
