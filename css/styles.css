@@ -102,8 +102,6 @@ footer a:hover {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
-    width: 100px; /* Largeur fixe pour les colonnes */
-    max-width: 100px; /* Limiter la largeur maximale */
     overflow: hidden; /* Empêche le texte de déborder */
     text-overflow: ellipsis; /* Ajoute des points de suspension si le texte dépasse */
 }
