@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels: labels,
                 datasets: [{
                     label: 'Pression (hPa)',
-                    data: temperatures,
+                    data: pressures,
                     borderColor: 'rgba(0, 100, 0, 1)',
                     backgroundColor: 'rgba(0, 100, 0, 0.2)',
                     borderWidth: 3,
