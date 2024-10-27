@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fillTable(data);
 
         // Générer chaque graphique avec les données pertinentes
-        createChart('temperature-chart', 'Température (°C)', data.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChart('precipitation-chart', 'Précipitations (mm)', data.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-chart', 'Vent (km/h)', data.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', data.data[3].coordinates[0]);
-        createChart('pressure-chart', 'Pression (hPa)', data.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChart('temperature-chart', 'de la température', data.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChart('precipitation-chart', 'des précipitations', data.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-chart', 'du vent', data.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', data.data[3].coordinates[0]);
+        createChart('pressure-chart', 'de la pression', data.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
 
     function createChart(elementId, label, data, type, borderColor, backgroundColor, secondaryData = null) {
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     legend: { display: false },
                     title: {
                         display: true,
-                        text: `Évolution de ${label} dans les prochaines 24h`,
+                        text: `Évolution ${label} dans les prochaines 24h`,
                         font: { size: 20 }
                     }
                 },
