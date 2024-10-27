@@ -225,9 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fillTableWeek(data) {
-        const daysRow = document.getElementById('days-week-row');
-        daysRow.innerHTML = ''; // Réinitialise la ligne avant de remplir avec de nouveaux jours
-    
+        const daysRow = document.getElementById('days-week-row');    
         data.data[0].coordinates[0].dates.forEach((dateData) => {
             const date = new Date(dateData.date);
             const options = { weekday: 'long' }; // Pour obtenir le nom du jour complet
