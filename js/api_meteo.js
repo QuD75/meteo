@@ -227,9 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');    
         data.data[0].coordinates[0].dates.forEach((dateData) => {
+            console.log(dateData.date);
             const date = new Date(dateData.date);
-            const options = { weekday: 'long' }; // Pour obtenir le nom du jour complet
-            const dayName = date.toLocaleDateString('fr-FR', options); // Format français
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' }); // Format français
             
             const th = document.createElement('th');
             th.textContent = dayName; // Assignez le nom du jour au texte de l'en-tête
