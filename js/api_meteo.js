@@ -11,31 +11,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const beginDateWeek = currentDay.toISOString().split('.')[0] + 'Z';
 
     const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT24H:PT1H/${paramsDay}/${lat},${lon}/json`;
-    const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}PT24H:PT1H/${paramsWeek}/${lat},${lon}/json`;
+    const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlWeek}`;
 
-    const cacheKey = 'weatherDataCache';
+    const cacheKeyDay = 'weatherDayDataCache';
+    const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000;
 
     async function getApiData() {
-        const cachedData = JSON.parse(localStorage.getItem(cacheKey));
+        const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
+        const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
 
-        if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
-            displayData(cachedData.data);
+        if (cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
+            && (now - cachedDataWeek.timestamp < cacheDuration)) {
+            displayData(cachedDataDay.data);
         } else {
             try {
                 document.getElementById("loading-message").style.display = "block";
-                const response = await fetch(proxyUrlDay);
-                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-                const data = await response.json();
 
-                localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: now }));
-                displayData(data);
+                const responseDay = await fetch(proxyUrlDay);
+                if (!responseDay.ok) throw new Error(`HTTP Error: ${responseDay.status}`);
+                const dataDay = await responseDay.json();
+                localStorage.setItem(cacheKeyDay, JSON.stringify({ dataDay, timestamp: now }));
+
+                const responseWeek = await fetch(proxyUrlWeek);
+                if (!responseWeek.ok) throw new Error(`HTTP Error: ${responseWeek.status}`);
+                const dataWeek = await responseWeek.json();
+                localStorage.setItem(cacheKeyWeek, JSON.stringify({ dataWeek, timestamp: now }));
+
+                displayData(dataDay);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
+            } finally {
+                document.getElementById("loading-message").style.display = "none"; // Masquez le message de chargement
             }
         }
     }
