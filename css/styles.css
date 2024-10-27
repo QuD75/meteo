@@ -81,24 +81,24 @@ footer a:hover {
     margin: 20px auto;
     width: 100%;
 }
+#day-container-id h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
 
 /* Tableau météo */
 .Tableau {
     text-align: center;
     margin-bottom: 20px;
     overflow-x: auto;
-}
-.Tableau h2 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 #weather-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    border-radius: 8px !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;
 }
 #weather-table th, #weather-table td {
     padding: 10px;
