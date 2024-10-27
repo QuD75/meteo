@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillTable(cachedData.data);
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
-            getWindChart(cachedData.data.data[0].coordinates[0]);
+            getWindChart(cachedData.data.data[2].coordinates[0]);
             getPressureChart(cachedData.data.data[5].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
@@ -435,31 +435,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function getWindChart(data) {
         const ctx = document.getElementById('wind-chart').getContext('2d');
 
-        // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
 
-        const temperatures = data.dates.map(dateData => dateData.value);
+        const winds = data.dates.map(dateData => dateData.value);
 
-        // Calculer les valeurs minimales et maximales des températures
-        let minTemp = Math.min(...temperatures);
-        if (Number.isInteger(minTemp)) {
-            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
-        } else {
-            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
-        }
-        const maxTemp = Math.floor(Math.max(...temperatures) + 1);
+        const minWind = Math.min(...winds);
+        const maxWind = Math.floor(Math.max(...winds) + 1);
 
-        const temperatureChart = new Chart(ctx, {
+        const windChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Température (°C)',
-                    data: temperatures,
-                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fond sous la ligne
+                    label: 'Vent (km/h)',
+                    data: winds,
+                    borderColor: 'rgba(204, 153, 0, 1)', // Couleur de la ligne en jaune foncé
+                    backgroundColor: 'rgba(204, 153, 0, 0.2)', // Couleur de fond jaune foncé avec une opacité de 20%
                     borderWidth: 3,
                     pointRadius: 0,
                     tension: 0.5, // Tension pour lisser la courbe
@@ -473,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     title: {
                         display: true,
-                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
+                        text: 'Évolution du vent dans les prochaines 24h', // Titre du graphique
                         font: {
                             size: 20 // Taille de la police du titre
                         }
@@ -491,11 +484,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     y: {
-                        min: minTemp, // Valeur minimum ajustée
-                        max: maxTemp, // Valeur maximum ajustée
+                        min: minWind, // Valeur minimum ajustée
+                        max: maxWind, // Valeur maximum ajustée
                         title: {
                             display: true,
-                            text: 'Température (°C)'
+                            text: 'Vent (km/h)'
                         },
                         ticks: {
                             callback: function (value) {
