@@ -103,8 +103,8 @@ footer a:hover {
 #weather-day th, #weather-day td, #weather-week th, #weather-week td {
     padding: 10px;
     border: 1px solid #ddd;
-    text-align: center;
-    vertical-align: middle;
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 #weather-day th, #weather-week th {
     background-color: #0073e6;
