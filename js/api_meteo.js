@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
             getWindChart(cachedData.data.data[0].coordinates[0]);
-            getPressureChart(cachedData.data.data[0].coordinates[0]);
+            getPressureChart(cachedData.data.data[5].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
             try {
