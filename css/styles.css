@@ -89,7 +89,7 @@ footer a:hover {
 
 /* Tableau météo */
 .Tableau {
-    text-align: center;
+    text-align: center !important;
     margin-bottom: 20px;
     overflow-x: auto;
     border-radius: 12px;
