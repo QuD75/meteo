@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("day-container").style.display = "block";
         document.getElementById("week-container").style.display = "block";
         fillTableDay(dataDay);
-        //fillTableWeek(dataWeek);
+        fillTableWeek(dataWeek);
 
         // Générer chaque graphique avec les données pertinentes
         createChart('temperature-chart', 'de la température', "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
@@ -223,6 +223,21 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
+
+    function fillTableWeek(data) {
+        const daysRow = document.getElementById('days-week-row');
+        daysRow.innerHTML = ''; // Réinitialise la ligne avant de remplir avec de nouveaux jours
+    
+        data.data[0].coordinates[0].dates.forEach((dateData) => {
+            const date = new Date(dateData.date);
+            const options = { weekday: 'long' }; // Pour obtenir le nom du jour complet
+            const dayName = date.toLocaleDateString('fr-FR', options); // Format français
+            
+            const th = document.createElement('th');
+            th.textContent = dayName; // Assignez le nom du jour au texte de l'en-tête
+            daysRow.appendChild(th);
+        });
+    }    
 
     function getParisTimezoneOffset(date) {
         // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
