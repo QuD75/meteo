@@ -86,6 +86,7 @@ footer a:hover {
 .Tableau {
     text-align: center;
     margin-bottom: 20px;
+    overflow-x: auto;
 }
 .Tableau h2 {
     color: #333;
@@ -108,15 +109,6 @@ footer a:hover {
 #weather-table td {
     background-color: #f9f9f9;
 }
-
-/* Couleurs pour les lignes des paramètres */
-#temperature-24h-row td { color: #FF4500; }
-#rain-24h-row td { color: #1E90FF; }
-#wind-24h-row td, #wind-gust-24h-row td { color: #32CD32; }
-#wind-direction-24h-row td { color: #8A2BE2; }
-#pressure-24h-row td { color: #4682B4; }
-#uv-24h-row td { color: #FFD700; }
-#weather-24h-row td { color: #B22222; }
 
 /* Conteneurs des graphiques */
 .Temp, .Rain, .Wind, .Pressure {

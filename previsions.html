@@ -21,56 +21,26 @@
     <main>
 
         <div id="loading-message" style="display: none;">En attente des données... veuillez patienter</div>
-
+        
         <div id="day-container-id" class="day-container" style="display: none;">
             <div class="Tableau">
                 <h2>Météo pour les prochaines 24h</h2>
-                <table id="weather-table">
-                    <thead>
-                        <tr id="days-24h-row">
-                            <th rowspan="2">Paramètres</th>
-                        </tr>
-                        <tr id="hours-24h-row"></tr>
-                    </thead>
-                    <tbody>
-                        <tr id="temperature-24h-row">
-                            <td>Température (°C)</td>
-                        </tr>
-                        <tr id="rain-24h-row">
-                            <td>Précipitations (mm)</td>
-                        </tr>
-                        <tr id="wind-24h-row">
-                            <td>Vent moyen (km/h)</td>
-                        </tr>
-                        <tr id="wind-gust-24h-row">
-                            <td>Vent rafales (km/h)</td>
-                        </tr>
-                        <tr id="wind-direction-24h-row">
-                            <td>Direction vent</td>
-                        </tr>
-                        <tr id="pressure-24h-row">
-                            <td>Pression (hPa)</td>
-                        </tr>
-                        <tr id="uv-24h-row">
-                            <td>Indice UV</td>
-                        </tr>
-                        <tr id="weather-24h-row">
-                            <td>Ciel</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <table id="weather-table"></table>
             </div>
-            <div class="Temp">
-                <canvas id="temperature-chart"></canvas>
-            </div>
-            <div class="Rain">
-                <canvas id="precipitation-chart"></canvas>
-            </div>
-            <div class="Wind">
-                <canvas id="wind-chart"></canvas>
-            </div>
-            <div class="Pressure">
-                <canvas id="pressure-chart"></canvas>
+        
+            <div class="grid-container">
+                <div class="Temp">
+                    <canvas id="temperature-chart"></canvas>
+                </div>
+                <div class="Rain">
+                    <canvas id="precipitation-chart"></canvas>
+                </div>
+                <div class="Wind">
+                    <canvas id="wind-chart"></canvas>
+                </div>
+                <div class="Pressure">
+                    <canvas id="pressure-chart"></canvas>
+                </div>
             </div>
         </div>
 
