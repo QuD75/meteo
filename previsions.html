@@ -61,7 +61,7 @@
                 </table>
             </div>
 
-            <div class="grid-container">
+            <div class="grid-day-container">
                 <div class="Temp">
                     <canvas id="temperature-chart"></canvas>
                 </div>
@@ -77,21 +77,34 @@
             </div>
         </div>
 
-        <div id="week-container">
+        <div id="week-container" style="display: none;">
             <h2>Météo pour les 7 prochains jours</h2>
             <div class="Tableau">
                 <table id="weather-week">
                     <thead>
-                        <tr>
-                            <th>Jour</th>
-                            <th>Lever<br>soleil</th>
-                            <th>Coucher<br>soleil</th>
-                            <th>Temp min<br>(°C)</th>
-                            <th>Temp max<br>(°C)</th>
-                            <th>Pluie<br>(mm)</th>
-                            <th>Ciel</th>
-                            <th>Résumé</th>
+                    <tbody>
+                        <tr id="day-row">
+                            <td>Jour</td>
                         </tr>
+                        <tr id="sunrise-day-row">
+                            <td>Lever soleil</td>
+                        </tr>
+                        <tr id="sunset-day-row">
+                            <td>Coucher soleil</td>
+                        </tr>
+                        <tr id="temp-min-day-row">
+                            <td>Temp min (°C)</td>
+                        </tr>
+                        <tr id="temp-max-day-row">
+                            <td>Temp max (°C)</td>
+                        </tr>
+                        <tr id="rain-day-row">
+                            <td>Pluie (mm)</td>
+                        </tr>
+                        <tr id="weather-day-row">
+                            <td>Ciel</td>
+                        </tr>
+                    </tbody>
                     </thead>
                 </table>
             </div>

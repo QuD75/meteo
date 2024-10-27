@@ -133,7 +133,7 @@ footer a:hover {
     max-width: 10px;
 }
 
-.grid-container {
+.grid-day-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Crée une grille de 2 colonnes */
     grid-gap: 20px; /* Espacement entre les graphiques */
