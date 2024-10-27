@@ -117,8 +117,8 @@ footer a:hover {
 /* Cible la première colonne uniquement */
 #weather-table th:first-child,
 #weather-table td:first-child {
-    width: 60px; /* Ajuster la largeur selon les besoins */
-    max-width: 60px;
+    width: 40px; /* Ajuster la largeur selon les besoins */
+    max-width: 40px;
 }
 
 /* Conteneurs des graphiques */
