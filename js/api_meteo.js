@@ -235,12 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const th = document.createElement('th');
             th.textContent = dayName; // Assignez le nom du jour au texte de l'en-tête
             daysRow.appendChild(th);
-        });
 
-        data.data[0].coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             const value = dateData.value;
-            td.textContent = value;
+            const sunriseHours = value.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            td.textContent = sunriseHours;
             sunriseRow.appendChild(td);
         });
     }    
