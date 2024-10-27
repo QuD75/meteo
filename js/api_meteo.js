@@ -439,11 +439,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
 
-        const winds = wind.dates.map(dateData => dateData.value);
-        const minWind = Math.min(...winds);
+        const winds = wind.dates.map(dateData => dateData.value*3.6);
+        const minWind = Math.floor(Math.min(...winds)*3.6);
 
-        const windGusts = windGust.dates.map(dateData => dateData.value);
-        const maxWindGust = Math.floor(Math.max(...windGusts) + 1);
+        const windGusts = windGust.dates.map(dateData => dateData.value*3.6);
+        const maxWindGust = Math.floor((Math.max(...windGusts) + 1)*3.6);
 
         const windChart = new Chart(ctx, {
             type: 'line',
