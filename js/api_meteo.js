@@ -1,14 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.2917';
     const lon = '-2.5201';
-    const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
+    const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
+    const paramsWeek = 't_max_2m_24h:C';
 
     const currentDate = new Date();
-    currentDate.setMinutes(0, 0, 0);
-    const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
+    const currentHour = new Date(currentDate.setMinutes(0, 0, 0));
+    const currentDay = new Date(currentDate.setHours(0, 0, 0, 0));
+    const beginDateDay = currentHour.toISOString().split('.')[0] + 'Z';
+    const beginDateWeek = currentDay.toISOString().split('.')[0] + 'Z';
 
-    const apiUrl = `https://api.meteomatics.com/${beginDate}PT24H:PT1H/${params}/${lat},${lon}/json`;
-    const proxyUrl = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrl}`;
+    const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT24H:PT1H/${paramsDay}/${lat},${lon}/json`;
+    const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}PT24H:PT1H/${paramsWeek}/${lat},${lon}/json`;
+    const proxyUrlDay = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlDay}`;
+    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlWeek}`;
 
     const cacheKey = 'weatherDataCache';
     const cacheDuration = 15 * 60 * 1000;
@@ -22,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             try {
                 document.getElementById("loading-message").style.display = "block";
-                const response = await fetch(proxyUrl);
+                const response = await fetch(proxyUrlDay);
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
 
