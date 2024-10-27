@@ -17,31 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
-    const cacheDuration = 15 * 60 * 1000;
+    const cacheDuration = 15 * 60 * 1000; // 15 minutes en millisecondes
 
     async function getApiData() {
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
 
+        // Vérifiez si les données mises en cache sont valides
         if (cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
             && (now - cachedDataWeek.timestamp < cacheDuration)) {
-            displayData(cachedDataDay.data);
+            displayData(cachedDataDay.data, cachedDataWeek.data); // Affichez les données des deux jours et de la semaine
         } else {
             try {
                 document.getElementById("loading-message").style.display = "block";
 
-                const responseDay = await fetch(proxyUrlDay);
-                if (!responseDay.ok) throw new Error(`HTTP Error: ${responseDay.status}`);
+                // Récupération des données en parallèle
+                const [responseDay, responseWeek] = await Promise.all([
+                    fetch(proxyUrlDay),
+                    fetch(proxyUrlWeek)
+                ]);
+
+                // Vérifiez si les réponses sont valides
+                if (!responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
+                if (!responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
+
                 const dataDay = await responseDay.json();
-                localStorage.setItem(cacheKeyDay, JSON.stringify({ dataDay, timestamp: now }));
-
-                const responseWeek = await fetch(proxyUrlWeek);
-                if (!responseWeek.ok) throw new Error(`HTTP Error: ${responseWeek.status}`);
                 const dataWeek = await responseWeek.json();
-                localStorage.setItem(cacheKeyWeek, JSON.stringify({ dataWeek, timestamp: now }));
 
-                displayData(dataDay);
+                // Stockez les données dans le cache
+                localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
+                localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
+
+                displayData(dataDay, dataWeek); // Affichez les données des deux
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
@@ -51,20 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function displayData(data) {
+    function displayData(dataDay, dataWeek) {
         document.getElementById("loading-message").style.display = "none";
         document.getElementById("day-container").style.display = "block";
         document.getElementById("week-container").style.display = "block";
-        fillTable(data);
+        fillTableDay(dataDay);
+        //fillTableWeek(dataWeek);
 
         // Générer chaque graphique avec les données pertinentes
-        createChart('temperature-chart', 'de la température', data.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChart('precipitation-chart', 'des précipitations', data.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-chart', 'du vent', data.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', data.data[3].coordinates[0]);
-        createChart('pressure-chart', 'de la pression', data.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChart('temperature-chart', 'de la température', "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChart('precipitation-chart', 'des précipitations', "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-chart', 'du vent', "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', data.data[3].coordinates[0]);
+        createChart('pressure-chart', 'de la pression', "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
 
-    function createChart(elementId, label, data, type, borderColor, backgroundColor, secondaryData = null) {
+    function createChart(elementId, label, y, data, type, borderColor, backgroundColor, secondaryData = null) {
         const ctx = document.getElementById(elementId).getContext('2d');
         const labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
         const values = data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
@@ -116,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ticks: { maxRotation: 30, minRotation: 30 }
                     },
                     y: {
-                        title: { display: true, text: label },
+                        title: { display: true, text: y },
                         ticks: { callback: value => value.toFixed(0) }
                     }
                 }
@@ -124,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function fillTable(data) {
+    function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
         const temperatureRow = document.getElementById('temperature-24h-row');
