@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             getTemperatureChart(cachedData.data.data[0].coordinates[0]);
             getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
             getWindChart(cachedData.data.data[2].coordinates[0]);
-            getWindGustChart(cachedData.data.data[2].coordinates[0]);
             getPressureChart(cachedData.data.data[5].coordinates[0]);
         } else {
             // Sinon, on fait l'appel API
@@ -499,75 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     y: {
                         min: minWind, // Valeur minimum ajustée
                         max: maxWindGust, // Valeur maximum ajustée
-                        title: {
-                            display: true,
-                            text: 'Vent (km/h)'
-                        },
-                        ticks: {
-                            callback: function (value) {
-                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function getWindGustChart(data) {
-        const ctx = document.getElementById('wind-chart').getContext('2d');
-
-        const labels = data.dates.map(dateData => {
-            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        });
-
-        const winds = data.dates.map(dateData => dateData.value);
-
-        const minWind = Math.min(...winds);
-        const maxWind = Math.floor(Math.max(...winds) + 1);
-
-        const windChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Vent (km/h)',
-                    data: winds,
-                    borderColor: 'rgba(204, 153, 0, 1)', // Couleur de la ligne en jaune foncé
-                    backgroundColor: 'rgba(204, 153, 0, 0.2)', // Couleur de fond jaune foncé avec une opacité de 20%
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    tension: 0.5, // Tension pour lisser la courbe
-                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false // Désactiver la légende
-                    },
-                    title: {
-                        display: true,
-                        text: 'Évolution du vent dans les prochaines 24h', // Titre du graphique
-                        font: {
-                            size: 20 // Taille de la police du titre
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Heure'
-                        },
-                        ticks: {
-                            maxRotation: 30, // Incline les étiquettes à 30°
-                            minRotation: 30   // Incline les étiquettes à 30°
-                        }
-                    },
-                    y: {
-                        min: minWind, // Valeur minimum ajustée
-                        max: maxWind, // Valeur maximum ajustée
                         title: {
                             display: true,
                             text: 'Vent (km/h)'
