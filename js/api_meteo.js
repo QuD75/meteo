@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    //const lat = '47.2917';
-    //const lon = '-2.5201';
-    const lat = '43.6250';
-    const lon = '3.8620';
+    const lat = '47.2917';
+    const lon = '-2.5201';
     const params = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
 
     const currentDate = new Date();
@@ -18,42 +16,95 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function getApiData() {
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-        const now = new Date().getTime();
+        const now = Date.now();
 
-        // Vérifie si les données en cache sont encore valides
         if (cachedData && (now - cachedData.timestamp < cacheDuration)) {
-            document.getElementById("loading-message").style.display = "none";
-            document.getElementById("day-container-id").style.display = "block";
-            fillTable(cachedData.data);
-            getTemperatureChart(cachedData.data.data[0].coordinates[0]);
-            getPrecipitationChart(cachedData.data.data[1].coordinates[0]);
-            getWindChart(cachedData.data.data[2].coordinates[0], cachedData.data.data[3].coordinates[0]);
-            getPressureChart(cachedData.data.data[5].coordinates[0]);
+            displayData(cachedData.data);
         } else {
-            // Sinon, on fait l'appel API
             try {
                 document.getElementById("loading-message").style.display = "block";
-                document.getElementById("day-container-id").style.display = "none";
-                const response = await fetch(proxyUrl, {
-                    method: 'GET',
-                });
+                const response = await fetch(proxyUrl);
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
 
-                // Mise en cache des données avec un timestamp
-                document.getElementById("loading-message").style.display = "none";
-                document.getElementById("day-container-id").style.display = "block";
-                localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                fillTable(data);
-                getTemperatureChart(data.data[0].coordinates[0]);
-                getPrecipitationChart(data.data[1].coordinates[0]);
-                getWindChart(data.data[2].coordinates[0], data.data[3].coordinates[0]);
-                getPressureChart(data.data[5].coordinates[0]);
+                localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: now }));
+                displayData(data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
             }
         }
+    }
+
+    function displayData(data) {
+        document.getElementById("loading-message").style.display = "none";
+        document.getElementById("day-container-id").style.display = "block";
+        fillTable(data);
+
+        // Générer chaque graphique avec les données pertinentes
+        createChart('temperature-chart', 'Température (°C)', data.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChart('precipitation-chart', 'Précipitations (mm)', data.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-chart', 'Vent (km/h)', data.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', data.data[3].coordinates[0]);
+        createChart('pressure-chart', 'Pression (hPa)', data.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+    }
+
+    function createChart(elementId, label, data, type, borderColor, backgroundColor, secondaryData = null) {
+        const ctx = document.getElementById(elementId).getContext('2d');
+        const labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+        const values = data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
+
+        const datasets = [
+            {
+                label,
+                data: values,
+                borderColor,
+                backgroundColor,
+                borderWidth: 3,
+                pointRadius: 0,
+                tension: 0.5,
+                cubicInterpolationMode: 'monotone',
+                fill: secondaryData ? true : 'start'
+            }
+        ];
+
+        if (secondaryData) {
+            const secondaryValues = secondaryData.dates.map(date => date.value * 3.6);
+            datasets.push({
+                label: 'Rafales (km/h)',
+                data: secondaryValues,
+                borderColor: 'rgba(255, 165, 0, 1)',
+                backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                fill: '-1'
+            });
+        }
+
+        new Chart(ctx, {
+            type,
+            data: {
+                labels,
+                datasets
+            },
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: `Évolution de ${label.toLowerCase()} dans les prochaines 24h`,
+                        font: { size: 20 }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Heure' },
+                        ticks: { maxRotation: 30, minRotation: 30 }
+                    },
+                    y: {
+                        title: { display: true, text: label },
+                        ticks: { callback: value => value.toFixed(0) }
+                    }
+                }
+            }
+        });
     }
 
     function fillTable(data) {
@@ -290,302 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const rgb = color.match(/\d+/g).map(Number);
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
         return luminosity < 128 ? 'white' : 'black';
-    }
-
-    function getTemperatureChart(data) {
-        const ctx = document.getElementById('temperature-chart').getContext('2d');
-
-        // Extraire les heures et les températures des données
-        const labels = data.dates.map(dateData => {
-            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        });
-
-        const temperatures = data.dates.map(dateData => dateData.value);
-
-        // Calculer les valeurs minimales et maximales des températures
-        let minTemp = Math.min(...temperatures);
-        if (Number.isInteger(minTemp)) {
-            minTemp = minTemp - 1; // Si minTemp est un entier, soustraire 1
-        } else {
-            minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
-        }
-        const maxTemp = Math.floor(Math.max(...temperatures) + 1);
-
-        const temperatureChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Température (°C)',
-                    data: temperatures,
-                    borderColor: 'rgba(255, 99, 132, 1)', // Couleur de la ligne
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    tension: 0.5, // Tension pour lisser la courbe
-                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false // Désactiver la légende
-                    },
-                    title: {
-                        display: true,
-                        text: 'Évolution de la température dans les prochaines 24h', // Titre du graphique
-                        font: {
-                            size: 20 // Taille de la police du titre
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Heure'
-                        },
-                        ticks: {
-                            maxRotation: 30, // Incline les étiquettes à 30°
-                            minRotation: 30   // Incline les étiquettes à 30°
-                        }
-                    },
-                    y: {
-                        min: minTemp, // Valeur minimum ajustée
-                        max: maxTemp, // Valeur maximum ajustée
-                        title: {
-                            display: true,
-                            text: 'Température (°C)'
-                        },
-                        ticks: {
-                            callback: function (value) {
-                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function getPrecipitationChart(data) {
-        const ctx = document.getElementById('precipitation-chart').getContext('2d');
-
-        const labels = data.dates.map(dateData => {
-            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        });
-
-        const rains = data.dates.map(dateData => dateData.value);
-
-        const maxRain = Math.max(...rains) + 0.1;
-
-        const rainChart = new Chart(ctx, {
-            type: 'bar', // Change le type de graphique en histogramme
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Précipitations (mm)',
-                    data: rains,
-                    backgroundColor: 'rgba(0, 0, 139, 0.2)', // Couleur des colonnes (bleu foncé)
-                    borderColor: 'rgba(0, 0, 139, 1)', // Couleur de la bordure des colonnes
-                    borderWidth: 2, // Épaisseur de la bordure
-                    tension: 0.4, // Tension pour lisser la courbe (pas nécessaire pour un histogramme, mais peut être laissé)
-                    barPercentage: 0.6 // Ajuste la largeur des colonnes
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false // Désactiver la légende
-                    },
-                    title: {
-                        display: true,
-                        text: 'Précipitations dans les prochaines 24h', // Titre du graphique
-                        font: {
-                            size: 20 // Taille de la police du titre
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Heure'
-                        },
-                        ticks: {
-                            maxRotation: 30, // Incline les étiquettes à 30°
-                            minRotation: 30   // Incline les étiquettes à 30°
-                        }
-                    },
-                    y: {
-                        max: maxRain, // Valeur maximum ajustée
-                        title: {
-                            display: true,
-                            text: 'Précipitations (mm)'
-                        },
-                        ticks: {
-                            callback: function (value) {
-                                return value.toFixed(1); // Arrondi à 1 chiffre après la virgule
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function getWindChart(wind, windGust) {
-        const ctx = document.getElementById('wind-chart').getContext('2d');
-    
-        const labels = windGust.dates.map(dateData => {
-            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        });
-    
-        const winds = wind.dates.map(dateData => dateData.value * 3.6);
-        const minWind = Math.floor(Math.min(...winds));
-    
-        const windGusts = windGust.dates.map(dateData => dateData.value * 3.6);
-        const maxWindGust = Math.floor(Math.max(...windGusts) + 1);
-    
-        const windChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Vent (km/h)',
-                        data: winds,
-                        borderColor: 'rgba(204, 153, 0, 1)', // Couleur de la ligne en jaune foncé
-                        backgroundColor: 'rgba(204, 153, 0, 0.2)', // Couleur de fond jaune clair pour l'aire sous la courbe
-                        borderWidth: 3,
-                        pointRadius: 0,
-                        tension: 0.5, // Tension pour lisser la courbe
-                        cubicInterpolationMode: 'monotone', // Mode d'interpolation cubique pour la courbe lissée
-                        fill: true // Remplit l'aire sous la courbe en jaune
-                    },
-                    {
-                        label: 'Rafales (km/h)',
-                        data: windGusts,
-                        borderColor: 'rgba(255, 165, 0, 1)', // Couleur de la ligne en orange
-                        backgroundColor: 'rgba(255, 165, 0, 0.2)', // Couleur de fond orange clair pour l'aire entre les courbes
-                        borderWidth: 3,
-                        pointRadius: 0,
-                        tension: 0.5, // Tension pour lisser la courbe
-                        cubicInterpolationMode: 'monotone', // Mode d'interpolation cubique pour la courbe lissée
-                        fill: '-1' // Remplit l'aire entre windGust et wind en orange
-                    }
-                ]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false // Désactiver la légende
-                    },
-                    title: {
-                        display: true,
-                        text: 'Évolution du vent dans les prochaines 24h', // Titre du graphique
-                        font: {
-                            size: 20 // Taille de la police du titre
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Heure'
-                        },
-                        ticks: {
-                            maxRotation: 30, // Incline les étiquettes à 30°
-                            minRotation: 30   // Incline les étiquettes à 30°
-                        }
-                    },
-                    y: {
-                        min: minWind, // Valeur minimum ajustée
-                        max: maxWindGust, // Valeur maximum ajustée
-                        title: {
-                            display: true,
-                            text: 'Vent (km/h)'
-                        },
-                        ticks: {
-                            callback: function (value) {
-                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }    
-
-    function getPressureChart(data) {
-        const ctx = document.getElementById('pressure-chart').getContext('2d');
-
-        const labels = data.dates.map(dateData => {
-            return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        });
-
-        const pressures = data.dates.map(dateData => dateData.value);
-
-        // Calculer les valeurs minimales et maximales
-        const minPressure = Math.floor(Math.min(...pressures));
-        const maxPressure = Math.floor(Math.max(...pressures) + 1);
-
-        const pressureChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Pression (hPa)',
-                    data: pressures,
-                    borderColor: 'rgba(0, 100, 0, 1)',
-                    backgroundColor: 'rgba(0, 100, 0, 0.2)',
-                    borderWidth: 3,
-                    pointRadius: 0,
-                    tension: 1, // Tension pour lisser la courbe
-                    cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false // Désactiver la légende
-                    },
-                    title: {
-                        display: true,
-                        text: 'Évolution de la pression dans les prochaines 24h', // Titre du graphique
-                        font: {
-                            size: 20 // Taille de la police du titre
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Heure'
-                        },
-                        ticks: {
-                            maxRotation: 30, // Incline les étiquettes à 30°
-                            minRotation: 30   // Incline les étiquettes à 30°
-                        }
-                    },
-                    y: {
-                        min: minPressure, // Valeur minimum ajustée
-                        max: maxPressure, // Valeur maximum ajustée
-                        title: {
-                            display: true,
-                            text: 'Pression (hPa)'
-                        },
-                        ticks: {
-                            callback: function (value) {
-                                return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
-                            }
-                        }
-                    }
-                }
-            }
-        });
     }
 
     getApiData();
