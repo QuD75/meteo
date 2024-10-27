@@ -102,8 +102,6 @@ footer a:hover {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
-    overflow: hidden; /* Empêche le texte de déborder */
-    text-overflow: ellipsis; /* Ajoute des points de suspension si le texte dépasse */
 }
 #weather-table th {
     background-color: #0073e6;
