@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Générer chaque graphique avec les données pertinentes
         createChart('temperature-chart', 'de la température', "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-chart', 'des précipitations', "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-chart', 'du vent', "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', data.data[3].coordinates[0]);
+        createChart('wind-chart', 'du vent', "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', dataDay.data[3].coordinates[0]);
         createChart('pressure-chart', 'de la pression', "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
 
