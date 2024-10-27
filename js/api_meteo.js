@@ -237,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
             daysRow.appendChild(th);
 
             const td = document.createElement('td');
-            const value = dateData.value;
-            const sunriseHours = value.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            const sunriseTime = new Date(dateData.value); // Assurez-vous que 'value' est l'heure de lever du soleil
+            const sunriseHours = sunriseTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
             td.textContent = sunriseHours;
             sunriseRow.appendChild(td);
         });
