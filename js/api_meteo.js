@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.2917';
     const lon = '-2.5201';
     const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
-    const paramsWeek = 't_max_2m_24h:C';
+    const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,weather_symbol_24h:idx';
 
     const currentDate = new Date();
     const currentHour = new Date(currentDate.setMinutes(0, 0, 0));
@@ -225,15 +225,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fillTableWeek(data) {
-        const daysRow = document.getElementById('days-week-row');    
+        const daysRow = document.getElementById('days-week-row');
+        const sunriseRow = document.getElementById('sunrise-week-row');  
+        
         data.data[0].coordinates[0].dates.forEach((dateData) => {
-            console.log(dateData.date);
             const date = new Date(dateData.date);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' }); // Format français
             
             const th = document.createElement('th');
             th.textContent = dayName; // Assignez le nom du jour au texte de l'en-tête
             daysRow.appendChild(th);
+        });
+
+        data.data[0].coordinates[0].dates.forEach(dateData => {
+            const td = document.createElement('td');
+            const value = dateData.value;
+            td.textContent = value;
+            sunriseRow.appendChild(td);
         });
     }    
 
