@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Prévisions météo pour Le Croisic : précipitations, températures, vent, etc. Consultez la météo pour les prochaines 24 heures et les 7 prochains jours.">
+    <meta name="description"
+        content="Prévisions météo pour Le Croisic : précipitations, températures, vent, etc. Consultez la météo pour les prochaines 24 heures et les 7 prochains jours.">
     <link rel="icon" href="icons/Le_Croisic_logo.png" type="image/png">
     <title>Prévisions - Météo Croisic</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <header>
         <h1><a href="index.html" class="header-link">Météo au Croisic</a></h1>
@@ -20,7 +23,7 @@
         <div id="loading-message" style="display: none;">En attente des données... veuillez patienter</div>
 
         <div id="day-container-id" class="day-container" style="display: none;">
-            <div class = "Tableau">
+            <div class="Tableau">
                 <h2>Météo pour les prochaines 24h</h2>
                 <table id="weather-table">
                     <thead>
@@ -58,28 +61,20 @@
                 </table>
             </div>
             <div class="Temp">
-                <div class="chart-wrapper">
-                    <canvas id="temperature-chart"></canvas>
-                </div>
+                <canvas id="temperature-chart"></canvas>
             </div>
             <div class="Rain">
-                <div class="chart-wrapper">
-                    <canvas id="precipitation-chart"></canvas>
-                </div>
+                <canvas id="precipitation-chart"></canvas>
             </div>
             <div class="Wind">
-                <div class="chart-wrapper">
-                    <canvas id="wind-chart"></canvas>
-                </div>
+                <canvas id="wind-chart"></canvas>
             </div>
             <div class="Pressure">
-                <div class="chart-wrapper">
-                    <canvas id="pressure-chart"></canvas>
-                </div>
+                <canvas id="pressure-chart"></canvas>
             </div>
         </div>
 
-       <!-- <div>
+        <!-- <div>
             <h2>Météo pour les 7 prochains jours</h2>
             <table class="weather-table weather-table-7d">
                 <thead>
@@ -98,12 +93,12 @@
                 </tbody>
             </table>
         </div>-->
-        
+
     </main>
 
     <footer>
         <p>
-            <a href="#mentions-legales">Mentions légales</a> | 
+            <a href="#mentions-legales">Mentions légales</a> |
             <a href="#contact">Contact</a>
         </p>
     </footer>
@@ -112,4 +107,5 @@
     <script src="js/api_meteo.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </body>
+
 </html>

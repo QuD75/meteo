@@ -65,6 +65,7 @@ main p {
     color: #666;
 }
 
+/*
 #weather-table th, #weather-table td {
     text-align: center;
     border: 1px solid #ddd;
@@ -84,13 +85,13 @@ main p {
 .day-container {
     display: grid; 
     grid-template-columns: 1fr 5fr 5fr 1fr; 
-    grid-template-rows: repeat(2, 1fr); /* Ajuster le nombre de lignes si nécessaire */
+    grid-template-rows: repeat(2, 1fr);
     gap: 10px; 
     grid-template-areas: 
       ". Tableau Tableau ."
       ". Temp Rain ."
       ". Wind Pressure ."; 
-    align-items: stretch; /* S'étendre pour remplir l'espace */
+    align-items: stretch;
 }
 
 .Tableau {
@@ -115,19 +116,19 @@ main p {
 }
 
 .chart-wrapper {
-    position: relative; /* Nécessaire pour le positionnement absolu */
+    position: relative;
     width: 100%;
-    padding-top: 100%; /* Pour maintenir l'aspect carré */
+    padding-top: 100%;
 }
 
 canvas {
-    position: absolute; /* Positionne le canvas à l'intérieur du wrapper */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-
+*/
 
 footer {
     background-color: #0073e6;

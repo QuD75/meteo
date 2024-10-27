@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
             }
         }
-    }   
+    }
 
     function fillTable(data) {
         const daysRow = document.getElementById('days-24h-row');
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pressureRow = document.getElementById('pressure-24h-row');
         const weatherRow = document.getElementById('weather-24h-row');
         const uvRow = document.getElementById('uv-24h-row');
-        
+
         let currentDate = null;
         let dateCell;
         let hourCount = 0;
@@ -110,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
-            let value = dateData.value*multiple;
+            let value = dateData.value * multiple;
             if (floor != null) value = Math.floor(value / floor) * floor;
-            value=value.toFixed(round);
+            value = value.toFixed(round);
             const { color, textColor } = colorFunc(value);
             td.textContent = value;
             td.style.backgroundColor = color;
@@ -149,10 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
         const january = new Date(date.getFullYear(), 0, 1); // Janvier
         const july = new Date(date.getFullYear(), 6, 1);    // Juillet
-    
+
         // Compare les décalages horaires entre la date donnée et janvier/juillet
         const isDST = date.getTimezoneOffset() < Math.max(january.getTimezoneOffset(), july.getTimezoneOffset());
-    
+
         return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
 
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-    
+
     function getPrecipitationColor(value) {
         if (value < 0.1) return { color: 'rgb(255, 255, 255)', textColor: 'black' };
         if (value < 1) return { color: 'rgb(173, 216, 230)', textColor: 'black' };
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (value < 10) {
             // Dégradé de jaune à orange entre 1 et 9
             const red = 255;
-            const green = Math.round(255 - ((value-1) * 31));  // Passe de 255 à 120
+            const green = Math.round(255 - ((value - 1) * 31));  // Passe de 255 à 120
             const blue = 0;
             color = `rgb(${red}, ${green}, ${blue})`;
         } else {
@@ -290,9 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return luminosity < 128 ? 'white' : 'black';
     }
 
-    function getTemperatureChart(data){
+    function getTemperatureChart(data) {
         const ctx = document.getElementById('temperature-chart').getContext('2d');
-        
+
         // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -307,8 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
         }
-        const maxTemp = Math.floor(Math.max(...temperatures)+1);
-     
+        const maxTemp = Math.floor(Math.max(...temperatures) + 1);
+
         const temperatureChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             text: 'Température (°C)'
                         },
                         ticks: {
-                            callback: function(value) {
+                            callback: function (value) {
                                 return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
                             }
                         }
@@ -368,15 +368,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getPrecipitationChart(data) {
         const ctx = document.getElementById('precipitation-chart').getContext('2d');
-    
+
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         });
-    
+
         const rains = data.dates.map(dateData => dateData.value);
-    
-        const maxRain = Math.max(...rains)+0.1;
-    
+
+        const maxRain = Math.max(...rains) + 0.1;
+
         const rainChart = new Chart(ctx, {
             type: 'bar', // Change le type de graphique en histogramme
             data: {
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             text: 'Précipitations (mm)'
                         },
                         ticks: {
-                            callback: function(value) {
+                            callback: function (value) {
                                 return value.toFixed(1); // Arrondi à 1 chiffre après la virgule
                             }
                         }
@@ -432,9 +432,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function getWindChart(data){
+    function getWindChart(data) {
         const ctx = document.getElementById('wind-chart').getContext('2d');
-        
+
         // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -449,8 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
         }
-        const maxTemp = Math.floor(Math.max(...temperatures)+1);
-     
+        const maxTemp = Math.floor(Math.max(...temperatures) + 1);
+
         const temperatureChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             text: 'Température (°C)'
                         },
                         ticks: {
-                            callback: function(value) {
+                            callback: function (value) {
                                 return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
                             }
                         }
@@ -508,9 +508,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function getPressureChart(data){
+    function getPressureChart(data) {
         const ctx = document.getElementById('pressure-chart').getContext('2d');
-        
+
         // Extraire les heures et les températures des données
         const labels = data.dates.map(dateData => {
             return new Date(dateData.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -525,8 +525,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             minTemp = Math.floor(minTemp); // Sinon, arrondir à l'entier inférieur
         }
-        const maxTemp = Math.floor(Math.max(...temperatures)+1);
-     
+        const maxTemp = Math.floor(Math.max(...temperatures) + 1);
+
         const temperatureChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             text: 'Température (°C)'
                         },
                         ticks: {
-                            callback: function(value) {
+                            callback: function (value) {
                                 return value.toFixed(0); // Arrondir à 0 chiffre après la virgule
                             }
                         }
@@ -583,6 +583,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     getApiData();
 });
