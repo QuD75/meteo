@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         data.data[0].coordinates[0].dates.forEach((dateData) => {
             const date = new Date(dateData.date);
+            date.setDate(date.getDate() - 1);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' }); // Format français
             
             const th = document.createElement('th');
