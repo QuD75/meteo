@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
-    const cacheDuration = 15 * 60 * 1000; // 15 minutes en millisecondes
+    //const cacheDuration = 15 * 60 * 1000; // 15 minutes en millisecondes
+    const cacheDuration = 1;
 
     async function getApiData() {
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
