@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const currentDate = new Date();
     const currentHour = new Date(currentDate.setMinutes(0, 0, 0));
-    const currentDay = new Date(currentDate.setHours(0, 0, 0, 0));
+    const tomorrowDay = new Date(currentDate.setHours(0, 0, 0, 0));
+    tomorrowDay.setDate(tomorrowDay.getDate() + 1);
     const beginDateDay = currentHour.toISOString().split('.')[0] + 'Z';
-    const beginDateWeek = currentDay.toISOString().split('.')[0] + 'Z';
+    const beginDateWeek = tomorrowDay.toISOString().split('.')[0] + 'Z';
 
     const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT24H:PT1H/${paramsDay}/${lat},${lon}/json`;
     const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
