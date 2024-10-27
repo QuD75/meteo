@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const secondaryValues = secondaryData.dates.map(date => date.value * 3.6);
             datasets.push({
                 label: 'Rafales (km/h)',
+                pointRadius: 0,
                 data: secondaryValues,
                 borderColor: 'rgba(255, 165, 0, 1)',
                 backgroundColor: 'rgba(255, 165, 0, 0.2)',
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     legend: { display: false },
                     title: {
                         display: true,
-                        text: `Évolution de ${label.toLowerCase()} dans les prochaines 24h`,
+                        text: `Évolution de ${label} dans les prochaines 24h`,
                         font: { size: 20 }
                     }
                 },
