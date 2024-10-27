@@ -77,14 +77,14 @@ footer a:hover {
 }
 
 /* Styles supplémentaires pour le conteneur météo */
-#day-container-id {
+#day-container, #week-container {
     margin: 20px auto;
     width: 100%;
 }
-#day-container-id h2 {
+#day-container h2, #week-container h2 {
     color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 30px;
+    margin-bottom: 30px;
 }
 
 /* Tableau météo */
@@ -95,27 +95,28 @@ footer a:hover {
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
-#weather-table {
+#weather-day, #weather-week {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
-#weather-table th, #weather-table td {
+#weather-day th, #weather-day td, #weather-week th, #weather-week td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
     vertical-align: middle;
 }
-#weather-table th {
+#weather-day th, #weather-week th {
     background-color: #0073e6;
     color: white;
 }
-#weather-table td {
+#weather-day td, #weather-week td {
     background-color: #f9f9f9;
 }
 /* Cible la première colonne uniquement */
-#weather-table th:first-child,
-#weather-table td:first-child {
+#weather-day th:first-child,
+#weather-day td:first-child, #weather-week th:first-child,
+#weather-week td:first-child {
     width: 100px; /* Ajuster la largeur selon les besoins */
     max-width: 100px;
 }

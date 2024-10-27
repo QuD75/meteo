@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayData(data) {
         document.getElementById("loading-message").style.display = "none";
-        document.getElementById("day-container-id").style.display = "block";
+        document.getElementById("day-container").style.display = "block";
         fillTable(data);
 
         // Générer chaque graphique avec les données pertinentes

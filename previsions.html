@@ -22,10 +22,10 @@
 
         <div id="loading-message" style="display: none;">En attente des données... veuillez patienter</div>
 
-        <div id="day-container-id" class="day-container" style="display: none;">
+        <div id="day-container" style="display: none;">
             <h2>Météo pour les prochaines 24h</h2>
-            <div class="Tableau">  
-                <table id="weather-table">
+            <div class="Tableau">
+                <table id="weather-day">
                     <thead>
                         <tr id="days-24h-row">
                             <th rowspan="2">Paramètres</th>
@@ -77,25 +77,25 @@
             </div>
         </div>
 
-        <!-- <div>
+        <div id="week-container">
             <h2>Météo pour les 7 prochains jours</h2>
-            <table class="weather-table weather-table-7d">
-                <thead>
-                    <tr>
-                        <th>Jour</th>
-                        <th>Lever<br>soleil</th>
-                        <th>Coucher<br>soleil</th>
-                        <th>Temp min<br>(°C)</th>
-                        <th>Temp max<br>(°C)</th>
-                        <th>Pluie<br>(mm)</th>
-                        <th>Ciel</th>
-                        <th>Résumé</th>
-                    </tr>
-                </thead>
-                <tbody id="weather-7d-body">
-                </tbody>
-            </table>
-        </div>-->
+            <div class="Tableau">
+                <table id="weather-week">
+                    <thead>
+                        <tr>
+                            <th>Jour</th>
+                            <th>Lever<br>soleil</th>
+                            <th>Coucher<br>soleil</th>
+                            <th>Temp min<br>(°C)</th>
+                            <th>Temp max<br>(°C)</th>
+                            <th>Pluie<br>(mm)</th>
+                            <th>Ciel</th>
+                            <th>Résumé</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
 
     </main>
 
