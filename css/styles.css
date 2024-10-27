@@ -132,15 +132,22 @@ footer a:hover {
     max-width: 10px;
 }
 
-/* Conteneurs des graphiques */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Crée une grille de 2 colonnes */
+    grid-gap: 20px; /* Espacement entre les graphiques */
+    margin: 20px 0; /* Marge supérieure et inférieure pour le conteneur */
+}
+
 .Temp, .Rain, .Wind, .Pressure {
-    margin: 20px 0;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Assurez-vous que le canvas remplit le conteneur */
 .Temp canvas, .Rain canvas, .Wind canvas, .Pressure canvas {
     width: 100%;
-    height: 300px;
+    height: 300px; /* Ajustez la hauteur selon vos besoins */
 }
