@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     backgroundColor: 'rgba(0, 100, 0, 0.2)',
                     borderWidth: 3,
                     pointRadius: 0,
-                    tension: 0.5, // Tension pour lisser la courbe
+                    tension: 1, // Tension pour lisser la courbe
                     cubicInterpolationMode: 'monotone' // Mode d'interpolation cubique pour la courbe lissée
                 }]
             },
