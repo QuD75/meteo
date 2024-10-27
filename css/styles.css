@@ -87,8 +87,6 @@ footer a:hover {
     text-align: center;
     margin-bottom: 20px;
     overflow-x: auto;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 .Tableau h2 {
     color: #333;
@@ -99,6 +97,8 @@ footer a:hover {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 #weather-table th, #weather-table td {
     padding: 10px;
