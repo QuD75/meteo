@@ -6,9 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentDate = new Date();
     currentDate.setMinutes(0, 0, 0);
     const beginDate = currentDate.toISOString().split('.')[0] + 'Z';
-    const endDate = new Date(currentDate.getTime() + 23 * 60 * 60 * 1000).toISOString().split('.')[0] + 'Z';
 
-    const apiUrl = `https://api.meteomatics.com/${beginDate}--${endDate}:PT1H/${params}/${lat},${lon}/json`;
+    const apiUrl = `https://api.meteomatics.com/${beginDate}PT24H:PT1H/${params}/${lat},${lon}/json`;
     const proxyUrl = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrl}`;
 
     const cacheKey = 'weatherDataCache';
