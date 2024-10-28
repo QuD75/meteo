@@ -127,38 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Afficher les données des API
-    function displayData(dataMF, dataDay, dataWeek) {
+    function displayData(dataVigilance, dataDay, dataWeek) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message").style.display = "none";
         document.getElementById("vigilance-container").style.display = "block";
         document.getElementById("day-container").style.display = "block";
         document.getElementById("week-container").style.display = "block";
 
-        const vigilanceContainer = document.getElementById("vigilance-container");
-
-        const highestAlert = getHighestAlert(dataMF);
-        if (highestAlert) {
-            const table = document.createElement('table');
-            const headerRow = table.insertRow();
-            headerRow.insertCell().innerText = 'Couleur de Vigilance';
-            headerRow.insertCell().innerText = 'Phénomène';
-            headerRow.insertCell().innerText = 'Début';
-            headerRow.insertCell().innerText = 'Fin';
-    
-            for (const [phenomenon, dates] of Object.entries(highestAlert.phenomena)) {
-                const row = table.insertRow();
-                row.insertCell().innerText = highestAlert.color;
-                row.insertCell().innerText = phenomenon;
-                row.insertCell().innerText = dates.beginTime;
-                row.insertCell().innerText = dates.endTime;
-            }
-    
-            vigilanceContainer.appendChild(table);
-        } else {
-            vigilanceContainer.innerText = 'Aucune alerte trouvée.';
-        }
-
-        // Remplir les tables avec les données
+        fillVigilance(dataVigilance);
         fillTableDay(dataDay);
         fillTableWeek(dataWeek);
 
@@ -259,6 +235,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonction de remplissage des tableaux
+    function fillVigilance(data){
+        const vigilanceContainer = document.getElementById("vigilance-container");
+
+        const highestAlert = getHighestAlert(data);
+        /*if (highestAlert) {
+            const table = document.createElement('table');
+            const headerRow = table.insertRow();
+            headerRow.insertCell().innerText = 'Couleur de Vigilance';
+            headerRow.insertCell().innerText = 'Phénomène';
+            headerRow.insertCell().innerText = 'Début';
+            headerRow.insertCell().innerText = 'Fin';
+    
+            for (const [phenomenon, dates] of Object.entries(highestAlert.phenomena)) {
+                const row = table.insertRow();
+                row.insertCell().innerText = highestAlert.color;
+                row.insertCell().innerText = phenomenon;
+                row.insertCell().innerText = dates.beginTime;
+                row.isnsertCell().innerText = dates.endTime;
+            }
+    
+            vigilanceContainer.appendChild(table);
+        } else {
+            vigilanceContainer.innerText = 'Aucune alerte trouvée.';
+        }*/
+    }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
