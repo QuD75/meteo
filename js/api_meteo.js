@@ -216,16 +216,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.results && data.results.length > 0) {
             // Trier les résultats par color_id pour obtenir la vigilance la plus forte
             data.results.sort((a, b) => b.color_id - a.color_id);
-
-            // Récupérer la vigilance la plus forte
-            const highestVigilance = data.results[0];
-            
+    
+            // Récupérer le niveau de vigilance le plus élevé
+            const highestVigilanceLevel = data.results[0].color_id;
+    
+            // Filtrer pour obtenir toutes les vigilances du niveau le plus élevé
+            const highestVigilances = data.results.filter(vigilance => vigilance.color_id === highestVigilanceLevel);
+    
             // Affichage de la pastille et des détails
             const pastille = document.getElementById('pastille');
             const phenomenonName = document.getElementById('phenomenon-name');
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceEncart = document.getElementById('vigilance-encart');
-
+    
             // Déterminer la couleur de la pastille
             const colorMap = {
                 1: 'green',   // vert
@@ -233,14 +236,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 3: 'orange',  // orange
                 4: 'red'      // rouge
             };
-
-            pastille.style.backgroundColor = colorMap[highestVigilance.color_id];
-            phenomenonName.textContent = highestVigilance.phenomenon;
-
-            // Affichage des périodes
-            vigilanceDetails.innerHTML = `Début: ${new Date(highestVigilance.begin_time).toLocaleString()}<br>Fin: ${new Date(highestVigilance.end_time).toLocaleString()}`;
-            
+    
+            pastille.style.backgroundColor = colorMap[highestVigilanceLevel];
+    
+            // Afficher les noms des phénomènes
+            phenomenonName.textContent = highestVigilances.map(vigilance => vigilance.phenomenon).join(', ');
+    
+            // Affichage des périodes pour toutes les vigilances du niveau le plus élevé
+            vigilanceDetails.innerHTML = highestVigilances.map(vigilance => 
+                `Phénomène: ${vigilance.phenomenon}<br>Début: ${new Date(vigilance.begin_time).toLocaleString()}<br>Fin: ${new Date(vigilance.end_time).toLocaleString()}<br><br>`
+            ).join('');
+    
             vigilanceEncart.style.display = 'block'; // Afficher l'encart
+        } else {
+            vigilanceEncart.style.display = 'none'; // Cacher l'encart si aucune donnée
         }
     }
     function fillTableDay(data) {
