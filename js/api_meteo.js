@@ -1345,7 +1345,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rainRow = document.getElementById('rain-week-row');
         const weatherRow = document.getElementById('weather-week-row');
 
-        data.data[0].coordinates[0].dates.forEach((dateData) => {
+        data.data[0].coordinates[0].dates.forEach((dateData, index) => {
             const date = new Date(dateData.date);
             date.setDate(date.getDate() - 1);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
