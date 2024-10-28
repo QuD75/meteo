@@ -29,16 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const mockValue = mockParam !== null ? mockParam : false;
 
     async function getApiData() {
+        console.log("Données mockées :" + mockValue);
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
 
         if (cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
             && (now - cachedDataWeek.timestamp < cacheDuration)) {
+            console.log("Données en cache");
             displayData(cachedDataDay.data, cachedDataWeek.data);
         } else {
             try {
-                console.log("Données mockées :" + mockValue)
+                console.log("Données non cachées");
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek] = await Promise.all([
                     fetch(mockValue ? 'js/day.json' : proxyUrlDay),
