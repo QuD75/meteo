@@ -43,14 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000); // Vérifie toutes les secondes (ajuste si nécessaire)
 
         // Appelle la fonction pour récupérer et afficher les données
-        getApiData();
+        getApiData(previousMockValue);
     }
 
     // Appel de la fonction d'initialisation lorsque la page est chargée
     window.onload = init;
 
-    async function getApiData() {
-        console.log(getMockValue() ? "Données mockées" : "Données non mockées");
+    async function getApiData(mock) {
+        console.log(mock ? "Données mockées" : "Données non mockées");
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
@@ -64,12 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Données non cachées");
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek] = await Promise.all([
-                    fetch(previousMockValue ? 'js/day.json' : proxyUrlDay),
-                    fetch(previousMockValue ? 'js/week.json' : proxyUrlWeek)
+                    fetch(mock ? 'js/day.json' : proxyUrlDay),
+                    fetch(mock ? 'js/week.json' : proxyUrlWeek)
                 ]);
 
-                if (!previousMockValue && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
-                if (!previousMockValue && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
+                if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
+                if (!mock && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
 
                 const dataDay = await responseDay.json();
                 const dataWeek = await responseWeek.json();
