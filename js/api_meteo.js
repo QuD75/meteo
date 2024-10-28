@@ -100,10 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function createChart(elementId, label, x, y, data, type, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
         const ctx = document.getElementById(elementId).getContext('2d');
         let labels = null;
-        console.log(elementId + " includes day ? " + elementId.includes('day'));
-        console.log(elementId + " includes week ? " + elementId.includes('week'));
-        elementId.includes('day') ? labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })) : labels = null;
-        elementId.includes('week') ? labels = data.dates.map(date => new Date(date.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })) : labels = null;
+        if (elementId.includes('day')) {
+            labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+        }
+        if (elementId.includes('week')) {
+            labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { day: '2-digit', month: '2-digit' }));
+        }
         const values = data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
 
         const datasets = [
