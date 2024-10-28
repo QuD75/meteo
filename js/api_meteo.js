@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Appels API indépendants
         const dayPromise = fetchData(proxyUrlDay, 'day');
         const weekPromise = fetchData(proxyUrlWeek, 'week');
-        const vigilancePromise = fetchData(proxyUrlVigilance, 'vigilance');
+        const vigilancePromise = fetchData(apiVigilance, 'vigilance');
 
         // Gérer les résultats lorsqu'ils sont disponibles
         Promise.all([dayPromise, weekPromise, vigilancePromise]).then(([dataDay, dataWeek, dataVigilance]) => {
