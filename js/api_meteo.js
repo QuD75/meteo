@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
-    //const cacheDuration = 15 * 60 * 1000; // 15 minutes en millisecondes
-    const cacheDuration = 1;
+    const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
     const mockDay = {
         "version": "3.0",
@@ -1342,14 +1341,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysRow = document.getElementById('days-week-row');
         const sunriseRow = document.getElementById('sunrise-week-row');
         const sunsetRow = document.getElementById('sunset-week-row');
+        const tempMinRow = document.getElementById('temp-min-week-row');
+        const tempMaxRow = document.getElementById('temp-max-week-row');
+        const rainRow = document.getElementById('rain-week-row');
+        const weatherRow = document.getElementById('weather-week-row');
 
         data.data[0].coordinates[0].dates.forEach((dateData) => {
             const date = new Date(dateData.date);
             date.setDate(date.getDate() - 1);
-            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' }); // Format français
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
 
             const th = document.createElement('th');
-            th.textContent = dayName; // Assignez le nom du jour au texte de l'en-tête
+            th.textContent = dayName;
             daysRow.appendChild(th);
 
             const td = document.createElement('td');
@@ -1365,6 +1368,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const sunsetHours = sunsetTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
             td.textContent = sunsetHours;
             sunsetRow.appendChild(td);
+        });
+
+        data.data[2].coordinates[0].dates.forEach((dateData) => {
+            const td = document.createElement('td');
+            const value = dateData.value.toFixed(1);
+            const { color, textColor } = getTemperatureColor(value);
+            td.textContent = value;
+            td.style.backgroundColor = color;
+            td.style.color = textColor;
+            tempMinRow.appendChild(td);
         });
     }
 
