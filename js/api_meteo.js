@@ -1397,7 +1397,7 @@ document.addEventListener('DOMContentLoaded', () => {
             td.textContent = value;
             td.style.backgroundColor = color;
             td.style.color = textColor;
-            tempMaxRow.appendChild(td);
+            rainRow.appendChild(td);
         });
     }
 
