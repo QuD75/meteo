@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek] = await Promise.all([
-                    fetch(mock ? 'day.json' : proxyUrlDay),
-                    fetch(mock ? 'week.json': proxyUrlWeek)
+                    fetch(mock ? 'js/day.json' : proxyUrlDay),
+                    fetch(mock ? 'js/week.json': proxyUrlWeek)
                 ]);
     
                 if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
