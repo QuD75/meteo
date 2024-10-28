@@ -1379,6 +1379,16 @@ document.addEventListener('DOMContentLoaded', () => {
             td.style.color = textColor;
             tempMinRow.appendChild(td);
         });
+
+        data.data[3].coordinates[0].dates.forEach((dateData) => {
+            const td = document.createElement('td');
+            const value = dateData.value.toFixed(1);
+            const { color, textColor } = getTemperatureColor(value);
+            td.textContent = value;
+            td.style.backgroundColor = color;
+            td.style.color = textColor;
+            tempMaxRow.appendChild(td);
+        });
     }
 
     function getParisTimezoneOffset(date) {
