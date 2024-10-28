@@ -177,7 +177,7 @@ td:first-child {
     height: 600px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
     /* Transforme le tableau en affichage vertical */
     #weather-day-tab, #weather-week-tab,
     #weather-day-tab thead, #weather-week-tab thead,
