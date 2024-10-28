@@ -5,26 +5,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,weather_symbol_24h:idx';
 
     const currentDate = new Date();
-    const currentHour = new Date(currentDate.setMinutes(0, 0, 0));
-    const tomorrowDay = new Date(currentDate.setHours(0, 0, 0, 0));
-    tomorrowDay.setDate(tomorrowDay.getDate() + 1);
+    const currentHour = new Date(currentDate);
+    currentHour.setMinutes(0, 0, 0);
+
+    const nextDayMidnight = new Date(currentDate);
+    nextDayMidnight.setHours(0, 0, 0, 0);
+    nextDayMidnight.setDate(nextDayMidnight.getDate() + 1);
+
     const beginDateDay = currentHour.toISOString().split('.')[0] + 'Z';
-    const beginDateWeek = tomorrowDay.toISOString().split('.')[0] + 'Z';
+    const beginDateWeek = nextDayMidnight.toISOString().split('.')[0] + 'Z';
 
     const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
     const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
-    const proxyUrlDay = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlDay}`;
-    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlWeek}`;
+    const proxyUrlDay = `https://proxy-ddj0.onrender.com/proxy?url=${encodeURIComponent(apiUrlDay)}`;
+    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/proxy?url=${encodeURIComponent(apiUrlWeek)}`;
+
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
     //const cacheDuration = 15 * 60 * 1000; // 15 minutes en millisecondes
     const cacheDuration = 1;
 
-    const mockDayData = {
+    const mockDay = {
         "version": "3.0",
         "user": "quentin_dusserre_quentin",
-        "dateGenerated": "2024-10-28T08:58:48Z",
+        "dateGenerated": "2024-10-28T09:09:00Z",
         "status": "OK",
         "data": [
             {
@@ -34,10 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 13.9
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 14.8
@@ -129,6 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 11.8
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 12.0
                             }
                         ]
                     }
@@ -141,10 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 0.00
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 0.00
@@ -236,6 +237,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 0.00
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 0.00
                             }
                         ]
                     }
@@ -248,10 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 1.5
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 1.2
@@ -343,6 +344,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 2.3
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 2.6
                             }
                         ]
                     }
@@ -355,10 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 5.6
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 4.8
@@ -450,6 +451,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 3.2
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 3.5
                             }
                         ]
                     }
@@ -462,10 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 204.1
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 230.2
@@ -557,6 +558,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 71.9
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 61.0
                             }
                         ]
                     }
@@ -569,10 +574,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 1027
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 1028
@@ -664,6 +665,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 1027
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 1027
                             }
                         ]
                     }
@@ -676,10 +681,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 4
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 3
@@ -771,6 +772,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 112
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 12
                             }
                         ]
                     }
@@ -783,10 +788,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         "lat": 47.2917,
                         "lon": -2.5201,
                         "dates": [
-                            {
-                                "date": "2024-10-28T08:00:00Z",
-                                "value": 0
-                            },
                             {
                                 "date": "2024-10-28T09:00:00Z",
                                 "value": 1
@@ -878,6 +879,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 "date": "2024-10-29T07:00:00Z",
                                 "value": 0
+                            },
+                            {
+                                "date": "2024-10-29T08:00:00Z",
+                                "value": 0
                             }
                         ]
                     }
@@ -885,10 +890,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ]
     };
-    const mockWeekData = {
+    const mockWeek = {
         "version": "3.0",
         "user": "quentin_dusserre_quentin",
-        "dateGenerated": "2024-10-28T08:57:15Z",
+        "dateGenerated": "2024-10-28T09:08:09Z",
         "status": "OK",
         "data": [
             {
@@ -1128,34 +1133,20 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    const mockFetchDay = jest.fn(() =>
-        Promise.resolve({
-            ok: true,
-            json: () => Promise.resolve(mockDayData)
-        })
-    );
-    
-    const mockFetchWeek = jest.fn(() =>
-        Promise.resolve({
-            ok: true,
-            json: () => Promise.resolve(mockWeekData)
-        })
-    );
-
-    async function getApiData(fetchDay, fetchWeek) {
+    async function getApiData() {
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
-    
+
         if (cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
             && (now - cachedDataWeek.timestamp < cacheDuration)) {
             displayData(cachedDataDay.data, cachedDataWeek.data);
         } else {
             try {
                 document.getElementById("loading-message").style.display = "block";
-                const [responseDay, responseWeek] = await Promise.all([
-                    fetchDay(),
-                    fetchWeek()
+                /*const [responseDay, responseWeek] = await Promise.all([
+                    fetch(proxyUrlDay),
+                    fetch(proxyUrlWeek)
                 ]);
     
                 if (!responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
@@ -1166,8 +1157,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
                 localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
-    
-                displayData(dataDay, dataWeek);
+                */
+
+                localStorage.setItem(cacheKeyDay, JSON.stringify({ data: mockDay, timestamp: now }));
+                localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: mockWeek, timestamp: now }));
+
+                //displayData(dataDay, dataWeek);
+                displayData(mockDay, mockWeek);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
@@ -1176,7 +1172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
 
     function displayData(dataDay, dataWeek) {
         document.getElementById("loading-message").style.display = "none";
@@ -1346,13 +1341,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
         const sunriseRow = document.getElementById('sunrise-week-row');
-        const sunsetRow = document.getElementById('sunset-week-row');   
-        
+        const sunsetRow = document.getElementById('sunset-week-row');
+
         data.data[0].coordinates[0].dates.forEach((dateData) => {
             const date = new Date(dateData.date);
             date.setDate(date.getDate() - 1);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' }); // Format français
-            
+
             const th = document.createElement('th');
             th.textContent = dayName; // Assignez le nom du jour au texte de l'en-tête
             daysRow.appendChild(th);
@@ -1371,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', () => {
             td.textContent = sunsetHours;
             sunsetRow.appendChild(td);
         });
-    }    
+    }
 
     function getParisTimezoneOffset(date) {
         // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
@@ -1518,5 +1513,5 @@ document.addEventListener('DOMContentLoaded', () => {
         return luminosity < 128 ? 'white' : 'black';
     }
 
-    getApiData(mockFetchDay, mockFetchWeek);
+    getApiData();
 });
