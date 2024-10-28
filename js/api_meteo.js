@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
-    let mock = true;
+    const url = new URL(window.location.href);
+    const mockParam = url.searchParams.get('mock');
+    const mockValue = mockParam !== null ? mockParam : false;
 
     async function getApiData() {
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
@@ -38,12 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek] = await Promise.all([
-                    fetch(mock ? 'js/day.json' : proxyUrlDay),
-                    fetch(mock ? 'js/week.json': proxyUrlWeek)
+                    fetch(mockValue ? 'js/day.json' : proxyUrlDay),
+                    fetch(mockValue ? 'js/week.json': proxyUrlWeek)
                 ]);
     
-                if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
-                if (!mock && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
+                if (!mockValue && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
+                if (!mockValue && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
     
                 const dataDay = await responseDay.json();
                 const dataWeek = await responseWeek.json();
