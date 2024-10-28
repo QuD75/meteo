@@ -1339,8 +1339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
-        const sunriseRow = document.getElementById('sunrise-week-row');
-        const sunsetRow = document.getElementById('sunset-week-row');
+        const sunRow = document.getElementById('sun-week-row');
         const tempMinRow = document.getElementById('temp-min-week-row');
         const tempMaxRow = document.getElementById('temp-max-week-row');
         const rainRow = document.getElementById('rain-week-row');
@@ -1355,19 +1354,14 @@ document.addEventListener('DOMContentLoaded', () => {
             th.textContent = dayName;
             daysRow.appendChild(th);
 
-            const td = document.createElement('td');
             const sunriseTime = new Date(dateData.value);
+            const sunsetTime = new Date(data.data[1].coordinates[0].dates[index].value);
             const sunriseHours = sunriseTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
-            td.textContent = sunriseHours;
-            sunriseRow.appendChild(td);
-        });
-
-        data.data[1].coordinates[0].dates.forEach((dateData) => {
-            const td = document.createElement('td');
-            const sunsetTime = new Date(dateData.value);
             const sunsetHours = sunsetTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
-            td.textContent = sunsetHours;
-            sunsetRow.appendChild(td);
+
+            const td = document.createElement('td');
+            td.textContent = `${sunriseHours} -> ${sunsetHours}`;
+            sunRow.appendChild(td);
         });
 
         data.data[2].coordinates[0].dates.forEach((dateData) => {
@@ -1407,7 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherIcon.style.height = "30px";
             weatherIcon.src = getWeatherIcon(dateData.value);
             td.appendChild(weatherIcon);
-            weatherIcon.appendChild(td);
+            weatherRow.appendChild(td);
         });
     }
 
