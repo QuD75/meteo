@@ -1205,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 pointRadius: 0,
                 tension: 0.5,
                 cubicInterpolationMode: 'monotone',
-                fill: secondaryData ? true : 'start'
+                fill: secondaryDataWind ? true : 'start'
             }
         ];
 
