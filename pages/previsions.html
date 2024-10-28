@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Prévisions météo pour Le Croisic : précipitations, températures, vent, etc. Consultez la météo pour les prochaines 24 heures et les 7 prochains jours.">
+    <link rel="icon" href="icons/Le_Croisic_logo.png" type="image/png">
+    <title>Prévisions - Météo Croisic</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1><a href="index.html">Météo au Croisic</a></h1>
+    </header>
+
+    <nav id="menu-container"></nav>
+
+    <main>
+
+        <div id="loading-message" style="display: none;">En attente des données... veuillez patienter</div>
+
+        <div id="day-container" style="display: none;">
+            <h2>Météo pour les prochaines 24h</h2>
+            <div class="tab">
+                <table id="weather-day-tab">
+                    <thead>
+                        <tr id="days-24h-row">
+                            <th rowspan="2">Paramètres</th>
+                        </tr>
+                        <tr id="hours-24h-row"></tr>
+                    </thead>
+                    <tbody>
+                        <tr id="temperature-24h-row">
+                            <td>Température (°C)</td>
+                        </tr>
+                        <tr id="rain-24h-row">
+                            <td>Précipitations (mm)</td>
+                        </tr>
+                        <tr id="wind-24h-row">
+                            <td>Vent moyen (km/h)</td>
+                        </tr>
+                        <tr id="wind-gust-24h-row">
+                            <td>Vent rafales (km/h)</td>
+                        </tr>
+                        <tr id="wind-direction-24h-row">
+                            <td>Direction vent</td>
+                        </tr>
+                        <tr id="pressure-24h-row">
+                            <td>Pression (hPa)</td>
+                        </tr>
+                        <tr id="uv-24h-row">
+                            <td>Indice UV</td>
+                        </tr>
+                        <tr id="weather-24h-row">
+                            <td>Ciel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid-graphs-container">
+                <div class="Temp">
+                    <canvas id="temperature-day-chart"></canvas>
+                </div>
+                <div class="Rain">
+                    <canvas id="precipitation-day-chart"></canvas>
+                </div>
+                <div class="Wind">
+                    <canvas id="wind-day-chart"></canvas>
+                </div>
+                <div class="Pressure">
+                    <canvas id="pressure-day-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="week-container" style="display: none;">
+            <h2>Météo pour les 7 prochains jours</h2>
+            <div class="tab">
+                <table id="weather-week-tab">
+                    <thead>
+                        <tr id="days-week-row">
+                            <th>Jours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="sun-week-row">
+                            <td>Soleil</td>
+                        </tr>
+                        <tr id="temp-min-week-row">
+                            <td>Temp min (°C)</td>
+                        </tr>
+                        <tr id="temp-max-week-row">
+                            <td>Temp max (°C)</td>
+                        </tr>
+                        <tr id="rain-week-row">
+                            <td>Pluie (mm)</td>
+                        </tr>
+                        <tr id="weather-week-row">
+                            <td>Ciel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid-graphs-container">
+                <div class="Temp">
+                    <canvas id="temperature-week-chart"></canvas>
+                </div>
+                <div class="Rain">
+                    <canvas id="precipitation-week-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <a href="mentions.html">Mentions légales</a> | 
+        <a href="contact.html">Contact</a>
+    </footer>
+
+    <script src="js/menu.js"></script>
+    <script src="js/api_meteo.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</body>
+
+</html>
