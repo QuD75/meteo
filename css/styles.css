@@ -24,8 +24,11 @@ body {
 header, footer {
     background-color: var(--primary-color);
     color: var(--white-color);
-    padding: 20px 0;
     text-align: center;
+}
+
+footer {
+    padding: 20px 0;
 }
 
 header h1 {
@@ -75,6 +78,10 @@ main h2 {
 main p {
     font-size: 1.2em;
     color: var(--subtext-color);
+}
+
+footer {
+    padding: 10px 0;
 }
 
 footer a {
