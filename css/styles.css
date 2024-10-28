@@ -178,41 +178,37 @@ td:first-child {
 }
 
 @media (max-width: 1200px) {
-    /* Transforme les cellules en lignes empilées avec label */
-    #weather-day-tab, #weather-week-tab,
-    #weather-day-tab tbody, #weather-week-tab tbody {
+    /* Table en mode bloc */
+    #weather-day-tab, #weather-week-tab {
         display: block;
     }
 
-    /* Cache les en-têtes de colonne en mode mobile */
+    /* Cache les en-têtes du tableau pour mobile */
     #weather-day-tab thead, #weather-week-tab thead {
         display: none;
     }
 
-    /* Style chaque ligne pour qu'elle apparaisse comme une section */
+    /* Transforme chaque ligne en section verticale */
     #weather-day-tab tbody tr, #weather-week-tab tbody tr {
         display: flex;
         flex-direction: column;
         border: 1px solid var(--border-color);
-        margin-bottom: 1rem;
+        margin-bottom: 10px;
         padding: 10px;
         background-color: var(--light-background);
     }
 
-    /* Affiche le label pour chaque cellule grâce à data-label */
-    #weather-day-tab td::before, #weather-week-tab td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        display: inline-block;
-        width: 150px; /* Largeur du label */
-        color: var(--text-color);
-        margin-right: 10px;
+    /* Style chaque cellule comme un bloc avec le nom de la colonne en gras */
+    #weather-day-tab tbody tr td, #weather-week-tab tbody tr td {
+        display: block;
+        text-align: left;
+        padding: 5px 0;
     }
 
-    /* Alignement des cellules */
-    #weather-day-tab td, #weather-week-tab td {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
+    /* Utilisation de la première colonne comme un titre pour les lignes */
+    #weather-day-tab tbody tr td:first-child,
+    #weather-week-tab tbody tr td:first-child {
+        font-weight: bold;
+        margin-bottom: 5px;
     }
 }
