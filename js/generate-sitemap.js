@@ -18,7 +18,7 @@ const sitemapTemplate = `
    <url>
       <loc>https://qud75.github.io/previsions.htmk</loc>
       <lastmod>${getCurrentDate()}</lastmod>
-      <priority>0.8</priority>
+      <priority>1.0</priority>
    </url>
    <!-- Ajoute d'autres URLs ici -->
 </urlset>
