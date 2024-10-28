@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
 
-        if (cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
+        if (!mock && cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
             && (now - cachedDataWeek.timestamp < cacheDuration)) {
             console.log("Données en cache");
             displayData(cachedDataDay.data, cachedDataWeek.data);
