@@ -34,6 +34,8 @@ footer {
 header h1 {
     margin: 0;
     font-size: 2.5em;
+    text-decoration: none;
+    color: var(--white-color);
 }
 
 nav ul {
