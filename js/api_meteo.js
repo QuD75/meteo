@@ -25,11 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
     const url = new URL(window.location.href);
-    const mockParam = url.searchParams.get('mock');
-    const mockValue = mockParam !== null ? mockParam : false;
+    let previousMockValue = getMockValue();
 
     async function getApiData() {
-        console.log("Données mockées :" + mockValue);
+        console.log("Données mockées : " + previousMockValue);
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
@@ -43,12 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Données non cachées");
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek] = await Promise.all([
-                    fetch(mockValue ? 'js/day.json' : proxyUrlDay),
-                    fetch(mockValue ? 'js/week.json' : proxyUrlWeek)
+                    fetch(previousMockValue ? 'js/day.json' : proxyUrlDay),
+                    fetch(previousMockValue ? 'js/week.json' : proxyUrlWeek)
                 ]);
 
-                if (!mockValue && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
-                if (!mockValue && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
+                if (!previousMockValue && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
+                if (!previousMockValue && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
 
                 const dataDay = await responseDay.json();
                 const dataWeek = await responseWeek.json();
@@ -65,6 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    function getMockValue() {
+        const url = new URL(window.location.href);
+        const mockParam = url.searchParams.get('mock');
+        return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
+    }
+
+    function clearCache() {
+        localStorage.removeItem(cacheKeyDay);
+        localStorage.removeItem(cacheKeyWeek);
+        console.log("Cache vidé en raison d'un changement de paramètre 'mock'");
+    }
+
+    setInterval(() => {
+        const currentMockValue = getMockValue();
+        if (currentMockValue !== previousMockValue) {
+            clearCache(); // Vide le cache si le paramètre a changé
+            previousMockValue = currentMockValue; // Met à jour la valeur précédente
+        }
+    }, 1000);
 
     function displayData(dataDay, dataWeek) {
         document.getElementById("loading-message").style.display = "none";
