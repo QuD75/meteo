@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
-    const cacheKeyMF = 'meteofranceDataCache';
+    const cacheKeyVigilance = 'meteofranceDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
     //Récupérer si les données doivent être mockées ou non
@@ -34,115 +34,95 @@ document.addEventListener('DOMContentLoaded', () => {
         return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
     }
 
-    //Appel aux API
+    // Appel aux API
     async function getApiData(mock) {
         console.log(mock ? "Données mockées" : "Données non mockées");
-        const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
-        const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
-        const cachedDataMF = JSON.parse(localStorage.getItem(cacheKeyMF));
         const now = Date.now();
 
-        if (!mock && cachedDataMF && cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
-            && (now - cachedDataWeek.timestamp < cacheDuration) && (now - cachedDataMF.timestamp < cacheDuration)) {
-            console.log("Données en cache");
-            displayData(cachedDataMF.data, cachedDataDay.data, cachedDataWeek.data);
-        } else {
-            try {
-                console.log("Données non cachées");
-                document.getElementById("loading-message").style.display = "block";
-                const [responseDay, responseWeek, responseMF] = await Promise.all([
-                    fetch(mock ? 'json/day.json' : proxyUrlDay),
-                    fetch(mock ? 'json/week.json' : proxyUrlWeek),
-                    fetch(mock ? 'json/vigilance.json' : proxyUrlVigilance),
-                ]);
+        // Fonction pour récupérer et gérer les données d'une API
+        async function fetchData(apiUrl, cacheKey) {
+            const cachedData = JSON.parse(localStorage.getItem(cacheKey));
 
-                if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
-                if (!mock && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
-                if (!mock && !responseMF.ok) throw new Error(`HTTP Error Week: ${responseMF.status}`);
+            // Vérifier si les données en cache sont encore valides
+            if (!mock && cachedData && (now - cachedData.timestamp < cacheDuration)) {
+                console.log("Données en cache pour " + cacheKey);
+                return cachedData.data; // Retourner les données mises en cache
+            } else {
+                try {
+                    console.log("Données non cachées pour " + cacheKey);
+                    const response = await fetch(mock ? `json/${cacheKey}.json` : apiUrl);
 
-                const dataDay = await responseDay.json();
-                const dataWeek = await responseWeek.json();
-                const dataMF = await responseMF.json();
+                    if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
-                if (!mock) {
-                    console.log("Mise en cache des données...");
-                    localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
-                    localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
-                    localStorage.setItem(cacheKeyMF, JSON.stringify({ data: dataMF, timestamp: now }));
-                    console.log("Données mises en cache !");
+                    const data = await response.json();
+
+                    if (!mock) {
+                        console.log("Mise en cache des données pour " + cacheKey);
+                        localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+                        console.log("Données mises en cache pour " + cacheKey);
+                    }
+                    return data; // Retourner les données récupérées
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
+                    return null; // Retourner null en cas d'erreur
                 }
-
-                displayData(dataMF, dataDay, dataWeek);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données :", error);
-                document.getElementById("loading-message").textContent = "Une erreur est survenue.";
-            } finally {
-                document.getElementById("loading-message").style.display = "none";
             }
         }
-    }
 
-    function getHighestAlert(data) {
-        const colors = {
-            "vert": 1,
-            "jaune": 2,
-            "orange": 3,
-            "rouge": 4
-        };
+        // Appels API indépendants
+        const dayPromise = fetchData(proxyUrlDay, 'day');
+        const weekPromise = fetchData(proxyUrlWeek, 'week');
+        const vigilancePromise = fetchData(proxyUrlVigilance, 'vigilance');
 
-        let highestAlert = {
-            color: null,
-            phenomena: {}, // Un objet pour stocker les phénomènes et leurs dates
-            highestLevel: 0
-        };
-
-        data.results.forEach(entry => {
-            const color = entry.color;
-            const level = colors[color];
-
-            if (level > highestAlert.highestLevel) {
-                // Nouvelle alerte plus élevée trouvée
-                highestAlert = {
-                    color: color,
-                    phenomena: {
-                        [entry.phenomenon]: {
-                            beginTime: entry.begin_time,
-                            endTime: entry.end_time
-                        }
-                    },
-                    highestLevel: level
-                };
-            } else if (level === highestAlert.highestLevel) {
-                // Si le niveau est le même, ajouter le phénomène et ses dates
-                if (!highestAlert.phenomena[entry.phenomenon]) {
-                    highestAlert.phenomena[entry.phenomenon] = {
-                        beginTime: entry.begin_time,
-                        endTime: entry.end_time
-                    };
-                }
+        // Gérer les résultats lorsqu'ils sont disponibles
+        Promise.all([dayPromise, weekPromise, vigilancePromise]).then(([dataDay, dataWeek, dataVigilance]) => {
+            if (dataVigilance) {
+                displayDataVigilance(dataVigilance); // Afficher les données de vigilance et météorologiques
             }
+            // Vous pouvez gérer les autres données ici si besoin
+            if (dataDay) {
+                displayDataDay(dataDay);
+            }
+            if (dataWeek) {
+                displayDataWeek(dataWeek);
+            }
+        }).catch(error => {
+            console.error("Erreur lors de la gestion des données récupérées :", error);
+        }).finally(() => {
+            document.getElementById("loading-message").style.display = "none";
         });
-
-        return highestAlert.color ? highestAlert : null; // Si aucune alerte n'est trouvée
+s
+        // Afficher le message de chargement
+        document.getElementById("loading-message").style.display = "block";
     }
 
     //Afficher les données des API
-    function displayData(dataVigilance, dataDay, dataWeek) {
+    function displayDataVigilance(dataVigilance) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message").style.display = "none";
         document.getElementById("vigilance-container").style.display = "block";
-        document.getElementById("day-container").style.display = "block";
-        document.getElementById("week-container").style.display = "block";
 
         fillVigilance(dataVigilance);
+    }
+    function displayDataDay(dataDay) {
+        // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
+        document.getElementById("loading-message").style.display = "none";
+        document.getElementById("day-container").style.display = "block";
+
         fillTableDay(dataDay);
-        fillTableWeek(dataWeek);
 
         // Générer les graphiques pour les données de la journée
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
         createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+    }
+    function displayDataWeek(dataWeek) {
+        // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
+        document.getElementById("loading-message").style.display = "none";
+        document.getElementById("week-container").style.display = "block";
+
+        fillTableWeek(dataWeek);
 
         // Générer les graphiques pour les données de la semaine
         createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
@@ -235,30 +215,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonction de remplissage des tableaux
-    function fillVigilance(data){
-        const vigilanceContainer = document.getElementById("vigilance-container");
+    function fillVigilance(data) {
+        if (data.results && data.results.length > 0) {
+            // Trier les résultats par color_id pour obtenir la vigilance la plus forte
+            data.results.sort((a, b) => b.color_id - a.color_id);
 
-        const highestAlert = getHighestAlert(data);
-        /*if (highestAlert) {
-            const table = document.createElement('table');
-            const headerRow = table.insertRow();
-            headerRow.insertCell().innerText = 'Couleur de Vigilance';
-            headerRow.insertCell().innerText = 'Phénomène';
-            headerRow.insertCell().innerText = 'Début';
-            headerRow.insertCell().innerText = 'Fin';
-    
-            for (const [phenomenon, dates] of Object.entries(highestAlert.phenomena)) {
-                const row = table.insertRow();
-                row.insertCell().innerText = highestAlert.color;
-                row.insertCell().innerText = phenomenon;
-                row.insertCell().innerText = dates.beginTime;
-                row.isnsertCell().innerText = dates.endTime;
-            }
-    
-            vigilanceContainer.appendChild(table);
-        } else {
-            vigilanceContainer.innerText = 'Aucune alerte trouvée.';
-        }*/
+            // Récupérer la vigilance la plus forte
+            const highestVigilance = data.results[0];
+            
+            // Affichage de la pastille et des détails
+            const pastille = document.getElementById('pastille');
+            const phenomenonName = document.getElementById('phenomenon-name');
+            const vigilanceDetails = document.getElementById('vigilance-details');
+            const vigilanceEncart = document.getElementById('vigilance-encart');
+
+            // Déterminer la couleur de la pastille
+            const colorMap = {
+                1: 'green',   // vert
+                2: 'yellow',  // jaune
+                3: 'orange',  // orange
+                4: 'red'      // rouge
+            };
+
+            pastille.style.backgroundColor = colorMap[highestVigilance.color_id];
+            phenomenonName.textContent = highestVigilance.phenomenon;
+
+            // Affichage des périodes
+            vigilanceDetails.innerHTML = `Début: ${new Date(highestVigilance.begin_time).toLocaleString()}<br>Fin: ${new Date(highestVigilance.end_time).toLocaleString()}`;
+            
+            vigilanceEncart.style.display = 'block'; // Afficher l'encart
+        }
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');

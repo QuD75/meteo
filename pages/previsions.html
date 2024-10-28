@@ -22,22 +22,10 @@
 
         <div id="loading-message" style="display: none;">En attente des données... veuillez patienter</div>
 
-        <div id="vigilance-container" style="display: none;">
-            <div class="tab">
-                <table id="vigilance-tab">
-                    <thead>
-                        <tr id="vigilance-row">
-                            <th>Vigilance</th>
-                            <th>Phénomène</th>
-                            <th>Début</th>
-                            <th>Fin</th>
-                        </tr>
-                    </thead>
-                    <tbody id="vigilance-body">
-                        <!-- Les lignes seront ajoutées ici par JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+        <div id="vigilance-encart" style="display: none; border: 1px solid #ccc; padding: 15px; margin: 20px 0;">
+            <div id="pastille" style="width: 20px; height: 20px; border-radius: 50%; display: inline-block;"></div>
+            <strong id="phenomenon-name"></strong>
+            <div id="vigilance-details"></div>
         </div>
 
         <div id="day-container" style="display: none;">
