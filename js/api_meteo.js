@@ -17,46 +17,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
     const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
-    const proxyUrlDay = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlDay}`;
-    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlWeek}`;
+    const apiMF = 'https://public-api.meteofrance.fr/public/DPVigilance/v1/textesvigilance/encours';
+    const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
+    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
+    const proxyUrlMF = `https://proxy-ddj0.onrender.com/meteofrance?url=${apiMF}`;
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
+    const cacheKeyMF = 'meteofranceDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
     async function getApiData(mock) {
         console.log(mock ? "Données mockées" : "Données non mockées");
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
+        const cachedDataMF = JSON.parse(localStorage.getItem(cacheKeyMF));
         const now = Date.now();
 
-        if (!mock && cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
-            && (now - cachedDataWeek.timestamp < cacheDuration)) {
+        if (!mock && cachedDataMF && cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
+            && (now - cachedDataWeek.timestamp < cacheDuration) && (now - cachedDataMF.timestamp < cacheDuration)) {
             console.log("Données en cache");
-            displayData(cachedDataDay.data, cachedDataWeek.data);
+            displayData(cachedDataMF.data, cachedDataDay.data, cachedDataWeek.data);
         } else {
             try {
                 console.log("Données non cachées");
                 document.getElementById("loading-message").style.display = "block";
-                const [responseDay, responseWeek] = await Promise.all([
+                const [responseDay, responseWeek, responseMF] = await Promise.all([
                     fetch(mock ? 'js/day.json' : proxyUrlDay),
-                    fetch(mock ? 'js/week.json' : proxyUrlWeek)
+                    fetch(mock ? 'js/week.json' : proxyUrlWeek),
+                    fetch(mock ? 'js/mf.json' : proxyUrlMF),
                 ]);
 
                 if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
                 if (!mock && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
+                if (!mock && !responseMF.ok) throw new Error(`HTTP Error Week: ${responseMF.status}`);
 
                 const dataDay = await responseDay.json();
                 const dataWeek = await responseWeek.json();
+                const dataMF = await responseMF.json();
 
                 if (!mock) {
                     console.log("Mise en cache des données...");
                     localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
                     localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
+                    localStorage.setItem(cacheKeyMF, JSON.stringify({ data: dataMF, timestamp: now }));
                     console.log("Données mises en cache !");
                 }
 
-                displayData(dataDay, dataWeek);
+                displayData(dataMF, dataDay, dataWeek);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
@@ -72,7 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
     }
 
-    function displayData(dataDay, dataWeek) {
+    function displayData(dataMF, dataDay, dataWeek) {
+
+        console.log(dataMF);
+
         document.getElementById("loading-message").style.display = "none";
         document.getElementById("day-container").style.display = "block";
         document.getElementById("week-container").style.display = "block";
