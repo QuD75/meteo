@@ -1180,18 +1180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         fillTableWeek(dataWeek);
 
         // Générer chaque graphique avec les données pertinentes
-        createChart('temperature-day-chart', 'de la température', "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChart('precipitation-day-chart', 'des précipitations', "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-day-chart', 'du vent', "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', dataDay.data[3].coordinates[0]);
-        createChart('pressure-day-chart', 'de la pression', "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', dataDay.data[3].coordinates[0]);
+        createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
 
-        createChart('temperature-week-chart', 'de la température', "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChart('precipitation-week-chart', 'des précipitations', "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-week-chart', 'du vent', "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 153, 0, 1)', 'rgba(204, 153, 0, 0.2)', dataDay.data[3].coordinates[0]);
-        createChart('pressure-week-chart', 'de la pression', "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Température (°C)", dataWeek.data[2].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)', null, dataWeek.data[3].coordinates[0]);
+        createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Pluie (mm)", dataWeek.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('pressure-week-chart', 'de la pression sur les 7 prochaines jours', "Pression (hPa)", dataWeek.data[4].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
 
-    function createChart(elementId, label, y, data, type, borderColor, backgroundColor, secondaryData = null) {
+    function createChart(elementId, label, y, data, type, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
         const ctx = document.getElementById(elementId).getContext('2d');
         const labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
         const values = data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
@@ -1210,15 +1209,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ];
 
-        if (secondaryData) {
-            const secondaryValues = secondaryData.dates.map(date => date.value * 3.6);
+        if (secondaryDataWind) {
+            const secondaryValues = secondaryDataWind.dates.map(date => date.value * 3.6);
             datasets.push({
-                label: 'Rafales (km/h)',
                 pointRadius: 0,
                 data: secondaryValues,
                 borderColor: 'rgba(255, 165, 0, 1)',
                 backgroundColor: 'rgba(255, 165, 0, 0.2)',
                 fill: '-1'
+            });
+        }
+
+        if (secondaryDataTemp) {
+            const secondaryValues = secondaryDataTemp.dates.map(date => date.value);
+            datasets.push({
+                pointRadius: 0,
+                data: secondaryValues,
+                borderColor: 'rgba(255, 165, 0, 1)',
+                backgroundColor: 'rgba(255, 165, 0, 0.2)',
             });
         }
 
@@ -1233,7 +1241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     legend: { display: false },
                     title: {
                         display: true,
-                        text: `Évolution ${label} dans les prochaines 24h`,
+                        text: `Évolution ${label}`,
                         font: { size: 20 }
                     }
                 },
