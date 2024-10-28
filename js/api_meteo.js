@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
-    const url = new URL(window.location.href);
     let previousMockValue = getMockValue();
 
     async function getApiData() {
@@ -77,13 +76,22 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Cache vidé en raison d'un changement de paramètre 'mock'");
     }
 
-    setInterval(() => {
-        const currentMockValue = getMockValue();
-        if (currentMockValue !== previousMockValue) {
-            clearCache(); // Vide le cache si le paramètre a changé
-            previousMockValue = currentMockValue; // Met à jour la valeur précédente
-        }
-    }, 1000);
+    // Fonction d'initialisation
+    function init() {
+        let previousMockValue = getMockValue();
+
+        // Vérifie les changements dans l'URL à intervalles réguliers
+        setInterval(() => {
+            const currentMockValue = getMockValue();
+            if (currentMockValue !== previousMockValue) {
+                clearCache(); // Vide le cache si le paramètre a changé
+                previousMockValue = currentMockValue; // Met à jour la valeur précédente
+            }
+        }, 1000); // Vérifie toutes les secondes (ajuste si nécessaire)
+    }
+
+    // Appel de la fonction d'initialisation lorsque la page est chargée
+    window.onload = init;
 
     function displayData(dataDay, dataWeek) {
         document.getElementById("loading-message").style.display = "none";
