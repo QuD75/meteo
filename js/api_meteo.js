@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
-    const mockDay = {
+    /*const mockDay = {
         "version": "3.0",
         "user": "quentin_dusserre_quentin",
         "dateGenerated": "2024-10-28T09:09:00Z",
@@ -1131,6 +1131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ]
     };
+    */
 
     async function getApiData() {
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
@@ -1143,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             try {
                 document.getElementById("loading-message").style.display = "block";
-                /*const [responseDay, responseWeek] = await Promise.all([
+                const [responseDay, responseWeek] = await Promise.all([
                     fetch(proxyUrlDay),
                     fetch(proxyUrlWeek)
                 ]);
@@ -1156,13 +1157,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
                 localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
-                */
 
-                localStorage.setItem(cacheKeyDay, JSON.stringify({ data: mockDay, timestamp: now }));
-                localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: mockWeek, timestamp: now }));
+                //localStorage.setItem(cacheKeyDay, JSON.stringify({ data: mockDay, timestamp: now }));
+                //localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: mockWeek, timestamp: now }));
 
-                //displayData(dataDay, dataWeek);
-                displayData(mockDay, mockWeek);
+                displayData(dataDay, dataWeek);
+                //displayData(mockDay, mockWeek);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
