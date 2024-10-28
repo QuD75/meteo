@@ -119,27 +119,25 @@ footer a:hover {
     table-layout: fixed;
 }
 
-#weather-day-tab th, #weather-day-tab td, #weather-week-tab th, #weather-week-tab td {
+th, td, th, td {
     padding-left: 0;
     padding-right: 0;
     border: 1px solid var(--border-color);
 }
 
-#weather-day-tab th, #weather-week-tab th {
+th {
     padding-top: 5px;    /* Espace en haut */
     padding-bottom: 5px;  /* Espace en bas */
     background-color: var(--primary-color);
     color: var(--white-color);
 }
 
-#weather-day-tab td, #weather-week-tab td {
+td {
     background-color: var(--light-background);
 }
 
-#weather-day-tab th:first-child,
-#weather-day-tab td:first-child,
-#weather-week-tab th:first-child,
-#weather-week-tab td:first-child {
+th:first-child,
+td:first-child {
     width: 150px;
     max-width: 150px;
 }
