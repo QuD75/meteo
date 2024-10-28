@@ -25,41 +25,49 @@ document.addEventListener('DOMContentLoaded', () => {
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
         const cachedDataWeek = JSON.parse(localStorage.getItem(cacheKeyWeek));
         const now = Date.now();
-
-        // Vérifiez si les données mises en cache sont valides
-        if (cachedDataDay && cachedDataWeek && (now - cachedDataDay.timestamp < cacheDuration)
-            && (now - cachedDataWeek.timestamp < cacheDuration)) {
-            displayData(cachedDataDay.data, cachedDataWeek.data); // Affichez les données des deux jours et de la semaine
+    
+        const isDayCacheValid = cachedDataDay && (now - cachedDataDay.timestamp < cacheDuration);
+        const isWeekCacheValid = cachedDataWeek && (now - cachedDataWeek.timestamp < cacheDuration);
+    
+        if (isDayCacheValid && isWeekCacheValid) {
+            displayData(cachedDataDay.data, cachedDataWeek.data);
         } else {
             try {
                 document.getElementById("loading-message").style.display = "block";
-
-                // Récupération des données en parallèle
-                const [responseDay, responseWeek] = await Promise.all([
-                    fetch(proxyUrlDay),
-                    fetch(proxyUrlWeek)
-                ]);
-
-                // Vérifiez si les réponses sont valides
-                if (!responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
-                if (!responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
-
-                const dataDay = await responseDay.json();
-                const dataWeek = await responseWeek.json();
-
-                // Stockez les données dans le cache
-                localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
-                localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
-
-                displayData(dataDay, dataWeek); // Affichez les données des deux
+    
+                const requests = [];
+                if (!isDayCacheValid) requests.push(fetch(proxyUrlDay));
+                if (!isWeekCacheValid) requests.push(fetch(proxyUrlWeek));
+    
+                const responses = await Promise.all(requests);
+    
+                if (!isDayCacheValid) {
+                    const responseDay = responses.shift();
+                    if (!responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
+                    const dataDay = await responseDay.json();
+                    localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
+                }
+    
+                if (!isWeekCacheValid) {
+                    const responseWeek = responses.shift();
+                    if (!responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
+                    const dataWeek = await responseWeek.json();
+                    localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
+                }
+    
+                displayData(
+                    JSON.parse(localStorage.getItem(cacheKeyDay)).data,
+                    JSON.parse(localStorage.getItem(cacheKeyWeek)).data
+                );
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
             } finally {
-                document.getElementById("loading-message").style.display = "none"; // Masquez le message de chargement
+                document.getElementById("loading-message").style.display = "none";
             }
         }
     }
+    
 
     function displayData(dataDay, dataWeek) {
         document.getElementById("loading-message").style.display = "none";
