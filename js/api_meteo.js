@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayDataVigilance(dataVigilance) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message").style.display = "none";
-        document.getElementById("vigilance-container").style.display = "block";
+        document.getElementById("vigilance-encart").style.display = "block";
 
         fillVigilance(dataVigilance);
     }
