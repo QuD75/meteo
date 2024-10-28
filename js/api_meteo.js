@@ -223,6 +223,34 @@ document.addEventListener('DOMContentLoaded', () => {
             // Filtrer pour obtenir toutes les vigilances du niveau le plus élevé
             const highestVigilances = data.results.filter(vigilance => vigilance.color_id === highestVigilanceLevel);
     
+            // Regrouper les vigilances par phénomène et fusionner les périodes
+            const vigilanceGroups = {};
+    
+            highestVigilances.forEach(vigilance => {
+                const key = `${vigilance.phenomenon}-${vigilance.color_id}`;
+                if (!vigilanceGroups[key]) {
+                    vigilanceGroups[key] = {
+                        phenomenon: vigilance.phenomenon,
+                        color_id: vigilance.color_id,
+                        periods: []
+                    };
+                }
+                vigilanceGroups[key].periods.push({
+                    begin_time: new Date(vigilance.begin_time),
+                    end_time: new Date(vigilance.end_time)
+                });
+            });
+    
+            // Fusionner les périodes
+            const mergedVigilances = Object.values(vigilanceGroups).map(group => {
+                const mergedPeriods = mergePeriods(group.periods);
+                return {
+                    phenomenon: group.phenomenon,
+                    color_id: group.color_id,
+                    periods: mergedPeriods
+                };
+            });
+    
             // Affichage de la pastille et des détails
             const pastille = document.getElementById('pastille');
             const phenomenonName = document.getElementById('phenomenon-name');
@@ -238,13 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
             };
     
             pastille.style.backgroundColor = colorMap[highestVigilanceLevel];
+            phenomenonName.textContent = mergedVigilances.map(v => v.phenomenon).join(', ');
     
-            // Afficher les noms des phénomènes
-            phenomenonName.textContent = highestVigilances.map(vigilance => vigilance.phenomenon).join(', ');
-    
-            // Affichage des périodes pour toutes les vigilances du niveau le plus élevé
-            vigilanceDetails.innerHTML = highestVigilances.map(vigilance => 
-                `Phénomène: ${vigilance.phenomenon}<br>Début: ${new Date(vigilance.begin_time).toLocaleString()}<br>Fin: ${new Date(vigilance.end_time).toLocaleString()}<br><br>`
+            // Affichage des périodes fusionnées
+            vigilanceDetails.innerHTML = mergedVigilances.map(vigilance => 
+                `Phénomène: ${vigilance.phenomenon}<br>${vigilance.periods.map(period => 
+                    `Période: Début: ${period.begin_time.toLocaleString()} - Fin: ${period.end_time.toLocaleString()}`
+                ).join('<br>')}<br><br>`
             ).join('');
     
             vigilanceEncart.style.display = 'block'; // Afficher l'encart
@@ -252,6 +280,29 @@ document.addEventListener('DOMContentLoaded', () => {
             vigilanceEncart.style.display = 'none'; // Cacher l'encart si aucune donnée
         }
     }
+    function mergePeriods(periods) {
+        // Tri des périodes par date de début
+        periods.sort((a, b) => a.begin_time - b.begin_time);
+    
+        const merged = [];
+        let currentPeriod = periods[0];
+    
+        for (let i = 1; i < periods.length; i++) {
+            if (currentPeriod.end_time >= periods[i].begin_time) {
+                // Il y a chevauchement, fusionner les périodes
+                currentPeriod.end_time = new Date(Math.max(currentPeriod.end_time, periods[i].end_time));
+            } else {
+                // Pas de chevauchement, ajouter la période courante à la liste et passer à la suivante
+                merged.push(currentPeriod);
+                currentPeriod = periods[i];
+            }
+        }
+    
+        // Ajouter la dernière période
+        merged.push(currentPeriod);
+    
+        return merged;
+    } 
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
