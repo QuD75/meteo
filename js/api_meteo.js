@@ -27,6 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyMF = 'meteofranceDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
+    //Récupérer si les données doivent être mockées ou non
+    function getMockValue() {
+        const url = new URL(window.location.href);
+        const mockParam = url.searchParams.get('mock');
+        return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
+    }
+
+    //Appel aux API
     async function getApiData(mock) {
         console.log(mock ? "Données mockées" : "Données non mockées");
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
@@ -74,53 +82,85 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function getMockValue() {
-        const url = new URL(window.location.href);
-        const mockParam = url.searchParams.get('mock');
-        return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
-    }
-
+    //Afficher les données des API
     function displayData(dataMF, dataDay, dataWeek) {
+        // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message").style.display = "none";
         document.getElementById("day-container").style.display = "block";
         document.getElementById("week-container").style.display = "block";
+
+        // Remplir les tables avec les données
         fillTableDay(dataDay);
         fillTableWeek(dataWeek);
 
-        // Générer chaque graphique avec les données pertinentes
+        // Générer les graphiques pour les données de la journée
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
         createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
 
+        // Générer les graphiques pour les données de la semaine
         createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
         createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
     }
 
-    function createChart(elementId, label, x, y, data, type, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
+    //Fonction de générations du graphique
+    function createChart(elementId, label, xAxisLabel, yAxisLabel, data, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
         const ctx = document.getElementById(elementId).getContext('2d');
-        let labels = null;
-        if (elementId.includes('day')) {
-            labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
-        }
-        if (elementId.includes('week')) {
-            labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { day: '2-digit', month: '2-digit' }));
-        }
-        const values = data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
+        const labels = getChartLabels(elementId, data);
+        const values = getChartValues(data, label);
 
-        const datasets = [
-            {
-                label,
-                data: values,
-                borderColor,
-                backgroundColor,
-                borderWidth: 3,
-                pointRadius: 0,
-                tension: 0.5,
-                cubicInterpolationMode: 'monotone',
-                fill: secondaryDataWind ? true : 'start'
+        const datasets = createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
+
+        // Créer le graphique
+        new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels,
+                datasets
+            },
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: `Évolution ${label}`,
+                        font: { size: 20 }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: xAxisLabel },
+                        ticks: { maxRotation: 30, minRotation: 30 }
+                    },
+                    y: {
+                        title: { display: true, text: yAxisLabel },
+                        ticks: { callback: value => value.toFixed(0) }
+                    }
+                }
             }
-        ];
+        });
+    }
+    function getChartLabels(elementId, data) {
+        return elementId.includes('day')
+            ? data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }))
+            : data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { day: '2-digit', month: '2-digit' }));
+    }
+    function getChartValues(data, label) {
+        return data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
+    }
+    function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
+        const datasets = [{
+            label,
+            data: values,
+            borderColor,
+            backgroundColor,
+            borderWidth: 3,
+            pointRadius: 0,
+            tension: 0.5,
+            cubicInterpolationMode: 'monotone',
+            fill: secondaryDataWind ? true : 'start'
+        }];
 
         if (secondaryDataWind) {
             const secondaryValues = secondaryDataWind.dates.map(date => date.value * 3.6);
@@ -146,35 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        new Chart(ctx, {
-            type,
-            data: {
-                labels,
-                datasets
-            },
-            options: {
-                plugins: {
-                    legend: { display: false },
-                    title: {
-                        display: true,
-                        text: `Évolution ${label}`,
-                        font: { size: 20 }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: x },
-                        ticks: { maxRotation: 30, minRotation: 30 }
-                    },
-                    y: {
-                        title: { display: true, text: y },
-                        ticks: { callback: value => value.toFixed(0) }
-                    }
-                }
-            }
-        });
+        return datasets;
     }
-
+    
+    //Fonction de remplissage des tableaux
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
@@ -227,7 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fillSymbolRow(data.data[6], weatherRow);
         fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
-
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
@@ -241,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-
     function fillSymbolRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
@@ -253,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-
     function fillWindDirectionRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
@@ -265,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
         const sunRow = document.getElementById('sun-week-row');
@@ -333,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherRow.appendChild(td);
         });
     }
-
     function getParisTimezoneOffset(date) {
         // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
         const january = new Date(date.getFullYear(), 0, 1); // Janvier
@@ -344,7 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
-
     function getTemperatureColor(value) {
         let color;
         if (value < -10) {
@@ -369,14 +378,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-
     function getPrecipitationColor(value) {
         if (value < 0.1) return { color: 'rgb(255, 255, 255)', textColor: 'black' };
         if (value < 1) return { color: 'rgb(173, 216, 230)', textColor: 'black' };
         if (value <= 2) return { color: 'rgb(0, 191, 255)', textColor: 'black' };
         return { color: 'rgb(0, 0, 139)', textColor: 'white' };
     }
-
     function getWindColor(value) {
         let color;
         if (value < 20) {
@@ -392,7 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-
     function getWindDirectionIcon(wind_deg) {
         const directions = [
             { min: 348.75, max: 360, icon: 'icons/wind/n.png' },
@@ -415,7 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
         return directions.find(d => wind_deg >= d.min && wind_deg <= d.max)?.icon || 'icons/wind/unknown.png';
     }
-
     function getWeatherIcon(weather) {
         if (weather === 0) return 'icons/weather/wsymbol_0999_unknown.png';
         else if (weather === 1) return 'icons/weather/wsymbol_0001_sunny.png';
@@ -452,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (weather === 116) return 'icons/weather/wsymbol_0074_dust_sand_night.png';
         else return 'icons/weather/wsymbol_0999_unknown.png';
     }
-
     function getUVColor(value) {
         let color;
         if (value < 1) {
@@ -471,7 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-
     function getTextColor(color) {
         // Calcul de la luminosité pour définir la couleur du texte
         const rgb = color.match(/\d+/g).map(Number);
