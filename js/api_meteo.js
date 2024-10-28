@@ -23,10 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
+    let previousMockValue = getMockValue();
 
     // Fonction d'initialisation
     function init() {
-        let previousMockValue = getMockValue(); // Valeur initiale
         console.log("Valeur initiale : " + previousMockValue);
 
         // Vérifie les changements dans l'URL à intervalles réguliers
