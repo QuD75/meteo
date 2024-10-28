@@ -38,21 +38,22 @@ document.addEventListener('DOMContentLoaded', () => {
             displayData(cachedDataDay.data, cachedDataWeek.data);
         } else {
             try {
+                console.log("Données mockées :" + mockValue)
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek] = await Promise.all([
                     fetch(mockValue ? 'js/day.json' : proxyUrlDay),
-                    fetch(mockValue ? 'js/week.json': proxyUrlWeek)
+                    fetch(mockValue ? 'js/week.json' : proxyUrlWeek)
                 ]);
-    
+
                 if (!mockValue && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
                 if (!mockValue && !responseWeek.ok) throw new Error(`HTTP Error Week: ${responseWeek.status}`);
-    
+
                 const dataDay = await responseDay.json();
                 const dataWeek = await responseWeek.json();
-    
+
                 localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
                 localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
-                
+
                 displayData(dataDay, dataWeek);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
