@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const beginDateDay = currentHour.toISOString().split('.')[0] + 'Z';
     const beginDateWeek = tomorrowDay.toISOString().split('.')[0] + 'Z';
 
-    const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT24H:PT1H/${paramsDay}/${lat},${lon}/json`;
+    const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
     const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/proxy?url=${apiUrlWeek}`;
