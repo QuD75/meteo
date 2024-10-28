@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         data.data[2].coordinates[0].dates.forEach((dateData) => {
             const td = document.createElement('td');
-            const value = dateData.value.toFixed(1);
+            const value = dateData.value.toFixed(0);
             const { color, textColor } = getTemperatureColor(value);
             td.textContent = value;
             td.style.backgroundColor = color;
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         data.data[3].coordinates[0].dates.forEach((dateData) => {
             const td = document.createElement('td');
-            const value = dateData.value.toFixed(1);
+            const value = dateData.value.toFixed(0);
             const { color, textColor } = getTemperatureColor(value);
             td.textContent = value;
             td.style.backgroundColor = color;
