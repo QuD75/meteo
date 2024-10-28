@@ -178,9 +178,12 @@ td:first-child {
 }
 
 @media (max-width: 1200px) {
-    /* Table en mode bloc */
+    /* Permet au tableau d'occuper tout l'espace en largeur */
     #weather-day-tab, #weather-week-tab {
-        display: block;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        border: 1px solid var(--border-color);
     }
 
     /* Cache les en-têtes du tableau pour mobile */
@@ -188,27 +191,25 @@ td:first-child {
         display: none;
     }
 
-    /* Transforme chaque ligne en section verticale */
+    /* Transforme chaque ligne en une "colonne" verticale */
     #weather-day-tab tbody tr, #weather-week-tab tbody tr {
         display: flex;
         flex-direction: column;
         border: 1px solid var(--border-color);
-        margin-bottom: 10px;
         padding: 10px;
-        background-color: var(--light-background);
+        min-width: 150px; /* Ajuste la largeur minimale de chaque colonne */
     }
 
-    /* Style chaque cellule comme un bloc avec le nom de la colonne en gras */
+    /* Style chaque cellule dans une "colonne" */
     #weather-day-tab tbody tr td, #weather-week-tab tbody tr td {
-        display: block;
-        text-align: left;
+        text-align: center;
         padding: 5px 0;
     }
 
-    /* Utilisation de la première colonne comme un titre pour les lignes */
+    /* La première cellule de chaque "colonne" en gras pour servir de titre */
     #weather-day-tab tbody tr td:first-child,
     #weather-week-tab tbody tr td:first-child {
         font-weight: bold;
-        margin-bottom: 5px;
+        text-align: center;
     }
 }
