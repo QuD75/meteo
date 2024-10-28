@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
     const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
-    const apiMF = 'https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%2266%22&limit=20';
+    const apiVigilance = 'https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%2266%22&limit=20';
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
-    const proxyUrlMF = `https://proxy-ddj0.onrender.com/meteofrance?url=${apiMF}`;
+    const proxyUrlVigilance = `https://proxy-ddj0.onrender.com/meteofrance?url=${apiVigilance}`;
 
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const [responseDay, responseWeek, responseMF] = await Promise.all([
                     fetch(mock ? 'js/day.json' : proxyUrlDay),
                     fetch(mock ? 'js/week.json' : proxyUrlWeek),
-                    fetch(mock ? 'js/mf.json' : proxyUrlMF),
+                    fetch(mock ? 'js/vigilance.json' : proxyUrlVigilance),
                 ]);
 
                 if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
