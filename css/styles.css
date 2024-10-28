@@ -176,3 +176,43 @@ td:first-child {
     width: 100%;
     height: 600px;
 }
+
+@media (max-width: 600px) {
+    /* Transforme le tableau en affichage vertical */
+    #weather-day-tab, #weather-week-tab,
+    #weather-day-tab thead, #weather-week-tab thead,
+    #weather-day-tab tbody, #weather-week-tab tbody,
+    #weather-day-tab tr, #weather-week-tab tr {
+        display: block;
+    }
+
+    /* Cache les en-têtes de colonne */
+    #weather-day-tab thead tr, #weather-week-tab thead tr {
+        display: none;
+    }
+
+    /* Style pour chaque ligne en mode mobile */
+    #weather-day-tab tbody tr, #weather-week-tab tbody tr {
+        border: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+        padding: 10px;
+        background-color: var(--light-background);
+    }
+
+    /* Chaque cellule affiche le label de la colonne */
+    #weather-day-tab td::before, #weather-week-tab td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: inline-block;
+        width: 150px; /* largeur des labels */
+        color: var(--text-color);
+        margin-right: 10px;
+    }
+
+    /* Style pour les cellules */
+    #weather-day-tab td, #weather-week-tab td {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+    }
+}
