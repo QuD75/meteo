@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
     const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
-    const apiMF = 'https://public-api.meteofrance.fr/public/DPVigilance/v1/textesvigilance/encours';
+    const apiMF = 'https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%2266%22&limit=20';
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
     const proxyUrlMF = `https://proxy-ddj0.onrender.com/meteofrance?url=${apiMF}`;
@@ -82,12 +82,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function getHighestAlert(data) {
+        const colors = {
+            "vert": 1,
+            "jaune": 2,
+            "orange": 3,
+            "rouge": 4
+        };
+
+        let highestAlert = {
+            color: null,
+            phenomena: {}, // Un objet pour stocker les phénomènes et leurs dates
+            highestLevel: 0
+        };
+
+        data.results.forEach(entry => {
+            const color = entry.color;
+            const level = colors[color];
+
+            if (level > highestAlert.highestLevel) {
+                // Nouvelle alerte plus élevée trouvée
+                highestAlert = {
+                    color: color,
+                    phenomena: {
+                        [entry.phenomenon]: {
+                            beginTime: entry.begin_time,
+                            endTime: entry.end_time
+                        }
+                    },
+                    highestLevel: level
+                };
+            } else if (level === highestAlert.highestLevel) {
+                // Si le niveau est le même, ajouter le phénomène et ses dates
+                if (!highestAlert.phenomena[entry.phenomenon]) {
+                    highestAlert.phenomena[entry.phenomenon] = {
+                        beginTime: entry.begin_time,
+                        endTime: entry.end_time
+                    };
+                }
+            }
+        });
+
+        return highestAlert.color ? highestAlert : null; // Si aucune alerte n'est trouvée
+    }
+
     //Afficher les données des API
     function displayData(dataMF, dataDay, dataWeek) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message").style.display = "none";
+        document.getElementById("vigilance-container").style.display = "block";
         document.getElementById("day-container").style.display = "block";
         document.getElementById("week-container").style.display = "block";
+
+        const vigilanceContainer = document.getElementById("vigilance-container");
+
+        const highestAlert = getHighestAlert(dataMF);
+        if (highestAlert) {
+            const table = document.createElement('table');
+            const headerRow = table.insertRow();
+            headerRow.insertCell().innerText = 'Couleur de Vigilance';
+            headerRow.insertCell().innerText = 'Phénomène';
+            headerRow.insertCell().innerText = 'Début';
+            headerRow.insertCell().innerText = 'Fin';
+    
+            for (const [phenomenon, dates] of Object.entries(highestAlert.phenomena)) {
+                const row = table.insertRow();
+                row.insertCell().innerText = highestAlert.color;
+                row.insertCell().innerText = phenomenon;
+                row.insertCell().innerText = dates.beginTime;
+                row.insertCell().innerText = dates.endTime;
+            }
+    
+            vigilanceContainer.appendChild(table);
+        } else {
+            vigilanceContainer.innerText = 'Aucune alerte trouvée.';
+        }
 
         // Remplir les tables avec les données
         fillTableDay(dataDay);
@@ -188,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return datasets;
     }
-    
+
     //Fonction de remplissage des tableaux
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
