@@ -107,7 +107,6 @@ footer a:hover {
 }
 
 .tab {
-    text-align: center !important;
     margin-bottom: 20px;
     overflow-x: auto;
     border-radius: 12px;
@@ -121,10 +120,11 @@ footer a:hover {
 }
 
 #weather-day-tab th, #weather-day-tab td, #weather-week-tab th, #weather-week-tab td {
-    padding: 0px;
+    padding-top: 15px;    /* Espace en haut */
+    padding-bottom: 10px;  /* Espace en bas */
+    padding-left: 0;      /* Aucune espace à gauche */
+    padding-right: 0;   
     border: 1px solid var(--border-color);
-    text-align: center !important;
-    vertical-align: middle !important;
 }
 
 #weather-day-tab th, #weather-week-tab th {
