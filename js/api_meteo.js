@@ -1,5 +1,3 @@
-let previousMockValue = getMockValue();
-
 document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.2917';
     const lon = '-2.5201';
@@ -26,30 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
-    // Fonction d'initialisation
-    function init() {
-        console.log("Valeur initiale : " + previousMockValue);
-
-        // Vérifie les changements dans l'URL à intervalles réguliers
-        setInterval(() => {
-            const currentMockValue = getMockValue(); // Récupère la valeur actuelle
-            console.log("Valeur actuelle : " + currentMockValue);
-
-            // Si la valeur a changé, on vide le cache
-            if (currentMockValue !== previousMockValue) {
-                clearCache(); // Vide le cache si le paramètre a changé
-                console.log("Cache vidée");
-                previousMockValue = currentMockValue; // Met à jour la valeur précédente
-            }
-        }, 1000); // Vérifie toutes les secondes (ajuste si nécessaire)
-
-        // Appelle la fonction pour récupérer et afficher les données
-        getApiData(previousMockValue);
-    }
-
-    // Appel de la fonction d'initialisation lorsque la page est chargée
-    window.onload = init;
-
     async function getApiData(mock) {
         console.log(mock ? "Données mockées" : "Données non mockées");
         const cachedDataDay = JSON.parse(localStorage.getItem(cacheKeyDay));
@@ -75,8 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dataDay = await responseDay.json();
                 const dataWeek = await responseWeek.json();
 
-                localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
-                localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
+                if (!mock) {
+                    console.log("Mise en cache des données...");
+                    localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
+                    localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
+                    console.log("Données mises en cache !");
+                }
 
                 displayData(dataDay, dataWeek);
             } catch (error) {
@@ -92,12 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = new URL(window.location.href);
         const mockParam = url.searchParams.get('mock');
         return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
-    }
-
-    function clearCache() {
-        localStorage.removeItem(cacheKeyDay);
-        localStorage.removeItem(cacheKeyWeek);
-        console.log("Cache vidé en raison d'un changement de paramètre 'mock'");
     }
 
     function displayData(dataDay, dataWeek) {
@@ -492,4 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
         return luminosity < 128 ? 'white' : 'black';
     }
+
+    getApiData(getMockValue());
 });
