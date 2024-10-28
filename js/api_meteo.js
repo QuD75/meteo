@@ -1,3 +1,5 @@
+let previousMockValue = getMockValue();
+
 document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.2917';
     const lon = '-2.5201';
@@ -23,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheKeyDay = 'weatherDayDataCache';
     const cacheKeyWeek = 'weatherWeekDataCache';
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
-    let previousMockValue = getMockValue();
 
     // Fonction d'initialisation
     function init() {
