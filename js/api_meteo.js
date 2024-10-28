@@ -51,9 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Données non cachées");
                 document.getElementById("loading-message").style.display = "block";
                 const [responseDay, responseWeek, responseMF] = await Promise.all([
-                    fetch(mock ? 'js/day.json' : proxyUrlDay),
-                    fetch(mock ? 'js/week.json' : proxyUrlWeek),
-                    fetch(mock ? 'js/vigilance.json' : proxyUrlVigilance),
+                    fetch(mock ? 'json/day.json' : proxyUrlDay),
+                    fetch(mock ? 'json/week.json' : proxyUrlWeek),
+                    fetch(mock ? 'json/vigilance.json' : proxyUrlVigilance),
                 ]);
 
                 if (!mock && !responseDay.ok) throw new Error(`HTTP Error Day: ${responseDay.status}`);
