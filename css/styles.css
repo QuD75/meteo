@@ -186,20 +186,21 @@ td:first-child {
         border: 1px solid var(--border-color);
     }
 
-    /* Masque les en-têtes sur mobile */
-    #weather-day-tab thead, #weather-week-tab thead {
-        display: none;
-    }
-
     /* Transforme chaque ligne en "colonne" */
     #weather-day-tab tbody {
+        display: flex;
+    }
+    #weather-day-tab thead {
         display: flex;
     }
     #weather-week-tab tbody {
         display: flex;
     }
+    #weather-day-tab thead {
+        display: flex;
+    }
 
-    #weather-day-tab tbody tr, #weather-week-tab tbody tr {
+    #weather-day-tab tr, #weather-week-tab tr {
         display: flex;
         flex-direction: column;
         border: 1px solid var(--border-color);
@@ -208,7 +209,7 @@ td:first-child {
     }
 
     /* Style chaque cellule dans une "colonne" */
-    #weather-day-tab tbody tr td, #weather-week-tab tbody tr td {
+    #weather-day-tab tr td, #weather-week-tab tr td {
         text-align: center;
         padding: 5px 0;
     }
