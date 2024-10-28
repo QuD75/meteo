@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).finally(() => {
             document.getElementById("loading-message").style.display = "none";
         });
-s
+
         // Afficher le message de chargement
         document.getElementById("loading-message").style.display = "block";
     }
