@@ -1,52 +1,64 @@
-/* Styles de base existants */
+:root {
+    --primary-color: #0073e6;
+    --secondary-color: #005bb5;
+    --hover-color: #004494;
+    --background-color: #f0f0f0;
+    --light-background: #f9f9f9;
+    --text-color: #333;
+    --subtext-color: #666;
+    --white-color: white;
+    --border-color: #ddd;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: var(--background-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     text-align: center;
 }
-html, body {
-    height: 100%;
-}
-header {
-    background-color: #0073e6;
-    color: white;
+
+header, footer {
+    background-color: var(--primary-color);
+    color: var(--white-color);
     padding: 20px 0;
     text-align: center;
 }
+
 header h1 {
     margin: 0;
     font-size: 2.5em;
 }
-.header-link {
-    color: white;
-    text-decoration: none;
-}
+
 nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
-    background-color: #005bb5;
+    background-color: var(--secondary-color);
 }
+
 nav ul li {
     margin: 0 15px;
 }
+
 nav ul li a {
     text-decoration: none;
-    color: white;
+    color: var(--white-color);
     font-size: 1.2em;
     padding: 10px;
+    transition: background-color 0.3s ease;
 }
+
 nav ul li a:hover {
-    background-color: #004494;
+    background-color: var(--hover-color);
     border-radius: 5px;
 }
+
 main {
     padding: 20px;
     text-align: center;
@@ -54,25 +66,22 @@ main {
     width: 85%;
     margin: 0 auto;
 }
+
 main h2 {
     font-size: 2em;
-    color: #333;
+    color: var(--text-color);
 }
+
 main p {
     font-size: 1.2em;
-    color: #666;
+    color: var(--subtext-color);
 }
-footer {
-    background-color: #0073e6;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    width: 100%;
-}
+
 footer a {
-    color: white;
+    color: var(--white-color);
     text-decoration: none;
 }
+
 footer a:hover {
     text-decoration: underline;
 }
@@ -82,11 +91,6 @@ footer a:hover {
     width: 100%;
     text-align: center;
 }
-#day-container h2, #week-container h2 {
-    color: #333;
-    font-size: 30px;
-    margin-bottom: 30px;
-}
 
 .Tableau {
     text-align: center !important;
@@ -95,31 +99,37 @@ footer a:hover {
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 #weather-day, #weather-week {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    text-align: center;
 }
+
 #weather-day th, #weather-day td, #weather-week th, #weather-week td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     text-align: center !important;
     vertical-align: middle !important;
 }
+
 #weather-day th, #weather-week th {
-    background-color: #0073e6;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white-color);
 }
+
 #weather-day td, #weather-week td {
-    background-color: #f9f9f9;
+    background-color: var(--light-background);
 }
+
 #weather-day th:first-child,
-#weather-day td:first-child, #weather-week th:first-child,
+#weather-day td:first-child,
+#weather-week th:first-child,
 #weather-week td:first-child {
-    width: 140px; /* Ajuster la largeur selon les besoins */
+    width: 140px;
     max-width: 140px;
 }
+
 /* Cible les cellules sous la première ligne fusionnée */
 #temperature-24h-row td,
 #rain-24h-row td,
@@ -129,27 +139,26 @@ footer a:hover {
 #pressure-24h-row td,
 #uv-24h-row td,
 #weather-24h-row td {
-    width: 10px; /* Ajuste cette largeur selon le besoin pour chaque colonne de données */
+    width: 10px;
     max-width: 10px;
     text-align: center;
 }
 
 .grid-day-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Crée une grille de 2 colonnes */
-    grid-gap: 20px; /* Espacement entre les graphiques */
-    margin: 20px 0; /* Marge supérieure et inférieure pour le conteneur */
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    margin: 20px 0;
 }
 
 .Temp, .Rain, .Wind, .Pressure {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Assurez-vous que le canvas remplit le conteneur */
 .Temp canvas, .Rain canvas, .Wind canvas, .Pressure canvas {
     width: 100%;
-    height: 600px; /* Ajustez la hauteur selon vos besoins */
+    height: 600px;
 }
