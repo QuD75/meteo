@@ -27,8 +27,12 @@ header, footer {
     text-align: center;
 }
 
-footer {
+header {
     padding: 20px 0;
+}
+
+header a {
+    text-decoration: none;
 }
 
 header h1 {
