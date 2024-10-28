@@ -51,9 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(cacheKeyDay, JSON.stringify({ data: dataDay, timestamp: now }));
                 localStorage.setItem(cacheKeyWeek, JSON.stringify({ data: dataWeek, timestamp: now }));
                 
-
                 displayData(dataDay, dataWeek);
-                //displayData(mockDay, mockWeek);
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
                 document.getElementById("loading-message").textContent = "Une erreur est survenue.";
