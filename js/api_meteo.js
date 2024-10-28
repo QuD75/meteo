@@ -1399,6 +1399,16 @@ document.addEventListener('DOMContentLoaded', () => {
             td.style.color = textColor;
             rainRow.appendChild(td);
         });
+
+        data.data[5].coordinates[0].dates.forEach((dateData) => {
+            const td = document.createElement('td');
+            const weatherIcon = document.createElement('img');
+            weatherIcon.style.width = "30px";
+            weatherIcon.style.height = "30px";
+            weatherIcon.src = getWeatherIcon(dateData.value);
+            td.appendChild(weatherIcon);
+            weatherIcon.appendChild(td);
+        });
     }
 
     function getParisTimezoneOffset(date) {
