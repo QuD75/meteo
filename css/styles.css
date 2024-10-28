@@ -215,8 +215,8 @@ td:first-child {
     }
 
     /* La première cellule de chaque "colonne" en gras pour servir de titre */
-    #weather-day-tab tbody tr td:first-child,
-    #weather-week-tab tbody tr td:first-child {
+    #weather-day-tab tr td:first-child,
+    #weather-week-tab tr td:first-child {
         font-weight: bold;
         text-align: center;
     }
