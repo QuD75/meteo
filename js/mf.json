@@ -1,0 +1,785 @@
+{
+    "product": {
+        "warning_type": "vigilance",
+        "type_cdp": "cdp_textes",
+        "version_vigilance": "V6",
+        "version_cdp": "1.0.0",
+        "domain_id": "FRA",
+        "domain_name": "France",
+        "update_time": "2024-10-27T21:00:13Z",
+        "text_bloc_items": [
+            {
+                "domain_id": "FRA",
+                "domain_name": "France",
+                "bloc_title": "Bulletin de Vigilance météo national",
+                "bloc_id": "BULLETIN_NATIONAL",
+                "bloc_items": [
+                    {
+                        "id": "NAT_INCERTITUDE_PAYS",
+                        "type_name": "Prévisibilité et incertitudes",
+                        "type_group": "INCERTITUDE",
+                        "text_items": [
+                            {
+                                "type_code": "INCERTITUDE_PAYS_INCERTITUDE_NATIONALE",
+                                "hazard_code": null,
+                                "hazard_name": "tous aléas",
+                                "term_items": [
+                                    {
+                                        "term_names": "J",
+                                        "start_time": "2024-10-27T21:00:00Z",
+                                        "end_time": "2024-10-27T23:00:00Z",
+                                        "risk_name": "Jaune",
+                                        "risk_code": "2",
+                                        "risk_color": "#f9ff00",
+                                        "risk_level": 1,
+                                        "subdivision_text": [
+                                            {
+                                                "underline_text": "",
+                                                "text": [
+                                                    "/"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "domain_id": "ZDF_EST",
+                "domain_name": "Défense Est",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "ZDF_PARIS",
+                "domain_name": "Défense Paris",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "ZDF_NORD",
+                "domain_name": "Défense Nord",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "ZDF_SUD_EST",
+                "domain_name": "Défense Sud-Est",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "ZDF_SUD_OUEST",
+                "domain_name": "Défense Sud-Ouest",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "ZDF_SUD",
+                "domain_name": "Défense Sud",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "ZDF_OUEST",
+                "domain_name": "Défense Ouest",
+                "bloc_title": "Bulletin de Vigilance météo zonal",
+                "bloc_id": "BULLETIN_ZONAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "10",
+                "domain_name": "Aube",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "11",
+                "domain_name": "Aude",
+                "bloc_title": "Bulletin de Vigilance météo Arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "12",
+                "domain_name": "Aveyron",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "13",
+                "domain_name": "Bouches-du-Rhône",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "14",
+                "domain_name": "Calvados",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "15",
+                "domain_name": "Cantal",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "16",
+                "domain_name": "Charente",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "17",
+                "domain_name": "Charente-Maritime",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "18",
+                "domain_name": "Cher",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "19",
+                "domain_name": "Corrèze",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "21",
+                "domain_name": "Côte-d'Or",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "22",
+                "domain_name": "Côtes-d'Armor",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "23",
+                "domain_name": "Creuse",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "24",
+                "domain_name": "Dordogne",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "25",
+                "domain_name": "Doubs",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "26",
+                "domain_name": "Drôme",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "27",
+                "domain_name": "Eure",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "28",
+                "domain_name": "Eure-et-Loir",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "29",
+                "domain_name": "Finistère",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "30",
+                "domain_name": "Gard",
+                "bloc_title": "Bulletin de Vigilance météo Arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "31",
+                "domain_name": "Haute-Garonne",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "32",
+                "domain_name": "Gers",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "33",
+                "domain_name": "Gironde",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "34",
+                "domain_name": "Hérault",
+                "bloc_title": "Bulletin de Vigilance météo Arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "35",
+                "domain_name": "Ille-et-Vilaine",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "36",
+                "domain_name": "Indre",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "37",
+                "domain_name": "Indre-et-Loire",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "38",
+                "domain_name": "Isère",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "39",
+                "domain_name": "Jura",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "40",
+                "domain_name": "Landes",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "41",
+                "domain_name": "Loir-et-Cher",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "42",
+                "domain_name": "Loire",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "43",
+                "domain_name": "Haute-Loire",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "44",
+                "domain_name": "Loire-Atlantique",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "45",
+                "domain_name": "Loiret",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "46",
+                "domain_name": "Lot",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "47",
+                "domain_name": "Lot-et-Garonne",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "48",
+                "domain_name": "Lozère",
+                "bloc_title": "Bulletin de Vigilance météo Arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "49",
+                "domain_name": "Maine-et-Loire",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "50",
+                "domain_name": "Manche",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "51",
+                "domain_name": "Marne",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "52",
+                "domain_name": "Haute-Marne",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "53",
+                "domain_name": "Mayenne",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "54",
+                "domain_name": "Meurthe-et-Moselle",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "55",
+                "domain_name": "Meuse",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "56",
+                "domain_name": "Morbihan",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "57",
+                "domain_name": "Moselle",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "58",
+                "domain_name": "Nièvre",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "59",
+                "domain_name": "Nord",
+                "bloc_title": "Bulletin de Vigilance météo région Hauts-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "60",
+                "domain_name": "Oise",
+                "bloc_title": "Bulletin de Vigilance météo région Hauts-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "61",
+                "domain_name": "Orne",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "62",
+                "domain_name": "Pas-de-Calais",
+                "bloc_title": "Bulletin de Vigilance météo région Hauts-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "63",
+                "domain_name": "Puy-de-Dôme",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "64",
+                "domain_name": "Pyrénées-Atlantiques",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "65",
+                "domain_name": "Hautes-Pyrénées",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "66",
+                "domain_name": "Pyrénées-Orientales",
+                "bloc_title": "Bulletin de Vigilance météo Arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "67",
+                "domain_name": "Bas-Rhin",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "68",
+                "domain_name": "Haut-Rhin",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "70",
+                "domain_name": "Haute-Saône",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "71",
+                "domain_name": "Saône-et-Loire",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "72",
+                "domain_name": "Sarthe",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "73",
+                "domain_name": "Savoie",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "74",
+                "domain_name": "Haute-Savoie",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "69",
+                "domain_name": "Rhône",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "03",
+                "domain_name": "Allier",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "04",
+                "domain_name": "Alpes-de-Haute-Provence",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "05",
+                "domain_name": "Hautes-Alpes",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "06",
+                "domain_name": "Alpes-Maritimes",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "07",
+                "domain_name": "Ardèche",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "08",
+                "domain_name": "Ardennes",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "09",
+                "domain_name": "Ariège",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "2A",
+                "domain_name": "Corse-du-Sud",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "75",
+                "domain_name": "Paris",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "76",
+                "domain_name": "Seine-Maritime",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "77",
+                "domain_name": "Seine-et-Marne",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "78",
+                "domain_name": "Yvelines",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "79",
+                "domain_name": "Deux-Sèvres",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "80",
+                "domain_name": "Somme",
+                "bloc_title": "Bulletin de Vigilance météo région Hauts-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "81",
+                "domain_name": "Tarn",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "82",
+                "domain_name": "Tarn-et-Garonne",
+                "bloc_title": "Bulletin de Vigilance météo Ouest Occitanie",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "83",
+                "domain_name": "Var",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "84",
+                "domain_name": "Vaucluse",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "85",
+                "domain_name": "Vendée",
+                "bloc_title": "Bulletin de Vigilance météo zone Ouest*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "86",
+                "domain_name": "Vienne",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "87",
+                "domain_name": "Haute-Vienne",
+                "bloc_title": "Bulletin de Vigilance météo région Nouvelle-Aquitaine",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "88",
+                "domain_name": "Vosges",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "89",
+                "domain_name": "Yonne",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "90",
+                "domain_name": "Territoire de Belfort",
+                "bloc_title": "Bulletin de Vigilance météo Zone Est*",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "91",
+                "domain_name": "Essonne",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "2B",
+                "domain_name": "Haute-Corse",
+                "bloc_title": "Bulletin de Vigilance météo arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "92",
+                "domain_name": "Hauts-de-Seine",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "93",
+                "domain_name": "Seine-Saint-Denis",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "94",
+                "domain_name": "Val-de-Marne",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "95",
+                "domain_name": "Val-d'Oise",
+                "bloc_title": "Bulletin de Vigilance météo région Île-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "99",
+                "domain_name": "Andorre",
+                "bloc_title": "Bulletin de Vigilance météo Arc méditerranéen et Corse",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "01",
+                "domain_name": "Ain",
+                "bloc_title": "Bulletin de Vigilance météo région Auvergne-Rhône-Alpes",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            },
+            {
+                "domain_id": "02",
+                "domain_name": "Aisne",
+                "bloc_title": "Bulletin de Vigilance météo région Hauts-de-France",
+                "bloc_id": "BULLETIN_DEPARTEMENTAL",
+                "bloc_items": []
+            }
+        ]
+    },
+    "meta": {
+        "snapshot_id": "0bb51c17-9a34-4bdd-b403-f69f96851bd1",
+        "product_datetime": "2024-10-27T21:00:00+00:00",
+        "generation_timestamp": "2024-10-27T21:00:13+00:00"
+    }
+}
