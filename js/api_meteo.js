@@ -21,10 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
     const proxyUrlVigilance = `https://proxy-ddj0.onrender.com/meteofrance?url=${apiVigilance}`;
-
-    const cacheKeyDay = 'weatherDayDataCache';
-    const cacheKeyWeek = 'weatherWeekDataCache';
-    const cacheKeyVigilance = 'meteofranceDataCache';
+    
     const cacheDuration = 15 * 60 * 1000; // 15 minutes
 
     //Récupérer si les données doivent être mockées ou non
@@ -50,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 try {
                     console.log("Données non cachées pour " + cacheKey);
-                    const response = await fetch(mock ? `json/${cacheKey}.json` : apiUrl);
+                    const response = await fetch(mock ? `../json/${cacheKey}.json` : apiUrl);
 
                     if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
