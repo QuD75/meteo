@@ -178,38 +178,38 @@ td:first-child {
 }
 
 @media (max-width: 1200px) {
-    /* Transforme le tableau en affichage vertical */
+    /* Transforme les cellules en lignes empilées avec label */
     #weather-day-tab, #weather-week-tab,
-    #weather-day-tab thead, #weather-week-tab thead,
-    #weather-day-tab tbody, #weather-week-tab tbody,
-    #weather-day-tab tr, #weather-week-tab tr {
+    #weather-day-tab tbody, #weather-week-tab tbody {
         display: block;
     }
 
-    /* Cache les en-têtes de colonne */
-    #weather-day-tab thead tr, #weather-week-tab thead tr {
+    /* Cache les en-têtes de colonne en mode mobile */
+    #weather-day-tab thead, #weather-week-tab thead {
         display: none;
     }
 
-    /* Style pour chaque ligne en mode mobile */
+    /* Style chaque ligne pour qu'elle apparaisse comme une section */
     #weather-day-tab tbody tr, #weather-week-tab tbody tr {
+        display: flex;
+        flex-direction: column;
         border: 1px solid var(--border-color);
         margin-bottom: 1rem;
         padding: 10px;
         background-color: var(--light-background);
     }
 
-    /* Chaque cellule affiche le label de la colonne */
+    /* Affiche le label pour chaque cellule grâce à data-label */
     #weather-day-tab td::before, #weather-week-tab td::before {
         content: attr(data-label);
         font-weight: bold;
         display: inline-block;
-        width: 150px; /* largeur des labels */
+        width: 150px; /* Largeur du label */
         color: var(--text-color);
         margin-right: 10px;
     }
 
-    /* Style pour les cellules */
+    /* Alignement des cellules */
     #weather-day-tab td, #weather-week-tab td {
         display: flex;
         align-items: center;
