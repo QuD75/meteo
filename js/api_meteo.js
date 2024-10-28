@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById(elementId).getContext('2d');
         let labels = null;
         if (time === "day") labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
-        if (time === "week") labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { month: 'long', day: '2-digit' }).replace('/ à .*/', ''));
+        if (time === "week") labels = data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { month: 'long', day: '2-digit' }).replace(/ à .*/, ''));
         const values = data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
 
         const datasets = [
