@@ -228,7 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
-        const sunriseRow = document.getElementById('sunrise-week-row');  
+        const sunriseRow = document.getElementById('sunrise-week-row');
+        const sunsetRow = document.getElementById('sunset-week-row');   
         
         data.data[0].coordinates[0].dates.forEach((dateData) => {
             const date = new Date(dateData.date);
@@ -240,10 +241,18 @@ document.addEventListener('DOMContentLoaded', () => {
             daysRow.appendChild(th);
 
             const td = document.createElement('td');
-            const sunriseTime = new Date(dateData.value); // Assurez-vous que 'value' est l'heure de lever du soleil
+            const sunriseTime = new Date(dateData.value);
             const sunriseHours = sunriseTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
             td.textContent = sunriseHours;
             sunriseRow.appendChild(td);
+        });
+
+        data.data[1].coordinates[0].dates.forEach((dateData) => {
+            const td = document.createElement('td');
+            const sunsetTime = new Date(dateData.value);
+            const sunsetHours = sunsetTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            td.textContent = sunsetHours;
+            sunsetRow.appendChild(td);
         });
     }    
 
