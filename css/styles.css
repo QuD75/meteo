@@ -158,7 +158,7 @@ footer a:hover {
     text-align: center;
 }
 
-.grid-day-container {
+.grid-graphs-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
