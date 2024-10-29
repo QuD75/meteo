@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Appel aux API
     async function getApiData(mock) {
+        document.getElementById("loading-message-vigilance").style.display = "block";
+        document.getElementById("loading-message-day").style.display = "block";
+        document.getElementById("loading-message-week").style.display = "block";
+
         console.log(mock ? "Données mockées" : "Données non mockées");
         const now = Date.now();
 
@@ -73,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const vigilancePromise = fetchData(apiVigilance, 'vigilance');
 
         // Gérer les résultats lorsqu'ils sont disponibles
-        Promise.all([dayPromise, weekPromise, vigilancePromise]).then(([dataDay, dataWeek, dataVigilance]) => {
+        Promise.any([dayPromise, weekPromise, vigilancePromise]).then(([dataDay, dataWeek, dataVigilance]) => {
             if (dataVigilance) {
                 displayDataVigilance(dataVigilance); // Afficher les données de vigilance et météorologiques
             }
@@ -86,25 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }).catch(error => {
             console.error("Erreur lors de la gestion des données récupérées :", error);
-        }).finally(() => {
-            document.getElementById("loading-message").style.display = "none";
         });
-
-        // Afficher le message de chargement
-        document.getElementById("loading-message").style.display = "block";
     }
 
     //Afficher les données des API
     function displayDataVigilance(dataVigilance) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
-        document.getElementById("loading-message").style.display = "none";
+        document.getElementById("loading-message-vigilance").style.display = "none";
         document.getElementById("vigilance-encart").style.display = "block";
 
         fillVigilance(dataVigilance);
     }
     function displayDataDay(dataDay) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
-        document.getElementById("loading-message").style.display = "none";
+        document.getElementById("loading-message-day").style.display = "none";
         document.getElementById("day-container").style.display = "block";
 
         fillTableDay(dataDay);
@@ -117,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function displayDataWeek(dataWeek) {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
-        document.getElementById("loading-message").style.display = "none";
+        document.getElementById("loading-message-week").style.display = "none";
         document.getElementById("week-container").style.display = "block";
 
         fillTableWeek(dataWeek);
