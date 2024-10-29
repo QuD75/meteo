@@ -471,17 +471,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }*/
     function getTemperatureColor(value) {
-        console.log("Température 1 : " + value);
+        console.log("Température : " + value);
         let color;
         if (value < -10) {
             color = `hsl(240, 100%, 50%)`;
         } else if (value > 40) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            console.log("Température 2 : " + value);
-            const hue = 240 - ((value + 10) / 50) * 240;
+            const hue = Math.round(240 - ((value + 10) * (240 / 50)));
             console.log("Couleur : " + hue);
-            color = `hsl(240, 100%, 50%)`;
+            color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
         return { color, textColor };
