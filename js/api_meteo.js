@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { day: '2-digit', month: '2-digit' }));
     }
     function getChartValues(data, label) {
-        return data.dates.map(date => date.value * (label.includes('Vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
+        return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
     }
     function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
         const datasets = [{
