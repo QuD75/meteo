@@ -55,7 +55,7 @@ nav ul {
 
 nav ul li {
     margin: 0 10px;
-    flex: 1;
+    flex: 0.1;
     text-align: center;
 }
 
