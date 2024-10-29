@@ -471,14 +471,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }*/
     function getTemperatureColor(value) {
-        console.log("Température : " + value);
+        console.log("Température 1 : " + value);
         let color;
         if (value < -10) {
             color = `hsl(240, 100%, 50%)`;
         } else if (value > 40) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(240 - (((value + 10) / 50) * 240));
+            console.log("Température 2 : " + value);
+            const hue = Math.round(240 - ((value + 10) / 50) * 240);
             console.log("Couleur : " + hue);
             color = `hsl(${hue}, 100%, 50%)`;
         }
