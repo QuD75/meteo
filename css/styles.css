@@ -159,7 +159,7 @@ td:first-child {
     text-align: center;
 }
 
-.grid-container-graph {
+.grid-graphs-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
