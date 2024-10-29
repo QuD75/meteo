@@ -471,14 +471,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }*/
     function getTemperatureColor(value) {
+        const min = -5;
+        const max = 40;
+        const colorMax = 300;
+
         const numericValue = Number(value);
         let color;
-        if (numericValue < -5) {
-            color = `hsl(360, 100%, 50%)`;
-        } else if (numericValue > 40) {
+        if (numericValue < min) {
+            color = `hsl(${hue}, 100%, 50%)`;
+        } else if (numericValue > max) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(360 - ((numericValue + 5) * (360 / 45)));
+            const hue = Math.round(colorMax - ((numericValue - min) * (colorMax / (max-min))));
             color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
