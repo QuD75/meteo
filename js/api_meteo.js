@@ -428,8 +428,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTemperatureColor);
         fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTemperatureColor);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTemperatureColor);
-        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getTemperatureColor);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getPrecipitationColor);
+        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor);
         fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
