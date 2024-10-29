@@ -104,8 +104,7 @@ footer a:hover {
 }
 
 #day-container, #week-container {
-    margin-top: 40px auto;
-    margin-bottom: 20px auto;
+    margin: 40px auto 20px auto;
     width: 100%;
     text-align: center;
 }
