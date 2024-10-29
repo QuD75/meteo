@@ -472,20 +472,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }*/
     function getTemperatureColor(value) {
         let color;
+
         if (value < -10) {
             color = `hsl(240, 100%, 50%)`;
-        } else if (value < 2) {
-            color = `hsl(210, 100%, 40%)`;
-        } else if (value < 10) {
-            color = `hsl(120, 100%, 30%)`;
-        } else if (value < 18) {
-            color = `hsl(60, 100%, 50%)`;
-        } else if (value < 25) {
-            color = `hsl(30, 100%, 50%)`;
-        } else {
+        } else if (value > 40) {
             color = `hsl(0, 100%, 50%)`;
+        } else {
+            const hue = Math.round(240 - ((value + 10) / 50) * 240);
+            color = `hsl(${hue}, 100%, 50%)`;
         }
-
         const textColor = getTextColor(color);
         return { color, textColor };
     }
@@ -590,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calcul de la luminosité pour définir la couleur du texte
         const rgb = color.match(/\d+/g).map(Number);
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-        return luminosity < 128 ? 'white' : 'black';
+        return luminosity < 150 ? 'white' : 'black';
     }
 
     getApiData(getMockValue());
