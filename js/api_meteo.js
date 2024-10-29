@@ -447,18 +447,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
     function getTemperatureColor(value) {
+        let color;
         const min = -5;
         const max = 40;
-        const colorMax = 300;
-
+        const hueMax = 300;
         const numericValue = Number(value);
-        let color;
+
         if (numericValue < min) {
-            color = `hsl(${hue}, 100%, 50%)`;
+            color = `hsl(${hueMax}, 100%, 50%)`;
         } else if (numericValue > max) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(colorMax - ((numericValue - min) * (colorMax / (max - min))));
+            const hue = Math.round(hueMax - ((numericValue - min) * (hueMax / (max - min))));
             color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
@@ -472,6 +472,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getWindColor(value) {
         let color;
+        const min = 0;
+        const max = 100;
+        const hueMax = 210;
+        const numericValue = Number(value);
+
+        if (numericValue < min) {
+            color = `hsl(${hueMax}, 100%, 50%)`;
+        } else if (numericValue > max) {
+            color = `hsl(0, 100%, 50%)`;
+        } else {
+            const hue = Math.round(hueMax - ((numericValue - min) * (hueMax / (max - min))));
+            color = `hsl(${hue}, 100%, 50%)`;
+        }
+        const textColor = getTextColor(color);
+        return { color, textColor };
+    }
+    /*function getWindColor(value) {
+        let color;
         if (value < 20) {
             // Couleur dégradée de bleu clair à bleu foncé pour les valeurs < 20
             color = `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
@@ -484,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const textColor = getTextColor(color);
         return { color, textColor };
-    }
+    }*/
     function getWindDirectionIcon(wind_deg) {
         const directions = [
             { min: 348.75, max: 360, icon: '/icons/wind/n.png' },
