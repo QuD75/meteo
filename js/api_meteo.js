@@ -473,12 +473,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTemperatureColor(value) {
         const numericValue = Number(value);
         let color;
-        if (numericValue < -10) {
+        if (numericValue < -5) {
             color = `hsl(360, 100%, 50%)`;
         } else if (numericValue > 40) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(360 - ((numericValue + 10) * (360 / 50)));
+            const hue = Math.round(360 - ((numericValue + 5) * (360 / 45)));
             color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
