@@ -152,8 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function getChartLabels(elementId, data) {
         return elementId.includes('day')
             ? data.dates.map(date => `${new Date(date.date).getHours()}h`)
-            : data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { day: '2-digit', month: '2-digit' }));
-    }
+            : data.dates.map(date => {
+                const parsedDate = new Date(date.date);
+                return parsedDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+            });
+    }    
     function getChartValues(data, label) {
         return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
     }
