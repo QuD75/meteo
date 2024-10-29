@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (value > 40) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(240 - ((value + 10) / 50) * 240);
+            const hue = Math.round(240 - (((value + 10) / 50) * 240));
             console.log("Couleur : " + hue);
             color = `hsl(${hue}, 100%, 50%)`;
         }
