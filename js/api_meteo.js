@@ -446,30 +446,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
-    /*function getTemperatureColor(value) {
-        let color;
-        if (value < -10) {
-            color = 'purple';
-        } else if (value < -5) {
-            color = 'darkblue';
-        } else if (value < 1) {
-            const ratio = (value + 5) / 6;
-            color = `rgb(0, 0, ${Math.round(139 + (116 * ratio))})`;
-        } else if (value < 15) {
-            const ratio = (value - 1) / 14;
-            color = `rgb(${Math.round(173 + (82 * ratio))}, 255, 0)`;
-        } else if (value < 25) {
-            const ratio = (value - 15) / 10;
-            color = `rgb(255, ${Math.round(255 - (127 * ratio))}, 0)`;
-        } else if (value < 40) {
-            const ratio = (value - 25) / 15;
-            color = `rgb(255, ${Math.round(102 - (102 * ratio))}, ${Math.round(102 - (102 * ratio))})`;
-        } else {
-            color = 'purple';
-        }
-        const textColor = getTextColor(color);
-        return { color, textColor };
-    }*/
     function getTemperatureColor(value) {
         const min = -5;
         const max = 40;
@@ -640,7 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Calcul de la luminosité
         const luminosity = 0.299 * r + 0.587 * g + 0.114 * b;
-        return luminosity < 120 ? 'white' : 'black';
+        return luminosity < 110 ? 'white' : 'black';
     }
 
     getApiData(getMockValue());
