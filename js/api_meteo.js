@@ -193,22 +193,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return datasets;
     }
-
-    //Fonction de remplissage des tableaux
     function fillVigilance(data) {
         if (data.results && data.results.length > 0) {
             // Trier les résultats par color_id pour obtenir la vigilance la plus forte
             data.results.sort((a, b) => b.color_id - a.color_id);
-
+    
             // Récupérer le niveau de vigilance le plus élevé
             const highestVigilanceLevel = data.results[0].color_id;
-
+    
+            // Vérifier si la vigilance la plus élevée est verte
+            const pastille = document.getElementById('pastille');
+            const phenomenonName = document.getElementById('phenomenon-name');
+            const vigilanceDetails = document.getElementById('vigilance-details');
+            const vigilanceEncart = document.getElementById('vigilance-encart');
+    
+            if (highestVigilanceLevel === 1) { // Vert
+                pastille.style.backgroundColor = 'green';
+                phenomenonName.textContent = '';
+                vigilanceDetails.innerHTML = '';
+                vigilanceEncart.style.display = 'block'; // Afficher seulement la pastille verte
+                return;
+            }
+    
             // Filtrer pour obtenir toutes les vigilances du niveau le plus élevé
             const highestVigilances = data.results.filter(vigilance => vigilance.color_id === highestVigilanceLevel);
-
+    
             // Regrouper les vigilances par phénomène et fusionner les périodes
             const vigilanceGroups = {};
-
+    
             highestVigilances.forEach(vigilance => {
                 const key = `${vigilance.phenomenon}-${vigilance.color_id}`;
                 if (!vigilanceGroups[key]) {
@@ -223,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     end_time: new Date(vigilance.end_time)
                 });
             });
-
+    
             // Fusionner les périodes
             const mergedVigilances = Object.values(vigilanceGroups).map(group => {
                 const mergedPeriods = mergePeriods(group.periods);
@@ -233,36 +245,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     periods: mergedPeriods
                 };
             });
-
-            // Affichage de la pastille et des détails
-            const pastille = document.getElementById('pastille');
-            const phenomenonName = document.getElementById('phenomenon-name');
-            const vigilanceDetails = document.getElementById('vigilance-details');
-            const vigilanceEncart = document.getElementById('vigilance-encart');
-
+    
             // Déterminer la couleur de la pastille
             const colorMap = {
-                1: 'green',   // vert
                 2: 'yellow',  // jaune
                 3: 'orange',  // orange
                 4: 'red'      // rouge
             };
-
+            
             pastille.style.backgroundColor = colorMap[highestVigilanceLevel];
             phenomenonName.textContent = mergedVigilances.map(v => v.phenomenon).join(', ');
-
+    
+            // Fonction pour formater les dates
+            function formatPeriod(begin, end) {
+                const formatDate = date => date.toLocaleString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                return `${formatDate(begin)} à ${formatDate(end)}`;
+            }
+    
             // Affichage des périodes fusionnées
             vigilanceDetails.innerHTML = mergedVigilances.map(vigilance =>
                 `Phénomène: ${vigilance.phenomenon}<br>${vigilance.periods.map(period =>
-                    `Période: Début: ${period.begin_time.toLocaleString()} - Fin: ${period.end_time.toLocaleString()}`
+                    `Période: ${formatPeriod(period.begin_time, period.end_time)}`
                 ).join('<br>')}<br><br>`
             ).join('');
-
+    
             vigilanceEncart.style.display = 'block'; // Afficher l'encart
         } else {
             vigilanceEncart.style.display = 'none'; // Cacher l'encart si aucune donnée
         }
-    }
+    }    
     function mergePeriods(periods) {
         // Tri des périodes par date de début
         periods.sort((a, b) => a.begin_time - b.begin_time);
