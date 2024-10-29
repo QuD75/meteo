@@ -473,13 +473,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTemperatureColor(value) {
         const numericValue = Number(value);
         let color;
-        if (numericValue < -10) {
-            color = `hsl(240, 100%, 50%)`; // Violet
-        } else if (numericValue > 40) {
+        if (numericValue < -5) {
+            color = `hsl(270, 100%, 50%)`; // Violet
+        } else if (numericValue > 35) {
             color = `hsl(0, 100%, 50%)`; // Rouge
         } else {
             // Calcul ajusté du hue
-            const hue = Math.round(240 - ((numericValue + 10) * (240 / 50)));
+            const hue = Math.round(270 - ((numericValue + 5) * (270 / 40)));
             const adjustedHue = (hue + 360) % 360;
             color = `hsl(${adjustedHue}, 100%, 50%)`;
         }
