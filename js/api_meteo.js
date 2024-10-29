@@ -473,15 +473,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTemperatureColor(value) {
         const numericValue = Number(value);
         let color;
-        if (numericValue < -5) {
-            color = `hsl(270, 100%, 50%)`; // Violet
-        } else if (numericValue > 35) {
-            color = `hsl(0, 100%, 50%)`; // Rouge
+        if (numericValue < -10) {
+            color = `hsl(360, 100%, 50%)`;
+        } else if (numericValue > 40) {
+            color = `hsl(0, 100%, 50%)`;
         } else {
-            // Calcul ajusté du hue
-            const hue = Math.round(270 - ((numericValue + 5) * (270 / 40)));
-            const adjustedHue = (hue + 360) % 360;
-            color = `hsl(${adjustedHue}, 100%, 50%)`;
+            const hue = Math.round(360 - ((numericValue + 10) * (360 / 50)));
+            color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
         return { color, textColor };
@@ -587,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calcul de la luminosité pour définir la couleur du texte
         const rgb = color.match(/\d+/g).map(Number);
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-        return luminosity < 140 ? 'white' : 'black';
+        return luminosity < 130 ? 'white' : 'black';
     }
 
     getApiData(getMockValue());
