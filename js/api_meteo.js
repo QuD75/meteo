@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (numericValue > max) {
             color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(colorMax - ((numericValue - min) * (colorMax / (max-min))));
+            const hue = Math.round(colorMax - ((numericValue - min) * (colorMax / (max - min))));
             color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
@@ -588,6 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTextColor(color) {
         // Calcul de la luminosité pour définir la couleur du texte
         const rgb = color.match(/\d+/g).map(Number);
+        console.log("RGB : " + rgb)
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
         return luminosity < 128 ? 'white' : 'black';
     }
