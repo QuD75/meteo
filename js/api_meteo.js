@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
             // Déterminer la couleur et l'icône de la vigilance
             const colorMap = {
-                1: { color: 'green', icon: '../icons/44/44_verr.svg' },
+                1: { color: 'green', icon: '../icons/44/44_vert.svg' },
                 2: { color: 'yellow', icon: '../icons/44/44_jaune.svg' },
                 3: { color: 'orange', icon: '../icons/44/44_orange.svg' },
                 4: { color: 'red', icon: '../icons/44/44_rouge.svg' }
