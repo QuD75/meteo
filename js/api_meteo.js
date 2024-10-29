@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message-day").style.display = "none";
         document.getElementById("day-container-tab").style.display = "block";
+        document.getElementById("week-container-graphs").style.display = "block";
 
         fillTableDay(dataDay);
 
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message-week").style.display = "none";
         document.getElementById("week-container-tab").style.display = "block";
+        document.getElementById("week-container-graphs").style.display = "block";
 
         fillTableWeek(dataWeek);
 
