@@ -479,9 +479,9 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `hsl(0, 100%, 50%)`;
         } else {
             console.log("Température 2 : " + value);
-            const hue = Math.round(240 - ((value + 10) / 50) * 240);
+            const hue = 240 - ((value + 10) / 50) * 240;
             console.log("Couleur : " + hue);
-            color = `hsl(${hue}, 100%, 50%)`;
+            color = `hsl(240, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
         return { color, textColor };
