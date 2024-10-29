@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.2917';
     const lon = '-2.5201';
     const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
-    const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,weather_symbol_24h:idx';
+    const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,weather_symbol_24h:idx';
 
     const currentDate = new Date();
     const currentHour = new Date(currentDate);
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiVigilance = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%22${dep}%22&limit=20`;
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
-    const proxyUrlVigilance = `https://proxy-ddj0.onrender.com/meteofrance?url=${apiVigilance}`;
 
     //Récupérer si les données doivent être mockées ou non
     function getMockValue() {
@@ -108,7 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Générer les graphiques pour les données de la semaine
         createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
-        createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-week-chart', 'du vent max sur les 7 prochaines jours', "Jour", "Vent (km/h)", dataWeek.data[5].coordinates[0], 'line', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
     }
 
     //Fonction de générations du graphique
@@ -404,6 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tempMinRow = document.getElementById('temp-min-week-row');
         const tempMaxRow = document.getElementById('temp-max-week-row');
         const rainRow = document.getElementById('rain-week-row');
+        const windRow = document.getElementById('wind-week-row');
         const weatherRow = document.getElementById('weather-week-row');
 
         data.data[0].coordinates[0].dates.forEach((dateData, index) => {
@@ -425,45 +426,11 @@ document.addEventListener('DOMContentLoaded', () => {
             sunRow.appendChild(td);
         });
 
-        data.data[2].coordinates[0].dates.forEach((dateData) => {
-            const td = document.createElement('td');
-            const value = dateData.value.toFixed(0);
-            const { color, textColor } = getTemperatureColor(value);
-            td.textContent = value;
-            td.style.backgroundColor = color;
-            td.style.color = textColor;
-            tempMinRow.appendChild(td);
-        });
-
-        data.data[3].coordinates[0].dates.forEach((dateData) => {
-            const td = document.createElement('td');
-            const value = dateData.value.toFixed(0);
-            const { color, textColor } = getTemperatureColor(value);
-            td.textContent = value;
-            td.style.backgroundColor = color;
-            td.style.color = textColor;
-            tempMaxRow.appendChild(td);
-        });
-
-        data.data[4].coordinates[0].dates.forEach((dateData) => {
-            const td = document.createElement('td');
-            const value = dateData.value.toFixed(1);
-            const { color, textColor } = getPrecipitationColor(value);
-            td.textContent = value;
-            td.style.backgroundColor = color;
-            td.style.color = textColor;
-            rainRow.appendChild(td);
-        });
-
-        data.data[5].coordinates[0].dates.forEach((dateData) => {
-            const td = document.createElement('td');
-            const weatherIcon = document.createElement('img');
-            weatherIcon.style.width = "40px";
-            weatherIcon.style.height = "40px";
-            weatherIcon.src = getWeatherIcon(dateData.value);
-            td.appendChild(weatherIcon);
-            weatherRow.appendChild(td);
-        });
+        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTemperatureColor);
+        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTemperatureColor);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTemperatureColor);
+        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getTemperatureColor);
+        fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
         // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
