@@ -587,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calcul de la luminosité pour définir la couleur du texte
         const rgb = color.match(/\d+/g).map(Number);
         const luminosity = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
-        return luminosity < 150 ? 'white' : 'black';
+        return luminosity < 140 ? 'white' : 'black';
     }
 
     getApiData(getMockValue());
