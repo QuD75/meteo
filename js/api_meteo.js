@@ -473,17 +473,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTemperatureColor(value) {
         let color;
         if (value < -10) {
-            color = `hsl(240, 100%, ${Math.abs(temperature) * 10}%)`; // Teintes de violet
-        } else if (temperature < 2) {
-            color = `hsl(210, 100%, ${Math.abs(temperature) * 10}%)`; // Teintes de bleu
-        } else if (temperature < 10) {
-            color = `hsl(120, 100%, ${temperature * 10}%)`; // Teintes de vert
-        } else if (temperature < 18) {
-            color = `hsl(60, 100%, ${(temperature - 10) * 10}%)`; // Teintes de jaune
-        } else if (temperature < 25) {
-            color = `hsl(30, 100%, ${(temperature - 18) * 10}%)`; // Teintes d'orange
+            color = `hsl(240, 100%, ${Math.abs(value) * 10}%)`; // Teintes de violet
+        } else if (value < 2) {
+            color = `hsl(210, 100%, ${Math.abs(value) * 10}%)`; // Teintes de bleu
+        } else if (value < 10) {
+            color = `hsl(120, 100%, ${value * 10}%)`; // Teintes de vert
+        } else if (value < 18) {
+            color = `hsl(60, 100%, ${(value - 10) * 10}%)`; // Teintes de jaune
+        } else if (value < 25) {
+            color = `hsl(30, 100%, ${(value - 18) * 10}%)`; // Teintes d'orange
         } else {
-            color = `hsl(0, 100%, ${(temperature - 25) * 10}%)`; // Teintes de rouge
+            color = `hsl(0, 100%, ${(value - 25) * 10}%)`; // Teintes de rouge
         }
         const textColor = getTextColor(color);
         return { color, textColor };
