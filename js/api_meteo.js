@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getChartLabels(elementId, data) {
         return elementId.includes('day')
-            ? data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }))
+            ? data.dates.map(date => `${new Date(date.date).getHours()}h`)
             : data.dates.map(date => new Date(date.date).toLocaleTimeString('fr-FR', { day: '2-digit', month: '2-digit' }));
     }
     function getChartValues(data, label) {
