@@ -107,8 +107,9 @@ footer a:hover {
 #vigilance-encart {
     display: flex !important;
     border: 1px solid #ccc;
-    padding: 15px;
+    padding: 0;
     margin: 20px 0;
+    width: 50%;
 }
 
 #vigilance-icon {
