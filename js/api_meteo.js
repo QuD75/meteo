@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getCellColor, 0, 5, 180, 240, true);
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getRainColor);
         fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getCellColor, 0, 100, 210, 0);
         fillWindDirectionRow(data.data[4], windDirectionRow);
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempColor);
         fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempColor);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getCellColor, 0, 5, 180, 240, true);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getRainColor);
         fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
     }
@@ -533,48 +533,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-    /* function getRainColor(rain){
-         let color;
-         let hue;
-         if (temp = 0) {
-             hue = 300;
-         } else if (temp <= -5) {
-             hue = 260 + ((-5 - temp) / 5) * (260 - 300);
-         } else if (temp <= 0) {
-             hue = 195 + ((0 - temp) / 5) * (195 - 260);
-         } else if (temp <= 10) {
-             hue = 120 + ((10 - temp) / 10) * (120 - 195);
-         } else if (temp <= 20) {
-             hue = 60 + ((20 - temp) / 10) * (60 - 120);
-         } else if (temp <= 30) {
-             hue = 0 + ((30 - temp) / 10) * (30 - 60);
-         } else {
-             hue = 0;
-         }
-         color = `hsl(${Math.round(hue)}, 100%, 50%)`;
-         const textColor = getTextColor(color);
-         return { color, textColor };
-     }*/
+    function getRainColor(rain) {
+        let color;
+        if (rain > 0) color = `hsl(${Math.round(9 * rain + 180)}, 100%, 50%)`;
+        else color = `hsl(0, 0%, 100%)`;
+        const textColor = getTextColor(color);
+        return { color, textColor };
+    }
     function getTempColor(temp) {
         let color;
         let hue;
-        if (temp <= -10) {
-            hue = 300;
-        } else if (temp <= -5) {
-            hue = -8 * temp + 220;
-        } else if (temp <= 0) {
-            hue = -13 * temp + 195;
-        } else if (temp <= 10) {
-            hue = -7.5 * temp + 195;
-        } else if (temp <= 20) {
-            hue = -7 * temp + 190;
-        } else if (temp <= 30) {
-            hue = -2 * temp + 90;
-        } else if (temp <= 40) {
-            hue = -3 * temp + 120;
-        } else {
-            hue = 0;
-        }
+        if (temp <= -10) hue = 300;
+        else if (temp <= -5) hue = -8 * temp + 220;
+        else if (temp <= 0) hue = -13 * temp + 195;
+        else if (temp <= 10) hue = -7.5 * temp + 195;
+        else if (temp <= 20) hue = -7 * temp + 190;
+        else if (temp <= 30) hue = -2 * temp + 90;
+        else if (temp > 30) hue = Math.max(-3 * temp + 120, 0);
         color = `hsl(${Math.round(hue)}, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
