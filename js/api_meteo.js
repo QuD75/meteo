@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain);
             if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
             valueMultiplied = valueMultiplied.toFixed(round);
-            td.textContent = value;
+            td.textContent = valueMultiplied;
             td.style.backgroundColor = color;
             td.style.color = textColor;
             rowElement.appendChild(td);
