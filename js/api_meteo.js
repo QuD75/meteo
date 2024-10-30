@@ -115,9 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.results && data.results.length > 0) {
             data.results.sort((a, b) => b.color_id - a.color_id);
             const highestVigilanceLevel = data.results[0].color_id;
-    
-            const pastille = document.getElementById('pastille');
-            const phenomenonName = document.getElementById('phenomenon-name');
+            
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceIcon = document.getElementById('vigilance-icon');
             const vigilanceTitle = document.getElementById('vigilance-title');
@@ -178,6 +176,30 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             document.getElementById('vigilance-encart').style.display = 'none'; // Cacher l'encart si aucune donnée
         }
+    }
+    
+    function mergePeriods(periods) {
+        // Tri des périodes par date de début
+        periods.sort((a, b) => a.begin_time - b.begin_time);
+
+        const merged = [];
+        let currentPeriod = periods[0];
+
+        for (let i = 1; i < periods.length; i++) {
+            if (currentPeriod.end_time >= periods[i].begin_time) {
+                // Il y a chevauchement, fusionner les périodes
+                currentPeriod.end_time = new Date(Math.max(currentPeriod.end_time, periods[i].end_time));
+            } else {
+                // Pas de chevauchement, ajouter la période courante à la liste et passer à la suivante
+                merged.push(currentPeriod);
+                currentPeriod = periods[i];
+            }
+        }
+
+        // Ajouter la dernière période
+        merged.push(currentPeriod);
+
+        return merged;
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
