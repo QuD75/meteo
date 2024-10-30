@@ -111,6 +111,11 @@ footer a:hover {
     margin: 20px 0;
 }
 
+.vigilance-icon {
+    width: 60px;
+    height: 60px;
+}
+
 #icon-container {
     flex: 1;
     display: flex;
