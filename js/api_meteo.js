@@ -273,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempColor, -5, 40, 300, 0);
         fillWeatherRow(data.data[1], 1, 1, null, rainRow, getRainColor);
-        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
-        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getCellColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
+        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
         fillSymbolRow(data.data[6], weatherRow);
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempColor);
         fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempColor);
         fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getRainColor);
-        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor);
         fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
@@ -510,29 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions de coloriage
-    function getCellColor(value, minValue, maxValue, hueMin, hueMax, rain, uv) {
-        let color;
-        const numericValue = Number(value);
-        if (numericValue < 0.001 && (rain || uv)) {
-            color = `hsl(0, 0%, 100%)`
-        } else if (numericValue < minValue) {
-            color = `hsl(${hueMin}, 100%, 50%)`;
-        } else if (numericValue > maxValue) {
-            color = `hsl(${hueMax}, 100%, 50%)`;
-        } else {
-            let hue;
-            if (value <= 20) {
-                hue = -9.6 * (value - 20) + 60;
-            } else {
-                const a = 60;
-                const b = 0.07; // Ajustez ce paramètre pour contrôler la pente
-                hue = a * Math.exp(-b * (value - 20));
-            }
-            color = `hsl(${hue}, 100%, 50%)`;
-        }
-        const textColor = getTextColor(color);
-        return { color, textColor };
-    }
     function getRainColor(rain) {
         let color;
         if (rain > 0) color = `hsl(${Math.round(9 * rain + 180)}, 100%, 50%)`;
@@ -558,6 +535,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let color;
         if (uv > 0) color = `hsl(${Math.round(-9 * uv + 90)}, 100%, 50%)`;
         else color = `hsl(0, 0%, 100%)`;
+        const textColor = getTextColor(color);
+        return { color, textColor };
+    }
+    function getWindColor(wind) {
+        let color;
+        color = `hsl(${Math.round(-2.5 * wind + 250)}, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
