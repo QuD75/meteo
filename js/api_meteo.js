@@ -512,7 +512,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let color;
         const isRain = (typeof rain === "string" ? rain.toLowerCase() === "true" : Boolean(rain));
         const numericValue = Number(value);
-        if (isRain) console.log("Value : " + value);
+        console.log("rain : " + rain);
+        console.log("Booleen : " + isRain);
         if (numericValue < 0.001 && isRain) {
             console.log("Valeur nulle");
             color = `hsl(0, 0%, 100%)`
