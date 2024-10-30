@@ -122,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const vigilanceTitle = document.getElementById('vigilance-title');
 
             if (highestVigilanceLevel === 1) {
-                vigilanceDetails.innerHTML = '';
                 document.getElementById('vigilance-encart').style.display = 'none';
                 return;
             }
