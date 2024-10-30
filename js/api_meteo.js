@@ -171,10 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
             function mergePeriods(periods) {
                 // Tri des périodes par date de début
                 periods.sort((a, b) => a.begin_time - b.begin_time);
-        
+
                 const merged = [];
                 let currentPeriod = periods[0];
-        
+
                 for (let i = 1; i < periods.length; i++) {
                     if (currentPeriod.end_time >= periods[i].begin_time) {
                         // Il y a chevauchement, fusionner les périodes
@@ -185,10 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentPeriod = periods[i];
                     }
                 }
-        
+
                 // Ajouter la dernière période
                 merged.push(currentPeriod);
-        
+
                 return merged;
             }
 
@@ -271,21 +271,21 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
 
-        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 180, 240, true);
-        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
-        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getTempRainWindColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getCellColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getCellColor, 0, 5, 180, 240, true);
+        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getCellColor, 0, 100, 210, 0);
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
         fillSymbolRow(data.data[6], weatherRow);
-        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
+        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getCellColor, 0, 10, 60, 0, false, true);
     }
-    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain) {
+    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             const value = dateData.value;
             let valueMultiplied = value * multiple;
-            const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain);
+            const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv);
             if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
             valueMultiplied = valueMultiplied.toFixed(round);
             td.textContent = valueMultiplied;
@@ -344,10 +344,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sunRow.appendChild(td);
         });
 
-        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTempRainWindColor, 0, 5, 180, 240, true);
-        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getCellColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getCellColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getCellColor, 0, 5, 180, 240, true);
+        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
@@ -510,10 +510,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions de coloriage
-    function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax, rain) {
+    function getCellColor(value, minValue, maxValue, hueMin, hueMax, rain, uv) {
         let color;
         const numericValue = Number(value);
-        if (numericValue < 0.001 && rain) {
+        if (numericValue < 0.001 && (rain || uv)) {
             color = `hsl(0, 0%, 100%)`
         } else if (numericValue < minValue) {
             color = `hsl(${hueMin}, 100%, 50%)`;
@@ -522,24 +522,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
             color = `hsl(${hue}, 100%, 50%)`;
-        }
-        const textColor = getTextColor(color);
-        return { color, textColor };
-    }
-    function getUVColor(value) {
-        let color;
-        if (value < 1) {
-            // Blanc pour un indice UV de 0
-            color = 'rgb(255, 255, 255)';
-        } else if (value < 10) {
-            // Dégradé de jaune à orange entre 1 et 9
-            const red = 255;
-            const green = Math.round(255 - ((value - 1) * 31));  // Passe de 255 à 120
-            const blue = 0;
-            color = `rgb(${red}, ${green}, ${blue})`;
-        } else {
-            // Rouge foncé pour un indice UV de 10
-            color = 'rgb(139, 0, 0)';
         }
         const textColor = getTextColor(color);
         return { color, textColor };
