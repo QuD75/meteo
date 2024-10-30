@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hue = -9.6 * (value - 20) + 60;
             } else {
                 const a = 60;
-                const b = 0.05; // Ajustez ce paramètre pour contrôler la pente
+                const b = 0.07; // Ajustez ce paramètre pour contrôler la pente
                 hue = a * Math.exp(-b * (value - 20));
             }
             color = `hsl(${hue}, 100%, 50%)`;
