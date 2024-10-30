@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.results && data.results.length > 0) {
             data.results.sort((a, b) => b.color_id - a.color_id);
             const highestVigilanceLevel = data.results[0].color_id;
-            
+
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceIcon = document.getElementById('vigilance-icon');
             const vigilanceTitle = document.getElementById('vigilance-title');
@@ -177,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('vigilance-encart').style.display = 'none'; // Cacher l'encart si aucune donnée
         }
     }
-    
     function mergePeriods(periods) {
         // Tri des périodes par date de début
         periods.sort((a, b) => a.begin_time - b.begin_time);
@@ -200,6 +199,21 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
 
         return merged;
+    }
+    function formatPeriod(beginTime, endTime) {
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        };
+        
+        const formattedBeginTime = beginTime.toLocaleString('fr-FR', options);
+        const formattedEndTime = endTime.toLocaleString('fr-FR', options);
+        
+        return `${formattedBeginTime} à ${formattedEndTime}`;
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
