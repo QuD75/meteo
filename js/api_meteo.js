@@ -342,10 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sunRow.appendChild(td);
         });
 
-        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTemperatureColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTemperatureColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getPrecipitationColor, 0, 5, 240, 210);
-        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempRainWindColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempRainWindColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTempRainWindColor, 0, 5, 240, 210);
+        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
