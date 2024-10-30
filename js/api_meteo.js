@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (value <= 20) {
                 hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
             } else {
-                hue = Math.round((400 / 3) * Math.exp(-k * (x - 20)));
+                hue = Math.round((400 / 3) * Math.exp(-k * (value - 20)));
             }
             color = `hsl(${hue}, 100%, 50%)`;
         }
