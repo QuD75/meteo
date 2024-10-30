@@ -520,7 +520,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (numericValue > maxValue) {
             color = `hsl(${hueMax}, 100%, 50%)`;
         } else {
-            const hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
+            let hue;
+            if (value <= 26) {
+                hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
+            } else {
+                // Ajuster hue pour que hue aille de 60 si value = 26 à 0 si value = 40
+                hue = Math.round(60 + ((value - 26) / (maxValue - 26)) * (minValue - 60));
+            }
             color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
