@@ -533,21 +533,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
+    /* function getRainColor(rain){
+         let color;
+         let hue;
+         if (temp = 0) {
+             hue = 300;
+         } else if (temp <= -5) {
+             hue = 260 + ((-5 - temp) / 5) * (260 - 300);
+         } else if (temp <= 0) {
+             hue = 195 + ((0 - temp) / 5) * (195 - 260);
+         } else if (temp <= 10) {
+             hue = 120 + ((10 - temp) / 10) * (120 - 195);
+         } else if (temp <= 20) {
+             hue = 60 + ((20 - temp) / 10) * (60 - 120);
+         } else if (temp <= 30) {
+             hue = 0 + ((30 - temp) / 10) * (30 - 60);
+         } else {
+             hue = 0;
+         }
+         color = `hsl(${Math.round(hue)}, 100%, 50%)`;
+         const textColor = getTextColor(color);
+         return { color, textColor };
+     }*/
     function getTempColor(temp) {
         let color;
         let hue;
         if (temp <= -10) {
             hue = 300;
         } else if (temp <= -5) {
-            hue = 260 + ((-5 - temp) / 5) * (260 - 300);
+            hue = -8 * temp + 220;
         } else if (temp <= 0) {
-            hue = 195 + ((0 - temp) / 5) * (195 - 260);
+            hue = -13 * temp + 195;
         } else if (temp <= 10) {
-            hue = 120 + ((10 - temp) / 10) * (120 - 195);
+            hue = -7.5 * temp + 195;
         } else if (temp <= 20) {
-            hue = 60 + ((20 - temp) / 10) * (60 - 120);
+            hue = -6 * temp + 180;
         } else if (temp <= 30) {
-            hue = 0 + ((30 - temp) / 10) * (30 - 60);
+            hue = -3 * temp + 120;
         } else {
             hue = 0;
         }
