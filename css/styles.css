@@ -169,7 +169,8 @@ td:first-child {
 }
 
 .Temp, .Rain, .Wind, .Pressure {
-    padding: 10px;
+    padding: 0;
+    margin-right: 0;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
