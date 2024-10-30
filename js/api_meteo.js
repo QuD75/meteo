@@ -282,10 +282,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
-            let value = dateData.value * multiple;
-            if (floor != null) value = Math.floor(value / floor) * floor;
-            value = value.toFixed(round);
+            const value = dateData.value;
             const { color, textColor } = colorFunc(value, minValue, maxValue, hueMin, hueMax, rain);
+            let valueMultiplied = value * multiple;
+            if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
+            valueMultiplied = valueMultiplied.toFixed(round);
             td.textContent = value;
             td.style.backgroundColor = color;
             td.style.color = textColor;
