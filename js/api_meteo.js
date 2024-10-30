@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 240, 210);
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 240, 180);
         fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getTempRainWindColor, 0, 100, 210, 0);
         fillWindDirectionRow(data.data[4], windDirectionRow);
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempRainWindColor, -5, 40, 300, 0);
         fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTempRainWindColor, 0, 5, 240, 210);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTempRainWindColor, 0, 5, 240, 180);
         fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
     }
