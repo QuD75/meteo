@@ -283,8 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             const value = dateData.value;
-            const { color, textColor } = colorFunc(value, minValue, maxValue, hueMin, hueMax, rain);
             let valueMultiplied = value * multiple;
+            const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain);
             if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
             valueMultiplied = valueMultiplied.toFixed(round);
             td.textContent = value;
