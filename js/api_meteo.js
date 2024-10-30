@@ -521,12 +521,10 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `hsl(${hueMax}, 100%, 50%)`;
         } else {
             let hue;
-            //if (value <= 25) {
-            if (true) {
+            if (value <= 25) {
                 hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
             } else {
-                // Ajuster hue pour que hue aille de 60 si value = 26 à 0 si value = 40
-                hue = Math.round(60 + ((value - 25) / (maxValue - 25)) * (minValue - 60));
+                hue = Math.round((-4 / 9) * Math.pow(value - 25, 2) + 100);
             }
             color = `hsl(${hue}, 100%, 50%)`;
         }
