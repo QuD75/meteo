@@ -510,6 +510,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions de coloriage
+
+
+
+
+
     function getCellColor(value, minValue, maxValue, hueMin, hueMax, rain, uv) {
         let color;
         const numericValue = Number(value);
@@ -521,13 +526,12 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `hsl(${hueMax}, 100%, 50%)`;
         } else {
             let hue;
-            const epsilon = 0.01;
-            const k = -1 / 20 * Math.log((3 * epsilon) / 400);
             if (value <= 20) {
-                hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
+                hue = -9.6 * (x - 20) + 60;
             } else {
-                const y = (400 / 3) * Math.exp(-k * (value - 20));
-                hue = Math.round(hueMin + ((y / (400 / 3)) * (hueMax - hueMin)));
+                const a = 60;
+                const b = 0.1; // Ajustez ce paramètre pour contrôler la pente
+                hue = a * Math.exp(-b * (x - 20));
             }
             color = `hsl(${hue}, 100%, 50%)`;
         }
