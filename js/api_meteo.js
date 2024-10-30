@@ -111,94 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-week-chart', 'du vent max sur les 7 prochaines jours', "Jour", "Vent (km/h)", dataWeek.data[5].coordinates[0], 'line', 'rgba(255, 140, 0, 1)', 'rgba(255, 140, 0, 0.2)');
     }
-
-    //Fonction de générations du graphique
-    function createChart(elementId, label, xAxisLabel, yAxisLabel, data, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
-        const ctx = document.getElementById(elementId).getContext('2d');
-        const labels = getChartLabels(elementId, data);
-        const values = getChartValues(data, label);
-
-        const datasets = createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
-
-        // Créer le graphique
-        new Chart(ctx, {
-            type: chartType,
-            data: {
-                labels,
-                datasets
-            },
-            options: {
-                plugins: {
-                    legend: { display: false },
-                    title: {
-                        display: true,
-                        text: `Évolution ${label}`,
-                        font: { size: 20 }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: xAxisLabel },
-                        ticks: { maxRotation: 30, minRotation: 30 }
-                    },
-                    y: {
-                        title: { display: true, text: yAxisLabel },
-                        ticks: { callback: value => value.toFixed(0) }
-                    }
-                }
-            }
-        });
-    }
-    function getChartLabels(elementId, data) {
-        return elementId.includes('day')
-            ? data.dates.map(date => `${new Date(date.date).getHours()}h`)
-            : data.dates.map(date => {
-                const parsedDate = new Date(date.date);
-                return parsedDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
-            });
-    }
-    function getChartValues(data, label) {
-        return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
-    }
-    function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
-        const datasets = [{
-            label,
-            data: values,
-            borderColor,
-            backgroundColor,
-            borderWidth: 3,
-            pointRadius: 0,
-            tension: 0.5,
-            cubicInterpolationMode: 'monotone',
-            fill: secondaryDataWind ? true : 'start'
-        }];
-
-        if (secondaryDataWind) {
-            const secondaryValues = secondaryDataWind.dates.map(date => date.value * 3.6);
-            datasets.push({
-                pointRadius: 0,
-                data: secondaryValues,
-                borderColor: 'rgba(255, 140, 0, 1)',
-                backgroundColor: 'rgba(255, 140, 0, 0.2)',
-                fill: '-1',
-                tension: 0.5,
-                cubicInterpolationMode: 'monotone',
-            });
-        }
-
-        if (secondaryDataTemp) {
-            const secondaryValues = secondaryDataTemp.dates.map(date => date.value);
-            datasets.push({
-                pointRadius: 0,
-                data: secondaryValues,
-                borderColor: 'rgba(139, 0, 0, 1)',
-                tension: 0.5,
-                cubicInterpolationMode: 'monotone',
-            });
-        }
-
-        return datasets;
-    }
     function fillVigilance(data) {
         if (data.results && data.results.length > 0) {
             // Trier les résultats par color_id pour obtenir la vigilance la plus forte
@@ -361,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempRainWindColor, -5, 40, 300, 0);
         fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 240, 210);
         fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
-        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getTempRainWindColor, 0, 100, 210, 0);s
+        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getTempRainWindColor, 0, 100, 210, 0);
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
         fillSymbolRow(data.data[6], weatherRow);
@@ -446,21 +358,96 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
-    function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax) {
-        let color;
-        const numericValue = Number(value);
 
-        if (numericValue < minValue) {
-            color = `hsl(${hueMin}, 100%, 50%)`;
-        } else if (numericValue > maxValue) {
-            color = `hsl(${hueMax}, 100%, 50%)`;
-        } else {
-            const hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
-            color = `hsl(${hue}, 100%, 50%)`;
-        }
-        const textColor = getTextColor(color);
-        return { color, textColor };
+    //Fonction de générations du graphique
+    function createChart(elementId, label, xAxisLabel, yAxisLabel, data, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
+        const ctx = document.getElementById(elementId).getContext('2d');
+        const labels = getChartLabels(elementId, data);
+        const values = getChartValues(data, label);
+
+        const datasets = createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
+
+        // Créer le graphique
+        new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels,
+                datasets
+            },
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: `Évolution ${label}`,
+                        font: { size: 20 }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: xAxisLabel },
+                        ticks: { maxRotation: 30, minRotation: 30 }
+                    },
+                    y: {
+                        title: { display: true, text: yAxisLabel },
+                        ticks: { callback: value => value.toFixed(0) }
+                    }
+                }
+            }
+        });
     }
+    function getChartLabels(elementId, data) {
+        return elementId.includes('day')
+            ? data.dates.map(date => `${new Date(date.date).getHours()}h`)
+            : data.dates.map(date => {
+                const parsedDate = new Date(date.date);
+                return parsedDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+            });
+    }
+    function getChartValues(data, label) {
+        return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
+    }
+    function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
+        const datasets = [{
+            label,
+            data: values,
+            borderColor,
+            backgroundColor,
+            borderWidth: 3,
+            pointRadius: 0,
+            tension: 0.5,
+            cubicInterpolationMode: 'monotone',
+            fill: secondaryDataWind ? true : 'start'
+        }];
+
+        if (secondaryDataWind) {
+            const secondaryValues = secondaryDataWind.dates.map(date => date.value * 3.6);
+            datasets.push({
+                pointRadius: 0,
+                data: secondaryValues,
+                borderColor: 'rgba(255, 140, 0, 1)',
+                backgroundColor: 'rgba(255, 140, 0, 0.2)',
+                fill: '-1',
+                tension: 0.5,
+                cubicInterpolationMode: 'monotone',
+            });
+        }
+
+        if (secondaryDataTemp) {
+            const secondaryValues = secondaryDataTemp.dates.map(date => date.value);
+            datasets.push({
+                pointRadius: 0,
+                data: secondaryValues,
+                borderColor: 'rgba(139, 0, 0, 1)',
+                tension: 0.5,
+                cubicInterpolationMode: 'monotone',
+            });
+        }
+
+        return datasets;
+    }
+
+    //Fonctions d'icones
     function getWindDirectionIcon(wind_deg) {
         const directions = [
             { min: 348.75, max: 360, icon: '/icons/wind/n.png' },
@@ -518,6 +505,23 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (weather === 16) return '/icons/weather/wsymbol_0056_dust_sand.png'
         else if (weather === 116) return '/icons/weather/wsymbol_0074_dust_sand_night.png';
         else return '/icons/weather/wsymbol_0999_unknown.png';
+    }
+
+    //Fonctions de coloriage
+    function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax) {
+        let color;
+        const numericValue = Number(value);
+
+        if (numericValue < minValue) {
+            color = `hsl(${hueMin}, 100%, 50%)`;
+        } else if (numericValue > maxValue) {
+            color = `hsl(${hueMax}, 100%, 50%)`;
+        } else {
+            const hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
+            color = `hsl(${hue}, 100%, 50%)`;
+        }
+        const textColor = getTextColor(color);
+        return { color, textColor };
     }
     function getUVColor(value) {
         let color;
