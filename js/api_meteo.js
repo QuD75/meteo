@@ -539,15 +539,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (temp <= -10) {
             hue = 300;
         } else if (temp <= -5) {
-            hue = 300 + ((-5 - temp) / 5) * (260 - 300);
+            hue = 300 - ((-5 - temp) / 5) * (300 - 260);
         } else if (temp <= 0) {
-            hue = 260 + ((0 - temp) / 5) * (195 - 260);
+            hue = 260 - ((0 - temp) / 5) * (260 - 195);
         } else if (temp <= 10) {
-            hue = 195 + ((10 - temp) / 10) * (120 - 195);
+            hue = 195 - ((10 - temp) / 10) * (195 - 120);
         } else if (temp <= 20) {
-            hue = 120 + ((20 - temp) / 10) * (60 - 120);
+            hue = 120 - ((20 - temp) / 10) * (120 - 60);
         } else if (temp <= 30) {
-            hue = 60 + ((30 - temp) / 10) * (30 - 60);
+            hue = 60 - ((30 - temp) / 10) * (60 - 30);
         } else {
             hue = 0;
         }
