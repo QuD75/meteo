@@ -121,10 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const vigilanceTitle = document.getElementById('vigilance-title');
     
             const colorMap = {
-                1: { color: 'green', icon: '/icons/44/44_vert.svg' },
-                2: { color: 'yellow', icon: '/icons/44/44_jaune.svg' },
-                3: { color: 'orange', icon: '/icons/44/44_orange.svg' },
-                4: { color: 'red', icon: '/icons/44/44_rouge.svg' }
+                1: { color: '#008020', icon: '/icons/44/44_vert.svg' },
+                2: { color: '#ffe32a', icon: '/icons/44/44_jaune.svg' },
+                3: { color: '#ff8800', icon: '/icons/44/44_orange.svg' },
+                4: { color: '#f00020', icon: '/icons/44/44_rouge.svg' }
             };
     
             if (highestVigilanceLevel in colorMap) {
