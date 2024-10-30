@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
 
-    //Récupérer si les données doivent être mockées ou non
+    //Données mockées ou non ?
     function getMockValue() {
         const url = new URL(window.location.href);
         const mockParam = url.searchParams.get('mock');

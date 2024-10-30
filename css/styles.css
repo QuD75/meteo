@@ -178,4 +178,5 @@ td:first-child {
 .Temp canvas, .Rain canvas, .Wind canvas, .Pressure canvas {
     width: 100%;
     height: 600px;
+    background-color: var(--light-background) !important;
 }
