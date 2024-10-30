@@ -540,7 +540,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getWindColor(wind) {
         let color;
-        color = `hsl(${Math.round(-2.5 * wind + 250)}, 100%, 50%)`;
+        if (wind < 90) color = `hsl(${Math.round((-250 / 90) * wind + 250)}, 100%, 50%)`;
+        else color = `hsl(0, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
