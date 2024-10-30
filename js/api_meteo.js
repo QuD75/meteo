@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-    function getTempColor() {
+    function getTempColor(temp) {
         let color;
         let hue;
         if (temp <= -10) {
