@@ -568,6 +568,8 @@ document.addEventListener('DOMContentLoaded', () => {
             hue = -7.5 * temp + 195;
         } else if (temp <= 20) {
             hue = -7 * temp + 190;
+        } else if (temp <= 30) {
+            hue = -2 * temp + 90;
         } else if (temp <= 40) {
             hue = -3 * temp + 120;
         } else {
