@@ -113,46 +113,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillVigilance(data) {
         if (data.results && data.results.length > 0) {
-            // Trier les résultats par color_id pour obtenir la vigilance la plus forte
             data.results.sort((a, b) => b.color_id - a.color_id);
-
-            // Récupérer le niveau de vigilance le plus élevé
             const highestVigilanceLevel = data.results[0].color_id;
-
-            // Vérifier si la vigilance la plus élevée est verte
+    
             const pastille = document.getElementById('pastille');
             const phenomenonName = document.getElementById('phenomenon-name');
             const vigilanceDetails = document.getElementById('vigilance-details');
-            const vigilanceIcon = document.getElementById('vigilance-icon'); // Nouvelle ligne
-            const vigilanceEncart = document.getElementById('vigilance-encart');
-
-            // Déterminer la couleur et l'icône de la vigilance
+            const vigilanceIcon = document.getElementById('vigilance-icon');
+            const vigilanceTitle = document.getElementById('vigilance-title');
+    
             const colorMap = {
                 1: { color: 'green', icon: '/icons/44/44_vert.svg' },
                 2: { color: 'yellow', icon: '/icons/44/44_jaune.svg' },
                 3: { color: 'orange', icon: '/icons/44/44_orange.svg' },
                 4: { color: 'red', icon: '/icons/44/44_rouge.svg' }
             };
-
+    
             if (highestVigilanceLevel in colorMap) {
-                pastille.style.backgroundColor = colorMap[highestVigilanceLevel].color;
-                vigilanceIcon.src = colorMap[highestVigilanceLevel].icon; // Nouvelle ligne pour définir l'icône
+                vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
+                vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color; // Définir la couleur du titre
+                vigilanceTitle.textContent = `Vigilance ${colorMap[highestVigilanceLevel].color}`;
             }
-
-            // Vérifier si la vigilance la plus élevée est verte
+    
             if (highestVigilanceLevel === 1) {
-                phenomenonName.textContent = '';
                 vigilanceDetails.innerHTML = '';
-                vigilanceEncart.style.display = 'block'; // Afficher seulement la pastille verte
+                document.getElementById('vigilance-encart').style.display = 'block'; // Afficher seulement la pastille verte
                 return;
             }
-
-            // Filtrer pour obtenir toutes les vigilances du niveau le plus élevé
+    
             const highestVigilances = data.results.filter(vigilance => vigilance.color_id === highestVigilanceLevel);
-
-            // Regrouper les vigilances par phénomène et fusionner les périodes
             const vigilanceGroups = {};
-
+    
             highestVigilances.forEach(vigilance => {
                 const key = `${vigilance.phenomenon}-${vigilance.color_id}`;
                 if (!vigilanceGroups[key]) {
@@ -167,32 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     end_time: new Date(vigilance.end_time)
                 });
             });
-
-            function mergePeriods(periods) {
-                // Tri des périodes par date de début
-                periods.sort((a, b) => a.begin_time - b.begin_time);
-
-                const merged = [];
-                let currentPeriod = periods[0];
-
-                for (let i = 1; i < periods.length; i++) {
-                    if (currentPeriod.end_time >= periods[i].begin_time) {
-                        // Il y a chevauchement, fusionner les périodes
-                        currentPeriod.end_time = new Date(Math.max(currentPeriod.end_time, periods[i].end_time));
-                    } else {
-                        // Pas de chevauchement, ajouter la période courante à la liste et passer à la suivante
-                        merged.push(currentPeriod);
-                        currentPeriod = periods[i];
-                    }
-                }
-
-                // Ajouter la dernière période
-                merged.push(currentPeriod);
-
-                return merged;
-            }
-
-            // Fusionner les périodes
+    
             const mergedVigilances = Object.values(vigilanceGroups).map(group => {
                 const mergedPeriods = mergePeriods(group.periods);
                 return {
@@ -201,31 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     periods: mergedPeriods
                 };
             });
-
-            phenomenonName.textContent = mergedVigilances.map(v => v.phenomenon).join(', ');
-
-            // Fonction pour formater les dates
-            function formatPeriod(begin, end) {
-                const formatDate = date => date.toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                return `${formatDate(begin)} à ${formatDate(end)}`;
-            }
-
-            // Affichage des périodes fusionnées
+    
             vigilanceDetails.innerHTML = mergedVigilances.map(vigilance =>
-                `Phénomène: ${vigilance.phenomenon}<br>${vigilance.periods.map(period =>
-                    `Période: ${formatPeriod(period.begin_time, period.end_time)}`
+                `Phénomène : ${vigilance.phenomenon}<br>Période : ${vigilance.periods.map(period =>
+                    ` ${formatPeriod(period.begin_time, period.end_time)}`
                 ).join('<br>')}<br><br>`
             ).join('');
-
-            vigilanceEncart.style.display = 'block'; // Afficher l'encart
+    
+            document.getElementById('vigilance-encart').style.display = 'block'; // Afficher l'encart
         } else {
-            vigilanceEncart.style.display = 'none'; // Cacher l'encart si aucune donnée
+            document.getElementById('vigilance-encart').style.display = 'none'; // Cacher l'encart si aucune donnée
         }
     }
     function fillTableDay(data) {
