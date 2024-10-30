@@ -508,10 +508,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions de coloriage
-    function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax, rain = false) {
+    function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax, rain) {
         let color;
         const numericValue = Number(value);
-        if (numericValue === 0 && rain) color = color = `hsl(0, 0%, 100%)`;
+        if (numericValue === 0 && rain) color = `hsl(0, 0%, 100%)`;
         if (numericValue < minValue) {
             color = `hsl(${hueMin}, 100%, 50%)`;
         } else if (numericValue > maxValue) {
