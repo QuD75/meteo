@@ -168,6 +168,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
+            function mergePeriods(periods) {
+                // Tri des périodes par date de début
+                periods.sort((a, b) => a.begin_time - b.begin_time);
+        
+                const merged = [];
+                let currentPeriod = periods[0];
+        
+                for (let i = 1; i < periods.length; i++) {
+                    if (currentPeriod.end_time >= periods[i].begin_time) {
+                        // Il y a chevauchement, fusionner les périodes
+                        currentPeriod.end_time = new Date(Math.max(currentPeriod.end_time, periods[i].end_time));
+                    } else {
+                        // Pas de chevauchement, ajouter la période courante à la liste et passer à la suivante
+                        merged.push(currentPeriod);
+                        currentPeriod = periods[i];
+                    }
+                }
+        
+                // Ajouter la dernière période
+                merged.push(currentPeriod);
+        
+                return merged;
+            }
+
             // Fusionner les périodes
             const mergedVigilances = Object.values(vigilanceGroups).map(group => {
                 const mergedPeriods = mergePeriods(group.periods);
@@ -203,29 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             vigilanceEncart.style.display = 'none'; // Cacher l'encart si aucune donnée
         }
-    }
-    function mergePeriods(periods) {
-        // Tri des périodes par date de début
-        periods.sort((a, b) => a.begin_time - b.begin_time);
-
-        const merged = [];
-        let currentPeriod = periods[0];
-
-        for (let i = 1; i < periods.length; i++) {
-            if (currentPeriod.end_time >= periods[i].begin_time) {
-                // Il y a chevauchement, fusionner les périodes
-                currentPeriod.end_time = new Date(Math.max(currentPeriod.end_time, periods[i].end_time));
-            } else {
-                // Pas de chevauchement, ajouter la période courante à la liste et passer à la suivante
-                merged.push(currentPeriod);
-                currentPeriod = periods[i];
-            }
-        }
-
-        // Ajouter la dernière période
-        merged.push(currentPeriod);
-
-        return merged;
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
