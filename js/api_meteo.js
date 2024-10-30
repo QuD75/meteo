@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
 
-        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getCellColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempColor);
         fillWeatherRow(data.data[1], 1, 1, null, rainRow, getCellColor, 0, 5, 180, 240, true);
         fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getCellColor, 0, 100, 210, 0);
@@ -344,8 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
             sunRow.appendChild(td);
         });
 
-        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getCellColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getCellColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempColor);
+        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempColor);
         fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getCellColor, 0, 5, 180, 240, true);
         fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getCellColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
@@ -530,6 +530,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             color = `hsl(${hue}, 100%, 50%)`;
         }
+        const textColor = getTextColor(color);
+        return { color, textColor };
+    }
+    function getTempColor() {
+        let color;
+        let hue;
+        if (temp <= -10) {
+            hue = 300;
+        } else if (temp <= -5) {
+            hue = 300 + ((-5 - temp) / 5) * (260 - 300);
+        } else if (temp <= 0) {
+            hue = 260 + ((0 - temp) / 5) * (195 - 260);
+        } else if (temp <= 10) {
+            hue = 195 + ((10 - temp) / 10) * (120 - 195);
+        } else if (temp <= 20) {
+            hue = 120 + ((20 - temp) / 10) * (60 - 120);
+        } else if (temp <= 30) {
+            hue = 60 + ((30 - temp) / 10) * (30 - 60);
+        } else {
+            hue = 0;
+        }
+        color = `hsl(${Math.round(hue)}, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
