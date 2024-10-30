@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
         fillSymbolRow(data.data[6], weatherRow);
-        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getCellColor, 0, 10, 60, 0, false, true);
+        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
@@ -551,6 +551,13 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (temp <= 30) hue = -2 * temp + 90;
         else if (temp > 30) hue = Math.max(-3 * temp + 120, 0);
         color = `hsl(${Math.round(hue)}, 100%, 50%)`;
+        const textColor = getTextColor(color);
+        return { color, textColor };
+    }
+    function getUVColor(uv) {
+        let color;
+        if (uv > 0) color = `hsl(${Math.round(-9 * uv + 90)}, 100%, 50%)`;
+        else color = `hsl(0, 0%, 100%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
