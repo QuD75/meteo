@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.results && data.results.length > 0) {
             data.results.sort((a, b) => b.color_id - a.color_id);
             const highestVigilanceLevel = data.results[0].color_id;
+            const highestVigilanceColor = data.results[0].color;
 
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceIcon = document.getElementById('vigilance-icon');
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (highestVigilanceLevel in colorMap) {
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color; // Définir la couleur du titre
-                vigilanceTitle.textContent = `Vigilance ${colorMap[highestVigilanceLevel].color}`;
+                vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
             }
     
             if (highestVigilanceLevel === 1) {
