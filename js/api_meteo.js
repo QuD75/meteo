@@ -512,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let color;
         const numericValue = Number(value);
         if (numericValue === 0 && rain) {
+            console.log("Pluie nulle : " + numericValue);
             color = `hsl(0, 0%, 100%)`
         } else if (numericValue < minValue) {
             color = `hsl(${hueMin}, 100%, 50%)`;
