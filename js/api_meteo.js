@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let dateCell;
         let hourCount = 0;
 
-        data.data[0].coordinates[0].dates.forEach((dateData, index) => {
+        data.data[0].coordinates[0].dates.forEach((dateData) => {
             const hour = new Date(dateData.date).getUTCHours();
             const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
 
@@ -358,22 +358,22 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.setAttribute('colspan', hourCount);
         }
 
-        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTemperatureColor);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getPrecipitationColor);
-        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
-        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
+        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempRainWindColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 240, 210);
+        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
+        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getTempRainWindColor, 0, 100, 210, 0);s
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
         fillSymbolRow(data.data[6], weatherRow);
         fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
-    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc) {
+    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             let value = dateData.value * multiple;
             if (floor != null) value = Math.floor(value / floor) * floor;
             value = value.toFixed(round);
-            const { color, textColor } = colorFunc(value);
+            const { color, textColor } = colorFunc(value, minValue, maxValue, hueMin, hueMax);
             td.textContent = value;
             td.style.backgroundColor = color;
             td.style.color = textColor;
@@ -430,10 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sunRow.appendChild(td);
         });
 
-        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTemperatureColor);
-        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTemperatureColor);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getPrecipitationColor);
-        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor);
+        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTemperatureColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTemperatureColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getPrecipitationColor, 0, 5, 240, 210);
+        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
@@ -446,63 +446,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
     }
-    function getTemperatureColor(value) {
+    function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax) {
         let color;
-        const min = -5;
-        const max = 40;
-        const hueMax = 300;
         const numericValue = Number(value);
 
-        if (numericValue < min) {
+        if (numericValue < minValue) {
+            color = `hsl(${hueMin}, 100%, 50%)`;
+        } else if (numericValue > maxValue) {
             color = `hsl(${hueMax}, 100%, 50%)`;
-        } else if (numericValue > max) {
-            color = `hsl(0, 100%, 50%)`;
         } else {
-            const hue = Math.round(hueMax - ((numericValue - min) * (hueMax / (max - min))));
+            const hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
             color = `hsl(${hue}, 100%, 50%)`;
         }
         const textColor = getTextColor(color);
         return { color, textColor };
     }
-    function getPrecipitationColor(value) {
-        if (value < 0.1) return { color: 'rgb(255, 255, 255)', textColor: 'black' };
-        if (value < 1) return { color: 'rgb(173, 216, 230)', textColor: 'black' };
-        if (value <= 2) return { color: 'rgb(0, 191, 255)', textColor: 'black' };
-        return { color: 'rgb(0, 0, 139)', textColor: 'white' };
-    }
-    function getWindColor(value) {
-        let color;
-        const min = 0;
-        const max = 100;
-        const hueMax = 210;
-        const numericValue = Number(value);
-
-        if (numericValue < min) {
-            color = `hsl(${hueMax}, 100%, 50%)`;
-        } else if (numericValue > max) {
-            color = `hsl(0, 100%, 50%)`;
-        } else {
-            const hue = Math.round(hueMax - ((numericValue - min) * (hueMax / (max - min))));
-            color = `hsl(${hue}, 100%, 50%)`;
-        }
-        const textColor = getTextColor(color);
-        return { color, textColor };
-    }
-    /*function getWindColor(value) {
-        let color;
-        if (value < 20) {
-            // Couleur dégradée de bleu clair à bleu foncé pour les valeurs < 20
-            color = `rgb(0, ${Math.round(255 * (value / 20))}, 255)`;
-        } else if (value <= 40) {
-            // Couleur dégradée de bleu clair à vert pour les valeurs entre 20 et 40
-            color = `rgb(0, 255, ${Math.round(255 - ((value - 20) * 255 / 20))})`;
-        } else {
-            // Couleur dégradée de vert à rouge pour les valeurs > 40
-            color = `rgb(${Math.round((value - 40) * 255 / 60)}, ${Math.round(255 - ((value - 40) * 255 / 60))}, 0)`;
-        }
-        const textColor = getTextColor(color);
-        return { color, textColor };
-    }*/
     function getWindDirectionIcon(wind_deg) {
         const directions = [
             { min: 348.75, max: 360, icon: '/icons/wind/n.png' },
@@ -581,45 +539,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getTextColor(color) {
         let r, g, b;
-    
+
         // Vérifier si la couleur est au format HSL
         const hslMatch = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
         if (hslMatch) {
             const h = parseInt(hslMatch[1], 10);
             const s = parseInt(hslMatch[2], 10);
             const l = parseInt(hslMatch[3], 10);
-            
+
             // Conversion HSL vers RGB
             const hslToRgb = (h, s, l) => {
                 s /= 100;
                 l /= 100;
                 let r, g, b;
-    
+
                 if (s === 0) {
                     r = g = b = l; // achromatic (grayscale)
                 } else {
                     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     const p = 2 * l - q;
-    
+
                     const hueToRgb = (p, q, t) => {
                         if (t < 0) t += 1;
                         if (t > 1) t -= 1;
-                        if (t < 1/6) return p + (q - p) * 6 * t;
-                        if (t < 1/2) return q;
-                        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                        if (t < 1 / 6) return p + (q - p) * 6 * t;
+                        if (t < 1 / 2) return q;
+                        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
                         return p;
                     };
-    
-                    r = hueToRgb(p, q, h / 360 + 1/3);
+
+                    r = hueToRgb(p, q, h / 360 + 1 / 3);
                     g = hueToRgb(p, q, h / 360);
-                    b = hueToRgb(p, q, h / 360 - 1/3);
+                    b = hueToRgb(p, q, h / 360 - 1 / 3);
                 }
-    
+
                 return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
             };
-    
+
             [r, g, b] = hslToRgb(h, s, l);
-        } 
+        }
         // Vérifier si la couleur est au format RGB
         else {
             const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
@@ -631,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return 'black'; // Valeur par défaut si le format n'est pas reconnu
             }
         }
-    
+
         // Calcul de la luminosité
         const luminosity = 0.299 * r + 0.587 * g + 0.114 * b;
         return luminosity < 110 ? 'white' : 'black';
