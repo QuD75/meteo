@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillSymbolRow(data.data[6], weatherRow);
         fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
-    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax) {
+    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             let value = dateData.value * multiple;
