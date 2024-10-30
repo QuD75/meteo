@@ -521,10 +521,12 @@ document.addEventListener('DOMContentLoaded', () => {
             color = `hsl(${hueMax}, 100%, 50%)`;
         } else {
             let hue;
-            if (value <= 25) {
+            const epsilon = 0.01;
+            const k = -1 / 20 * Math.log((3 * epsilon) / 400);
+            if (value <= 20) {
                 hue = Math.round(hueMin + ((value - minValue) / (maxValue - minValue)) * (hueMax - hueMin));
             } else {
-                hue = Math.round((-4 / 9) * Math.pow(value - 25, 2) + 100);
+                hue = Math.round((400 / 3) * Math.exp(-k * (x - 20)));
             }
             color = `hsl(${hue}, 100%, 50%)`;
         }
