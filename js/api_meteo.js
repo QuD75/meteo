@@ -117,15 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const highestVigilanceLevel = data.results[0].color_id;
             const highestVigilanceColor = data.results[0].color;
 
+            const vigilanceDetails = document.getElementById('vigilance-details');
+            const vigilanceIcon = document.getElementById('vigilance-icon');
+            const vigilanceTitle = document.getElementById('vigilance-title');
+
             if (highestVigilanceLevel === 1) {
                 vigilanceDetails.innerHTML = '';
                 document.getElementById('vigilance-encart').style.display = 'none';
                 return;
             }
-
-            const vigilanceDetails = document.getElementById('vigilance-details');
-            const vigilanceIcon = document.getElementById('vigilance-icon');
-            const vigilanceTitle = document.getElementById('vigilance-title');
     
             const colorMap = {
                 2: { color: '#ffe32a', icon: '/icons/44/44_jaune.svg' },
