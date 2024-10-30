@@ -112,8 +112,8 @@ footer a:hover {
 }
 
 #vigilance-icon {
-    width: 60px;
-    height: 60px;
+    width: 150px;
+    height: auto;
 }
 
 #icon-container {
@@ -124,8 +124,10 @@ footer a:hover {
 }
 
 #text-container {
-    flex: 1;
-    padding-left: 20px;
+    flex: 2;
+    display: flex;
+    flex-direction: column; /* Aligner le texte verticalement */
+    justify-content: center; /* Centrer le texte verticalement */
 }
 
 #vigilance-title {
