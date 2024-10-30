@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax, rain) {
         let color;
         const numericValue = Number(value);
-        console.log("Value : "+value);
+        if (rain) console.log("Value : " + value);
         if (numericValue < 0.001 && rain) {
             console.log("Valeur nulle");
             color = `hsl(0, 0%, 100%)`
