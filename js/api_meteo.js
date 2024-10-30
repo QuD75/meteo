@@ -117,12 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const highestVigilanceLevel = data.results[0].color_id;
             const highestVigilanceColor = data.results[0].color;
 
+            if (highestVigilanceLevel === 1) {
+                vigilanceDetails.innerHTML = '';
+                document.getElementById('vigilance-encart').style.display = 'none';
+                return;
+            }
+
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceIcon = document.getElementById('vigilance-icon');
             const vigilanceTitle = document.getElementById('vigilance-title');
     
             const colorMap = {
-                1: { color: '#008020', icon: '/icons/44/44_vert.svg' },
                 2: { color: '#ffe32a', icon: '/icons/44/44_jaune.svg' },
                 3: { color: '#ff8800', icon: '/icons/44/44_orange.svg' },
                 4: { color: '#f00020', icon: '/icons/44/44_rouge.svg' }
@@ -132,12 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color; // Définir la couleur du titre
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
-            }
-    
-            if (highestVigilanceLevel === 1) {
-                vigilanceDetails.innerHTML = '';
-                document.getElementById('vigilance-encart').style.display = 'block'; // Afficher seulement la pastille verte
-                return;
             }
     
             const highestVigilances = data.results.filter(vigilance => vigilance.color_id === highestVigilanceLevel);
