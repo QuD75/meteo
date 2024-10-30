@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 180, 240, "true");
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getTempRainWindColor, 0, 5, 180, 240, true);
         fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getTempRainWindColor, 0, 100, 210, 0);
         fillWindDirectionRow(data.data[4], windDirectionRow);
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let value = dateData.value * multiple;
             if (floor != null) value = Math.floor(value / floor) * floor;
             value = value.toFixed(round);
-            const { color, textColor } = colorFunc(value, minValue, maxValue, hueMin, hueMax);
+            const { color, textColor } = colorFunc(value, minValue, maxValue, hueMin, hueMax, rain);
             td.textContent = value;
             td.style.backgroundColor = color;
             td.style.color = textColor;
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempRainWindColor, -5, 40, 300, 0);
         fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempRainWindColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTempRainWindColor, 0, 5, 180, 240, "true");
+        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getTempRainWindColor, 0, 5, 180, 240, true);
         fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getTempRainWindColor, 0, 100, 210, 0);
         fillSymbolRow(data.data[6], weatherRow);
     }
@@ -510,11 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
     //Fonctions de coloriage
     function getTempRainWindColor(value, minValue, maxValue, hueMin, hueMax, rain) {
         let color;
-        const isRain = (typeof rain === "string" ? rain.toLowerCase() === "true" : Boolean(rain));
         const numericValue = Number(value);
-        if (rain === "true") console.log("Booleen : " + isRain);
-        if (numericValue < 0.001 && isRain) {
-            console.log("Valeur nulle");
+        if (numericValue < 0.001 && rain) {
             color = `hsl(0, 0%, 100%)`
         } else if (numericValue < minValue) {
             color = `hsl(${hueMin}, 100%, 50%)`;
