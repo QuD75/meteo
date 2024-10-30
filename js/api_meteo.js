@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             let hue;
             if (value <= 20) {
-                hue = -9.6 * (x - 20) + 60;
+                hue = -9.6 * (value - 20) + 60;
             } else {
                 const a = 60;
                 const b = 0.1; // Ajustez ce paramètre pour contrôler la pente
