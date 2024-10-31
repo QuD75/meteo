@@ -220,41 +220,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const pressureRow = document.getElementById('pressure-24h-row');
         const weatherRow = document.getElementById('weather-24h-row');
         const uvRow = document.getElementById('uv-24h-row');
-    
+
         let currentDate = null;
+        let dateCell;
         let hourCount = 0;
-    
-        data.data[0].coordinates[0].dates.forEach((dateData, index) => {
+
+        data.data[0].coordinates[0].dates.forEach((dateData) => {
             const hour = formatDate(new Date(dateData.date), false, false, false, true, false);
             const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-    
-            // Ajouter la date dans la première colonne si elle change
+
             if (currentDate !== newDate) {
+                if (dateCell) {
+                    dateCell.setAttribute('colspan', hourCount);
+                }
                 currentDate = newDate;
-                const dateCell = document.createElement('td');
+                dateCell = document.createElement('th');
                 dateCell.textContent = currentDate;
                 daysRow.appendChild(dateCell);
-    
-                // Remplir les heures pour la date actuelle
-                hourCount = 0; // Réinitialiser hourCount pour chaque nouvelle date
+                hourCount = 1;
+            } else {
+                hourCount++;
             }
-    
-            // Ajouter l'heure dans la colonne des heures
-            const hourCell = document.createElement('td');
-            hourCell.textContent = hour;
-            hoursRow.appendChild(hourCell);
-            hourCount++; // Incrémenter hourCount
-    
-            // Remplir les colonnes pour les autres paramètres, en utilisant l'index pour accéder à la bonne donnée
-            fillWeatherRow(data.data[0], temperatureRow, getTempColor, hourCount, index);
-            fillWeatherRow(data.data[1], rainRow, getRainColor, hourCount, index);
-            fillWeatherRow(data.data[2], windRow, getWindColor, hourCount, index);
-            fillWeatherRow(data.data[3], windGustRow, getWindColor, hourCount, index);
-            fillWindDirectionRow(data.data[4], windDirectionRow, hourCount, index);
-            fillWeatherRow(data.data[5], pressureRow, null, hourCount, index);
-            fillSymbolRow(data.data[6], weatherRow, hourCount, index);
-            fillWeatherRow(data.data[7], uvRow, getUVColor, hourCount, index);
+
+            const th = document.createElement('th');
+            th.textContent = hour;
+            hoursRow.appendChild(th);
         });
+
+        if (dateCell) {
+            dateCell.setAttribute('colspan', hourCount);
+        }
+
+        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempColor, -5, 40, 300, 0);
+        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getRainColor);
+        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
+        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
+        fillWindDirectionRow(data.data[4], windDirectionRow);
+        fillWeatherRow(data.data[5], 0, 1, null, pressureRow);
+        fillSymbolRow(data.data[6], weatherRow);
+        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
