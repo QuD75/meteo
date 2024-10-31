@@ -187,17 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
         return merged;
     }
-    function formatHour(date) {
-        let length = date.length;
-        if (length < 2) {
-            return date;
-        }
-        let transformeDate = date.slice(0, -2) + date.charAt(length - 1);
-        if (transformeDate.charAt(length - 4) === '0') {
-            transformeDate = transformeDate.slice(0, -3) + transformeDate.slice(-2);
-        }
-        return transformeDate;
-    }
     function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
             year: hasYear ? 'numeric' : undefined,
@@ -209,7 +198,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
-            formattedDate = formatHour(formattedDate);
+            let length = formattedDate.length;
+            transformeDate = transformeDate.slice(0, -2) + transformeDate.charAt(length - 1);
+            if (transformeDate.charAt(length - 4) === '0') {
+                transformeDate = transformeDate.slice(0, -3) + transformeDate.slice(-2);
+            }
+            return transformeDate;
         }
         return formattedDate;
     }
