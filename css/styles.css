@@ -155,8 +155,11 @@ footer a:hover {
     tr {
         display: flex;
         flex-direction: column;
-        width: 10%;
-        max-width: 10%;
+    }
+    td {
+        width: 20%;
+        max-width: 20%;
+        text-align: center;
     }
 }
 
