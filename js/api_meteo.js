@@ -39,14 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(mock ? "Données mockées" : "Données non mockées");
         const now = Date.now();
 
-        // Fonction pour récupérer et gérer les données d'une API
         async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
             const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-
             // Vérifier si les données en cache sont encore valides
             if (!mock && cachedData && (now - cachedData.timestamp < duration)) {
                 console.log("Données en cache pour " + cacheKey);
-                displayFunction(cachedData.data); // Affiche les données mises en cache immédiatement
+                displayFunction(cachedData.data);
                 return cachedData.data;
             } else {
                 try {
@@ -61,11 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                         console.log("Données mises en cache pour " + cacheKey);
                     }
-                    displayFunction(data); // Affiche les données dès qu'elles sont disponibles
+                    displayFunction(data);
                     return data;
                 } catch (error) {
                     console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
-                    return null; // Retourner null en cas d'erreur
+                    return null;
                 }
             }
         }
@@ -172,26 +170,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     function mergePeriods(periods) {
-        // Tri des périodes par date de début
         periods.sort((a, b) => a.begin_time - b.begin_time);
-
         const merged = [];
         let currentPeriod = periods[0];
-
         for (let i = 1; i < periods.length; i++) {
             if (currentPeriod.end_time >= periods[i].begin_time) {
-                // Il y a chevauchement, fusionner les périodes
                 currentPeriod.end_time = new Date(Math.max(currentPeriod.end_time, periods[i].end_time));
             } else {
-                // Pas de chevauchement, ajouter la période courante à la liste et passer à la suivante
                 merged.push(currentPeriod);
                 currentPeriod = periods[i];
             }
         }
-
-        // Ajouter la dernière période
         merged.push(currentPeriod);
-
         return merged;
     }
     function formatPeriod(beginTime, endTime) {
@@ -332,14 +322,11 @@ document.addEventListener('DOMContentLoaded', () => {
         fillSymbolRow(data.data[6], weatherRow);
     }
     function getParisTimezoneOffset(date) {
-        // Crée une date correspondant au dernier jour de janvier et juillet pour vérifier l'heure standard et l'heure d'été
-        const january = new Date(date.getFullYear(), 0, 1); // Janvier
-        const july = new Date(date.getFullYear(), 6, 1);    // Juillet
-
+        const january = new Date(date.getFullYear(), 0, 1);
+        const july = new Date(date.getFullYear(), 6, 1);
         // Compare les décalages horaires entre la date donnée et janvier/juillet
         const isDST = date.getTimezoneOffset() < Math.max(january.getTimezoneOffset(), july.getTimezoneOffset());
-
-        return isDST ? 2 : 1; // 2 = Heure d'été, 1 = Heure d'hiver
+        return isDST ? 2 : 1;
     }
 
     //Fonction de générations du graphique
@@ -347,10 +334,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById(elementId).getContext('2d');
         const labels = getChartLabels(elementId, data);
         const values = getChartValues(data, label);
-
         const datasets = createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
 
-        // Créer le graphique
         new Chart(ctx, {
             type: chartType,
             data: {
@@ -388,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
     function getChartValues(data, label) {
-        return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1)); // Convertir en km/h si nécessaire
+        return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1));
     }
     function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
         const datasets = [{
@@ -528,22 +513,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getTextColor(color) {
         let r, g, b;
-
-        // Vérifier si la couleur est au format HSL
         const hslMatch = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
         if (hslMatch) {
             const h = parseInt(hslMatch[1], 10);
             const s = parseInt(hslMatch[2], 10);
             const l = parseInt(hslMatch[3], 10);
-
-            // Conversion HSL vers RGB
             const hslToRgb = (h, s, l) => {
                 s /= 100;
                 l /= 100;
                 let r, g, b;
-
                 if (s === 0) {
-                    r = g = b = l; // achromatic (grayscale)
+                    r = g = b = l;
                 } else {
                     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     const p = 2 * l - q;
@@ -556,18 +536,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
                         return p;
                     };
-
                     r = hueToRgb(p, q, h / 360 + 1 / 3);
                     g = hueToRgb(p, q, h / 360);
                     b = hueToRgb(p, q, h / 360 - 1 / 3);
                 }
-
                 return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
             };
-
             [r, g, b] = hslToRgb(h, s, l);
         }
-        // Vérifier si la couleur est au format RGB
         else {
             const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
             if (rgbMatch) {
@@ -575,10 +551,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 g = parseInt(rgbMatch[2], 10);
                 b = parseInt(rgbMatch[3], 10);
             } else {
-                return 'black'; // Valeur par défaut si le format n'est pas reconnu
+                return 'black';
             }
         }
-
         // Calcul de la luminosité
         const luminosity = 0.299 * r + 0.587 * g + 0.114 * b;
         return luminosity < 100 ? 'white' : 'black';
