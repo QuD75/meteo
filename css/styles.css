@@ -184,26 +184,36 @@ footer a:hover {
 
 .tab table {
     display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 tbody {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 tr {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    border: 1px solid var(--border-color);
 }
 
-td {
-    width: 100% !important;
-    max-width: 100% !important;
-    text-align: center;
+td, th {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
+
+/* Spécifier une largeur fixe pour les en-têtes */
 th {
-    width: 50px !important;
-    max-width: 50px !important;
+    min-width: 50px;
+    max-width: 50px;
 }
 
 #weather-day-tab,
