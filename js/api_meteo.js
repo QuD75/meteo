@@ -78,71 +78,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Afficher les données des API
     function displayDataVigilance(dataVigilance) {
-        // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message-vigilance").style.display = "none";
         document.getElementById("vigilance-encart").style.display = "block";
 
         fillVigilance(dataVigilance);
     }
     function displayDataDay(dataDay) {
-        // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message-day").style.display = "none";
         document.getElementById("day-container-tab").style.display = "block";
         document.getElementById("day-container-graphs").style.display = "grid";
 
         fillTableDay(dataDay);
 
-        // Générer les graphiques pour les données de la journée
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
         createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function displayDataWeek(dataWeek) {
-        // Masquer le message de chargement et afficher les conteneurs des jours et de la semaine
         document.getElementById("loading-message-week").style.display = "none";
         document.getElementById("week-container-tab").style.display = "block";
         document.getElementById("week-container-graphs").style.display = "grid";
 
         fillTableWeek(dataWeek);
 
-        // Générer les graphiques pour les données de la semaine
         createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
         createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-week-chart', 'du vent max sur les 7 prochaines jours', "Jour", "Vent (km/h)", dataWeek.data[5].coordinates[0], 'line', 'rgba(255, 140, 0, 1)', 'rgba(255, 140, 0, 0.2)');
     }
     function fillVigilance(data) {
         if (data.results && data.results.length > 0) {
-            // Trier aléatoirement les données
             data.results.sort(() => Math.random() - 0.5);
             const highestVigilanceLevel = data.results[0].color_id;
             const highestVigilanceColor = data.results[0].color;
-    
+
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceIcon = document.getElementById('vigilance-icon');
             const vigilanceTitle = document.getElementById('vigilance-title');
-    
-            // Si pas de vigilance (verte), ne pas afficher
+
             if (highestVigilanceLevel === 1) {
                 document.getElementById('vigilance-encart').style.setProperty("display", "none", "important");
                 return;
             }
-    
+
             const colorMap = {
                 2: { color: '#ffe32a', icon: '/icons/44/44_jaune.svg' },
                 3: { color: '#ff8800', icon: '/icons/44/44_orange.svg' },
                 4: { color: '#f00020', icon: '/icons/44/44_rouge.svg' }
             };
-    
+
             if (highestVigilanceLevel in colorMap) {
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
             }
-    
+
             const highestVigilances = data.results.filter(vigilance => vigilance.color_id === highestVigilanceLevel);
             const vigilanceGroups = {};
-    
+
             highestVigilances.forEach(vigilance => {
                 const key = `${vigilance.phenomenon}-${vigilance.color_id}`;
                 if (!vigilanceGroups[key]) {
@@ -153,11 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                 }
                 vigilanceGroups[key].periods.push({
-                    begin_time: new Date(vigilance.begin_time),
-                    end_time: new Date(vigilance.end_time)
+                    begin_time: new Date(vigilance.begin_time).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', hour12: false }),
+                    end_time: new Date(vigilance.end_time).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', hour12: false })
                 });
             });
-    
+
             const mergedVigilances = Object.values(vigilanceGroups).map(group => {
                 const mergedPeriods = mergePeriods(group.periods);
                 return {
@@ -166,32 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     periods: mergedPeriods
                 };
             });
-    
-            // Créer un tableau HTML
-            let tableHTML = `<table>
-                <thead>
-                    <tr>
-                        <th>Phénomène</th>
-                        <th>Période</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-    
-            mergedVigilances.forEach(vigilance => {
-                tableHTML += `<tr>
-                    <td>${vigilance.phenomenon}</td>
-                    <td>${vigilance.periods.map(period =>
-                        `${formatPeriod(period.begin_time, period.end_time)}`
-                    ).join('<br>')}</td>
-                </tr>`;
-            });
-    
-            tableHTML += `</tbody></table>`;
-            vigilanceDetails.innerHTML = tableHTML;
-    
-            document.getElementById('vigilance-encart').style.display = 'block'; // Afficher l'encart
+
+            vigilanceDetails.innerHTML = mergedVigilances.map(vigilance =>
+                `Phénomène : ${vigilance.phenomenon}<br>Période : ${vigilance.periods.map(period =>
+                    ` ${formatPeriod(period.begin_time, period.end_time)}`
+                ).join('<br>')}<br><br>`
+            ).join('');
+
+            document.getElementById('vigilance-encart').style.display = 'block';
         } else {
-            document.getElementById('vigilance-encart').style.display = 'none'; // Cacher l'encart si aucune donnée
+            document.getElementById('vigilance-encart').style.display = 'none';
         }
     }
     function mergePeriods(periods) {
@@ -226,10 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
             minute: '2-digit',
             hour12: false,
         };
-        
+
         const formattedBeginTime = beginTime.toLocaleString('fr-FR', options);
         const formattedEndTime = endTime.toLocaleString('fr-FR', options);
-        
+
         return `${formattedBeginTime} à ${formattedEndTime}`;
     }
     function fillTableDay(data) {
