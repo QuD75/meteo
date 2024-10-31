@@ -188,10 +188,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return merged;
     }
     function formatHour(date) {
-        if (date.length < 2) {
+        let length = date.length;
+        if (length < 2) {
             return date;
         }
-        return date.slice(0, -2) + date.charAt(date.length - 1);
+        let transformeDate = date.slice(0, -2) + date.charAt(length - 1);
+        if (transformeDate.charAt(length - 3) === '0') {
+            transformeDate = transformeDate.slice(0, -3) + transformeDate.slice(-2);
+        }
+        return transformeDate;
     }
     function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
