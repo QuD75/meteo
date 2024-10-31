@@ -220,7 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let hourCount = 0;
 
         data.data[0].coordinates[0].dates.forEach((dateData) => {
-            const hour = new Date(dateData.date).getUTCHours();
+            //const hour = new Date(dateData.date).getUTCHours();
+            const hour = formatDate(new Date(dateData.date), false, false, false, true, false);
             const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
 
             if (currentDate !== newDate) {
@@ -237,8 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const th = document.createElement('th');
-            const targetHour = (hour + getParisTimezoneOffset(new Date())) % 24;
-            th.textContent = `${targetHour}h`;
+            th.textContent = hour;
             hoursRow.appendChild(th);
         });
 
