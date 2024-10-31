@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hour12: false,
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
+        console.log("date : " + formattedDate);
         if (hasHour && !hasMinute) {
             console.log("date avant formattage : " + formattedDate);
             formattedDate = formattedDate.replace(/\s+$/, '');
