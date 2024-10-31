@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (temp <= 15) hue = -18 * temp + 360;
         else if (temp <= 20) hue = -4 * temp + 150;
         else if (temp <= 25) hue = -5 * temp + 170;
-        else if (temp <= 30) hue = -9 * x + 270;
+        else if (temp <= 30) hue = -9 * temp + 270;
         else if (temp > 30) hue = -6 * temp + 540;
         color = `hsl(${Math.round(hue)}, 100%, 50%)`;
         const textColor = getTextColor(color);
