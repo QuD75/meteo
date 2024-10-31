@@ -369,11 +369,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getChartLabels(elementId, data) {
         return elementId.includes('day')
-            ? data.dates.map(date => `${new Date(date.date).getHours()}h`)
+            ? data.dates.map(date => formatDatePeriod(date.data, false, false, false, true, false))
             : data.dates.map(date => {
                 const parsedDate = new Date(date.date);
-                return 
-                return parsedDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+                return formatDatePeriod(parsedDate, false, true, true, false, false);
             });
     }
     function getChartValues(data, label) {
