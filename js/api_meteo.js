@@ -199,7 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             console.log("date avant trim : " + formattedDate);
-            formattedDate = formattedDate.replace(/[^\S\r\n]+/g, ' ').trim();
+            formattedDate = formattedDate.replace(/\s+/g, ' ').trim();
+            formattedDate = formattedDate.replace(/(\d+) h/, '$1h');
             console.log("date après trim : " + formattedDate);
         }
         return formattedDate;
@@ -558,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Calcul de la luminosité
         const luminosity = 0.299 * r + 0.587 * g + 0.114 * b;
-        return luminosity < 110 ? 'white' : 'black';
+        return luminosity < 105 ? 'white' : 'black';
     }
 
     getApiData(getMockValue());
