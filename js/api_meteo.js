@@ -503,9 +503,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }
     function getUVColor(uv) {
-        let color;
-        if (uv > 0) color = `hsl(${Math.round(Math.max(-60, -30 * uv + 180))}, 100%, 50%)`;
-        else color = `hsl(0, 0%, 100%)`;
+        let hue = uv > 8 ? 300 : -30 * uv + 180;
+        hue = (hue + 360) % 360;
+        let color = `hsl(${Math.round(hue)}, 100%, 50%)`;
+        if (uv < 0.1) color = `hsl(0, 0%, 100%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
