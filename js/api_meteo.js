@@ -187,6 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
         return merged;
     }
+    function countSpaces(str) {
+        return (str.match(/ /g) || []).length; // Compte les espaces et retourne le nombre
+    }
     function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
             year: hasYear ? 'numeric' : undefined,
@@ -199,9 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             console.log("date avant trim : " + formattedDate);
+            console.log("Nombre d'espaces avant trim : " + countSpaces(formattedDate));
             formattedDate = formattedDate.replace(/\s+/g, ' ').trim();
             formattedDate = formattedDate.replace(/(\d+) h/, '$1h');
             console.log("date après trim : " + formattedDate);
+            console.log("Nombre d'espaces après trim : " + countSpaces(formattedDate));
         }
         return formattedDate;
     }
