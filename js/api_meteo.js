@@ -187,13 +187,15 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
         return merged;
     }
-    function concatenateString(A) {
-        if (A.length < 2) {
-            return A; // Renvoie A si sa longueur est inférieure à 2
+    function formatHour(date) {
+        const length = date.length;
+        if (length < 3) {
+            return date;
         }
-        const firstTwo = A.substring(0, 2); // Deux premiers caractères
-        const lastChar = A.charAt(A.length - 1); // Dernier caractère
-        return firstTwo + lastChar; // Concaténation des résultats
+        const charBeforeLast = date.charAt(length - 3); // Avant-avant-dernier caractère
+        const charBeforeBeforeLast = date.charAt(length - 2); // Avant-dernier caractère
+        const lastChar = date.charAt(length - 1); // Dernier caractère
+        return charBeforeLast + charBeforeBeforeLast + lastChar; // Concaténation des résultats
     }
     function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
@@ -205,11 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hour12: false,
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
-        if (hasHour && !hasMinute) {
-            console.log("date avant trim : " + formattedDate);
-            formattedDate = concatenateString(formattedDate);
-            console.log("date après trim : " + formattedDate);
-        }
+        if (hasHour && !hasMinute) formattedDate = formatHour(formattedDate);
         return formattedDate;
     }
 
