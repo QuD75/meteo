@@ -113,7 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillVigilance(data) {
         if (data.results && data.results.length > 0) {
-            data.results.sort((a, b) => b.color_id - a.color_id);
+            //data.results.sort((a, b) => b.color_id - a.color_id);
+            data.results.sort(() => Math.random() - 0.5);
             const highestVigilanceLevel = data.results[0].color_id;
             const highestVigilanceColor = data.results[0].color;
 
