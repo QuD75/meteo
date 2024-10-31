@@ -207,10 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             console.log("date avant trim : " + formattedDate);
-            console.log("Nombre d'espaces avant trim : " + countSpaces(formattedDate));
             formattedDate = concatenateString(formattedDate);
             console.log("date après trim : " + formattedDate);
-            console.log("Nombre d'espaces après trim : " + countSpaces(formattedDate));
         }
         return formattedDate;
     }
