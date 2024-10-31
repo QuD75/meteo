@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             console.log("date avant trim : " + formattedDate);
-            formattedDate = formattedDate.replace(/\s+/g, ' ').trim();
+            formattedDate = formattedDate.replace(/[^\S\r\n]+/g, ' ').trim();
             console.log("date après trim : " + formattedDate);
         }
         return formattedDate;
@@ -486,7 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }
     function getTempColor(temp) {
-        let color;
         let hue;
         if (temp <= -5) hue = 300;
         else if (temp <= 10) hue = -8 * temp + 260;
@@ -494,8 +493,9 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (temp <= 20) hue = -4 * temp + 150;
         else if (temp <= 25) hue = -5 * temp + 170;
         else if (temp <= 30) hue = -9 * temp + 270;
-        else if (temp > 30) hue = -6 * temp + 540;
-        color = `hsl(${Math.round(hue)}, 100%, 50%)`;
+        else if (temp > 30) hue = -6 * temp + 180;
+        hue = (hue + 360) % 360;
+        const color = `hsl(${Math.round(hue)}, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
