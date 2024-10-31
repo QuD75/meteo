@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<div>
                     <strong>Phénomène :</strong> ${vigilance.phenomenon}<br>
                     <strong>Période :</strong> ${vigilance.periods.map(period =>
-                        `${formatDatePeriod(period.begin_time, true, true, true, true, false)} - ${formatDatePeriod(period.end_time, true, true, true, true, false)}`
+                        `${formatDate(period.begin_time, true, true, true, true, false)} - ${formatDate(period.end_time, true, true, true, true, false)}`
                     ).join('<br>')}
                 </div><br>`
             ).join('');
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
         return merged;
     }
-    function formatDatePeriod(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
+    function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
             year: hasYear ? 'numeric' : undefined,
             month: hasMonth ? '2-digit' : undefined,
@@ -308,13 +308,11 @@ document.addEventListener('DOMContentLoaded', () => {
             th.textContent = dayName;
             daysRow.appendChild(th);
 
-            const sunriseTime = new Date(dateData.value);
-            const sunsetTime = new Date(data.data[1].coordinates[0].dates[index].value);
-            const sunriseHours = sunriseTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
-            const sunsetHours = sunsetTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            const sunriseTime = formatDate(new Date(dateData.value), false, false, false, true, true);
+            const sunsetTime = formatDate(new Date(data.data[1].coordinates[0].dates[index].value, false, false, false, true, true));
 
             const td = document.createElement('td');
-            td.textContent = `${sunriseHours} -> ${sunsetHours}`;
+            td.textContent = `${sunriseTime} -> ${sunsetTime}`;
             sunRow.appendChild(td);
         });
 
@@ -369,9 +367,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getChartLabels(elementId, data) {
         return elementId.includes('day')
-            ? data.dates.map(date => formatDatePeriod(new Date(date.date), false, false, false, true, false))
+            ? data.dates.map(date => formatDate(new Date(date.date), false, false, false, true, false))
             : data.dates.map(date => {
-                return formatDatePeriod(new Date(date.date), false, true, true, false, false);
+                return formatDate(new Date(date.date), false, true, true, false, false);
             });
     }
     function getChartValues(data, label) {
