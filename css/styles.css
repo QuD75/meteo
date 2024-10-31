@@ -79,6 +79,7 @@ main {
     flex: 1;
     width: 85%;
     margin: 0 auto;
+    display: flex;
 }
 
 main h2 {
@@ -105,7 +106,7 @@ footer a:hover {
 }
 
 #vigilance-encart {
-    display: flex !important;
+    display: flex;
     width: 50%; /* Ajustez la largeur selon vos besoins */
     background-color: var(--light-background); /* Ajoutez un fond pour l'encart */
     border: 1px solid var(--border-color); /* Bordure pour l'encart */
