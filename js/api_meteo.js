@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasHour && !hasMinute) {
             formattedDate = formattedDate.replace(/:(\d{2})$/, 'h');
         }
-        return `${formattedDate}`;
+        return formattedDate;
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
@@ -372,6 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? data.dates.map(date => `${new Date(date.date).getHours()}h`)
             : data.dates.map(date => {
                 const parsedDate = new Date(date.date);
+                return 
                 return parsedDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
             });
     }
