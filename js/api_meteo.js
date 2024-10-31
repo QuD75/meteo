@@ -187,8 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
         return merged;
     }
-    function countSpaces(str) {
-        return (str.match(/ /g) || []).length; // Compte les espaces et retourne le nombre
+    function concatenateString(A) {
+        if (A.length < 2) {
+            return A; // Renvoie A si sa longueur est inférieure à 2
+        }
+        const firstTwo = A.substring(0, 2); // Deux premiers caractères
+        const lastChar = A.charAt(A.length - 1); // Dernier caractère
+        return firstTwo + lastChar; // Concaténation des résultats
     }
     function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
@@ -203,8 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasHour && !hasMinute) {
             console.log("date avant trim : " + formattedDate);
             console.log("Nombre d'espaces avant trim : " + countSpaces(formattedDate));
-            formattedDate = formattedDate.replace(/\s+/g, ' ').trim();
-            formattedDate = formattedDate.replace(/(\d+) h/, '$1h');
+            formattedDate = concatenateString(formattedDate);
             console.log("date après trim : " + formattedDate);
             console.log("Nombre d'espaces après trim : " + countSpaces(formattedDate));
         }
