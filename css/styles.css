@@ -145,33 +145,18 @@ footer a:hover {
 }
 
 @media (max-width: 1300px) {
-    /* Applique le mode grille au tableau pour aligner les éléments horizontalement */
-    .tab table {
-        display: grid;
-        grid-auto-flow: column;
-        grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
-        grid-template-columns: repeat(8, minmax(100px, 1fr)); /* 8 correspond au nombre de colonnes */
-        width: 100%;
-    }
-
-    /* Configure chaque cellule pour s'afficher dans la grille */
-    .tab th, .tab td {
+    .tab table{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid var(--border-color);
-        padding: 10px;
-        text-align: center;
     }
-
-    /* Style spécifique pour les en-têtes */
-    .tab th {
-        background-color: var(--primary-color);
-        color: var(--white-color);
-        font-weight: bold;
+    tbody {
+        display: flex;
+        flex-direction: row;
+    }
+    tr {
+        display: flex;
+        flex-direction: column;
     }
 }
-
 
 .tab {
     margin-bottom: 20px;
