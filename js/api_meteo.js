@@ -196,14 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
             minute: hasMinute ? '2-digit' : undefined,
             hour12: false,
         };
+        console.log("date brute : " + date);
         let formattedDate = date.toLocaleString('fr-FR', options);
-        console.log("date : " + formattedDate);
+        console.log("date formattée : " + formattedDate);
         if (hasHour && !hasMinute) {
-            console.log("date avant formattage : " + formattedDate);
             formattedDate = formattedDate.replace(/\s+$/, '');
-            console.log("date après formattage : " + formattedDate);
             formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
-            console.log("date après ajout du h : " + formattedDate);
         }
         return formattedDate;
     }
@@ -491,13 +489,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTempColor(temp) {
         let color;
         let hue;
-        if (temp <= -10) hue = 300;
-        else if (temp <= -5) hue = -8 * temp + 220;
-        else if (temp <= 0) hue = -13 * temp + 195;
-        else if (temp <= 10) hue = -7.5 * temp + 195;
-        else if (temp <= 20) hue = -7 * temp + 190;
-        else if (temp <= 30) hue = -2 * temp + 90;
-        else if (temp > 30) hue = Math.max(-3 * temp + 120, 0);
+        if (temp <= -5) hue = 300;
+        else if (temp <= 10) hue = -8 * temp + 260;
+        else if (temp <= 15) hue = -18 * temp + 360;
+        else if (temp <= 20) hue = -4 * temp + 150;
+        else if (temp <= 25) hue = -5 * temp + 170;
+        else if (temp <= 30) hue = -9 * x + 270;
+        else if (temp > 30) hue = -6 * temp + 540;
         color = `hsl(${Math.round(hue)}, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
