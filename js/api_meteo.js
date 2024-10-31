@@ -194,8 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (length < 3) {
             return date; // Renvoie A si sa longueur est inférieure à 3
         }
-        const charBeforeLast = date.charAt(length - 3); // Avant-avant-dernier caractère
-        const charBeforeBeforeLast = date.charAt(length - 2); // Avant-dernier caractère
+        const charBeforeLast = date.charAt(length - 4); // Avant-avant-dernier caractère
+        const charBeforeBeforeLast = date.charAt(length - 3); // Avant-dernier caractère
         const lastChar = date.charAt(length - 1); // Dernier caractère
         console.log("Date modifiée : " + charBeforeLast + charBeforeBeforeLast + lastChar);
         return charBeforeLast + charBeforeBeforeLast + lastChar; // Concaténation des résultats
