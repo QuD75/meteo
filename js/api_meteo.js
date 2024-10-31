@@ -198,12 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
+            console.log("date : " + formattedDate);
             formattedDate = formattedDate.replace(/\s+$/, '');
+            console.log("date : " + formattedDate);
             formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
+            console.log("date : " + formattedDate);
         }
         return formattedDate;
     }
-    
+
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
