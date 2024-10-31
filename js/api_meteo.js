@@ -259,7 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const td = document.createElement('td');
             const value = dateData.value;
             let valueMultiplied = value * multiple;
-            const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv);
+            let color, textColor;
+            // Vérification si colorFunc est défini
+            if (typeof colorFunc === 'function') {
+                ({ color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv));
+            } else {
+                color = 'white';
+                textColor = 'black';
+            }
             if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
             valueMultiplied = valueMultiplied.toFixed(round);
             td.textContent = valueMultiplied;
@@ -268,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
+    
     function fillSymbolRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
