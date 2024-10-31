@@ -210,16 +210,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return formattedDate;
     }
     function fillTableDay(data) {
-        const daysColumn = document.getElementById('days-24h-row');
-        const hoursColumn = document.getElementById('hours-24h-row');
-        const temperatureColumn = document.getElementById('temperature-24h-row');
-        const rainColumn = document.getElementById('rain-24h-row');
-        const windColumn = document.getElementById('wind-24h-row');
-        const windGustColumn = document.getElementById('wind-gust-24h-row');
-        const windDirectionColumn = document.getElementById('wind-direction-24h-row');
-        const pressureColumn = document.getElementById('pressure-24h-row');
-        const weatherColumn = document.getElementById('weather-24h-row');
-        const uvColumn = document.getElementById('uv-24h-row');
+        const daysRow = document.getElementById('days-24h-row');
+        const hoursRow = document.getElementById('hours-24h-row');
+        const temperatureRow = document.getElementById('temperature-24h-row');
+        const rainRow = document.getElementById('rain-24h-row');
+        const windRow = document.getElementById('wind-24h-row');
+        const windGustRow = document.getElementById('wind-gust-24h-row');
+        const windDirectionRow = document.getElementById('wind-direction-24h-row');
+        const pressureRow = document.getElementById('pressure-24h-row');
+        const weatherRow = document.getElementById('weather-24h-row');
+        const uvRow = document.getElementById('uv-24h-row');
     
         let currentDate = null;
         let hourCount = 0;
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentDate = newDate;
                 const dateCell = document.createElement('td');
                 dateCell.textContent = currentDate;
-                daysColumn.appendChild(dateCell);
+                daysRow.appendChild(dateCell);
     
                 // Remplir les heures pour la date actuelle
                 hourCount = 0; // Réinitialiser hourCount pour chaque nouvelle date
@@ -242,18 +242,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ajouter l'heure dans la colonne des heures
             const hourCell = document.createElement('td');
             hourCell.textContent = hour;
-            hoursColumn.appendChild(hourCell);
+            hoursRow.appendChild(hourCell);
             hourCount++; // Incrémenter hourCount
     
             // Remplir les colonnes pour les autres paramètres, en utilisant l'index pour accéder à la bonne donnée
-            fillWeatherColumn(data.data[0], temperatureColumn, getTempColor, hourCount, index);
-            fillWeatherColumn(data.data[1], rainColumn, getRainColor, hourCount, index);
-            fillWeatherColumn(data.data[2], windColumn, getWindColor, hourCount, index);
-            fillWeatherColumn(data.data[3], windGustColumn, getWindColor, hourCount, index);
-            fillWindDirectionColumn(data.data[4], windDirectionColumn, hourCount, index);
-            fillWeatherColumn(data.data[5], pressureColumn, null, hourCount, index);
-            fillSymbolColumn(data.data[6], weatherColumn, hourCount, index);
-            fillWeatherColumn(data.data[7], uvColumn, getUVColor, hourCount, index);
+            fillWeatherRow(data.data[0], temperatureRow, getTempColor, hourCount, index);
+            fillWeatherRow(data.data[1], rainRow, getRainColor, hourCount, index);
+            fillWeatherRow(data.data[2], windRow, getWindColor, hourCount, index);
+            fillWeatherRow(data.data[3], windGustRow, getWindColor, hourCount, index);
+            fillWindDirectionRow(data.data[4], windDirectionRow, hourCount, index);
+            fillWeatherRow(data.data[5], pressureRow, null, hourCount, index);
+            fillSymbolRow(data.data[6], weatherRow, hourCount, index);
+            fillWeatherRow(data.data[7], uvRow, getUVColor, hourCount, index);
         });
     }
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
