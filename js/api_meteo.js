@@ -220,15 +220,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const pressureRow = document.getElementById('pressure-24h-row');
         const weatherRow = document.getElementById('weather-24h-row');
         const uvRow = document.getElementById('uv-24h-row');
-
+    
         let currentDate = null;
         let dateCell;
         let hourCount = 0;
-
-        data.data[0].coordinates[0].dates.forEach((dateData) => {
+    
+        data.data[0].coordinates[0].dates.forEach((dateData, index) => {
             const hour = formatDate(new Date(dateData.date), false, false, false, true, false);
             const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-
+    
             if (currentDate !== newDate) {
                 if (dateCell) {
                     dateCell.setAttribute('colspan', hourCount);
@@ -241,25 +241,26 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 hourCount++;
             }
-
-            const th = document.createElement('th');
-            th.textContent = hour;
-            hoursRow.appendChild(th);
+    
+            const hourTh = document.createElement('th');
+            hourTh.textContent = hour;
+            hoursRow.appendChild(hourTh);
+    
+            fillWeatherRow(data.data[0], index, 1, null, temperatureRow, getTempColor, -5, 40, 300, 0);
+            fillWeatherRow(data.data[1], index, 1, null, rainRow, getRainColor);
+            fillWeatherRow(data.data[2], index, 3.6, 5, windRow, getWindColor);
+            fillWeatherRow(data.data[3], index, 3.6, 5, windGustRow, getWindColor);
+            fillWindDirectionRow(data.data[4], windDirectionRow, index);
+            fillWeatherRow(data.data[5], index, 1, null, pressureRow);
+            fillSymbolRow(data.data[6], weatherRow, index);
+            fillWeatherRow(data.data[7], index, 1, null, uvRow, getUVColor);
         });
-
+    
         if (dateCell) {
             dateCell.setAttribute('colspan', hourCount);
         }
-
-        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getRainColor);
-        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
-        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
-        fillWindDirectionRow(data.data[4], windDirectionRow);
-        fillWeatherRow(data.data[5], 0, 1, null, pressureRow);
-        fillSymbolRow(data.data[6], weatherRow);
-        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
+    
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
