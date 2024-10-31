@@ -197,8 +197,8 @@ tr {
 }
 
 td {
-    width: 20% !important;
-    max-width: 20% !important;
+    width: 100% !important;
+    max-width: 100% !important;
     text-align: center;
 }
 th {
