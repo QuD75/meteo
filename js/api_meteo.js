@@ -74,52 +74,78 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance);
     }
 
-    function fillTableDayVertical(data) {
-        console.log(data);
-        // Créer un tableau vide pour les lignes
-        const rows = [];
+    function fillWeatherTable(data) {
+        const tableBody = document.querySelector('#weatherTable tbody');
 
-        // Parcourir chaque paramètre dans le tableau 'data'
+        // Parcourir chaque paramètre de données
         data.forEach(parameter => {
-            const { parameter: paramName, coordinates } = parameter;
+            parameter.coordinates.forEach(coord => {
+                coord.dates.forEach(dateData => {
+                    // Créer une nouvelle ligne pour chaque date
+                    const row = document.createElement('tr');
 
-            // Pour chaque coordonnée, parcourir les dates
-            coordinates.forEach(coordinate => {
-                const { dates } = coordinate;
+                    // Remplir la ligne avec les données
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = new Date(dateData.date).toLocaleString();
+                    row.appendChild(dateCell);
 
-                // Pour chaque date, extraire la valeur et l'heure
-                dates.forEach(entry => {
-                    const date = new Date(entry.date);
-                    const hour = date.toISOString().substring(11, 13); // Récupérer l'heure au format HH
-                    const value = entry.value;
+                    // Remplir les autres cellules avec des valeurs par défaut (0 ou null)
+                    const temperatureCell = document.createElement('td');
+                    const precipitationsCell = document.createElement('td');
+                    const windSpeedCell = document.createElement('td');
+                    const windGustsCell = document.createElement('td');
+                    const windDirCell = document.createElement('td');
+                    const pressureCell = document.createElement('td');
+                    const weatherSymbolCell = document.createElement('td');
+                    const uvIndexCell = document.createElement('td');
 
-                    // Ajouter une ligne au tableau
-                    rows.push({
-                        hour: hour,
-                        parameter: paramName,
-                        value: value
+                    // Chercher les autres valeurs basées sur le paramètre
+                    parameter.coordinates.forEach(coord => {
+                        const dateValues = coord.dates.find(d => d.date === dateData.date);
+                        if (dateValues) {
+                            switch (parameter.parameter) {
+                                case 't_2m:C':
+                                    temperatureCell.textContent = dateValues.value;
+                                    break;
+                                case 'precip_1h:mm':
+                                    precipitationsCell.textContent = dateValues.value;
+                                    break;
+                                case 'wind_speed_10m:ms':
+                                    windSpeedCell.textContent = dateValues.value;
+                                    break;
+                                case 'wind_gusts_10m_1h:ms':
+                                    windGustsCell.textContent = dateValues.value;
+                                    break;
+                                case 'wind_dir_10m:d':
+                                    windDirCell.textContent = dateValues.value;
+                                    break;
+                                case 'msl_pressure:hPa':
+                                    pressureCell.textContent = dateValues.value;
+                                    break;
+                                case 'weather_symbol_1h:idx':
+                                    weatherSymbolCell.textContent = dateValues.value;
+                                    break;
+                                case 'uv:idx':
+                                    uvIndexCell.textContent = dateValues.value;
+                                    break;
+                            }
+                        }
                     });
+
+                    // Ajouter les cellules à la ligne
+                    row.appendChild(temperatureCell);
+                    row.appendChild(precipitationsCell);
+                    row.appendChild(windSpeedCell);
+                    row.appendChild(windGustsCell);
+                    row.appendChild(windDirCell);
+                    row.appendChild(pressureCell);
+                    row.appendChild(weatherSymbolCell);
+                    row.appendChild(uvIndexCell);
+
+                    // Ajouter la ligne au corps du tableau
+                    tableBody.appendChild(row);
                 });
             });
-        });
-
-        const tableBody = document.getElementById('weatherTableBody');
-
-        // Remplir le tableau
-        rows.forEach(row => {
-            const tableRow = document.createElement('tr');
-            const hourCell = document.createElement('td');
-            const parameterCell = document.createElement('td');
-            const valueCell = document.createElement('td');
-
-            hourCell.textContent = row.hour + ":00"; // Format de l'heure
-            parameterCell.textContent = row.parameter;
-            valueCell.textContent = row.value;
-
-            tableRow.appendChild(hourCell);
-            tableRow.appendChild(parameterCell);
-            tableRow.appendChild(valueCell);
-            tableBody.appendChild(tableRow);
         });
     }
 
@@ -136,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("day-container-graphs").style.display = "grid";
 
         //fillTableDay(dataDay);
-        fillTableDayVertical(dataDay);
+        fillWeatherTable(dataDay);
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');

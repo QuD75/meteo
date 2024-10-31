@@ -32,15 +32,21 @@
         <div id="day-container">
             <h2>Test</h2>
             <div id="day-container-tab" class="tab" style="display: none;">
-                <table>
+                <table id="weatherTable">
                     <thead>
                         <tr>
-                            <th>Heure</th>
-                            <th>Paramètre</th>
-                            <th>Valeur</th>
+                            <th>Date</th>
+                            <th>Température (°C)</th>
+                            <th>Précipitations (mm)</th>
+                            <th>Vitesse du Vent (m/s)</th>
+                            <th>Rafales du Vent (m/s)</th>
+                            <th>Direction du Vent (°)</th>
+                            <th>Pression (hPa)</th>
+                            <th>Symbole Météo</th>
+                            <th>UV Index</th>
                         </tr>
                     </thead>
-                    <tbody id="weatherTableBody">
+                    <tbody>
                         <!-- Les lignes seront ajoutées ici par JavaScript -->
                     </tbody>
                 </table>
