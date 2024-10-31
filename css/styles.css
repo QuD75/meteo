@@ -187,12 +187,11 @@ th {
 }
 
 th,
-td,
-th,
 td {
     padding-left: 0;
     padding-right: 0;
     border: 1px solid var(--border-color);
+    height: 20px;
 }
 
 th {
@@ -212,7 +211,7 @@ td {
 td:first-child {
     width: 150px;
     max-width: 150px;
-}$/
+}$/|||
 
 /* Cible les cellules sous la première ligne fusionnée
 #temperature-24h-row td,
