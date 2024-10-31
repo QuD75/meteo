@@ -189,11 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function formatDatePeriod(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
-            year: hasYear ? 'numeric' : null,
-            month: hasMonth ? '2-digit' : null,
-            day: hasDay ? '2-digit' : null,
-            hour: hasHour ? '2-digit' : null,
-            minute: hasMinute ? '2-digit' : null,
+            year: hasYear ? 'numeric' : undefined,
+            month: hasMonth ? '2-digit' : undefined,
+            day: hasDay ? '2-digit' : undefined,
+            hour: hasHour ? '2-digit' : undefined,
+            minute: hasMinute ? '2-digit' : undefined,
             hour12: false,
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
