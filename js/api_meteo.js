@@ -199,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
+            return formattedDate.trim();
         }
         return formattedDate;
     }
