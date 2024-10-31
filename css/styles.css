@@ -158,9 +158,7 @@ footer a:hover {
 }
 
 td {
-    width: auto;
     text-align: center;
-    height: 20px;
     background-color: var(--light-background);
 }
 th {
@@ -179,6 +177,8 @@ th {
 
 th,
 td {
+    height: 20px;
+    width: auto;
     padding-left: 0;
     padding-right: 0;
     border: 1px solid var(--border-color);
