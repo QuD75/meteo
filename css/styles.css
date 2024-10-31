@@ -106,9 +106,12 @@ footer a:hover {
 
 #vigilance-encart {
     display: flex !important;
-    width: 50%; /* Ajustez la largeur selon vos besoins */
-    background-color: var(--light-background); /* Ajoutez un fond pour l'encart */
-    border-radius: 8px; /* Coins arrondis */
+    width: 50%;
+    /* Ajustez la largeur selon vos besoins */
+    background-color: var(--light-background);
+    /* Ajoutez un fond pour l'encart */
+    border-radius: 8px;
+    /* Coins arrondis */
     margin-left: 25%;
 }
 
@@ -127,8 +130,10 @@ footer a:hover {
 #text-container {
     flex: 2;
     display: flex;
-    flex-direction: column; /* Aligner le texte verticalement */
-    justify-content: center; /* Centrer le texte verticalement */
+    flex-direction: column;
+    /* Aligner le texte verticalement */
+    justify-content: center;
+    /* Centrer le texte verticalement */
 }
 
 #vigilance-title {
@@ -145,21 +150,29 @@ footer a:hover {
 }
 
 @media (max-width: 1300px) {
-    .tab table{
+    .tab table {
         display: flex;
     }
+
     tbody {
         display: flex;
         flex-direction: row;
     }
+
     tr {
         display: flex;
         flex-direction: column;
     }
+
     td {
         width: 20% !important;
         max-width: 20% !important;
         text-align: center;
+    }
+    th:first-child,
+    td:first-child {
+        width: 50px;
+        max-width: 50px;
     }
 }
 
