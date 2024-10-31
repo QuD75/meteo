@@ -157,21 +157,6 @@ footer a:hover {
     width: 100% !important;
 }
 
-.tab table {
-    display: flex;
-}
-
-tbody {
-    display: flex;
-    flex-direction: row;
-}
-
-tr {
-    display: flex;
-    flex-direction: column;
-}
-
-
 td {
     width: auto;
     text-align: center;
@@ -199,13 +184,13 @@ td {
     border: 1px solid var(--border-color);
 }
 
-/*th:first-child,
+th:first-child,
 td:first-child {
     width: 150px;
     max-width: 150px;
-}$/|||
+}
 
-/* Cible les cellules sous la première ligne fusionnée
+/* Cible les cellules sous la première ligne fusionnée*/
 #temperature-24h-row td,
 #rain-24h-row td,
 #wind-24h-row td,
@@ -225,7 +210,7 @@ td:first-child {
     width: 10px;
     max-width: 10px;
     text-align: center;
-}*/
+}
 
 .grid-graphs-container {
     display: grid;
