@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const colorMap = {
-                2: { color: '#ffe32a', icon: '/icons/44/44_jaune.svg' },
+                2: { color: '#ffd700', icon: '/icons/44/44_jaune.svg' },
                 3: { color: '#ff8800', icon: '/icons/44/44_orange.svg' },
                 4: { color: '#f00020', icon: '/icons/44/44_rouge.svg' }
             };
