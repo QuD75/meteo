@@ -199,11 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             let length = formattedDate.length;
-            transformeDate = transformeDate.slice(0, -2) + transformeDate.charAt(length - 1);
-            if (transformeDate.charAt(length - 4) === '0') {
-                transformeDate = transformeDate.slice(0, -3) + transformeDate.slice(-2);
+            formattedDate = formattedDate.slice(0, -2) + formattedDate.charAt(length - 1);
+            if (formattedDate.charAt(length - 4) === '0') {
+                formattedDate = formattedDate.slice(0, -3) + formattedDate.slice(-2);
             }
-            return transformeDate;
         }
         return formattedDate;
     }
