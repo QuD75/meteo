@@ -190,8 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function formatHour(date) {
         console.log("Date brute : " + date);
         const length = date.length;
+        console.log("Longueur date : " + length);
         if (length < 3) {
-            return date;
+            return date; // Renvoie A si sa longueur est inférieure à 3
         }
         const charBeforeLast = date.charAt(length - 3); // Avant-avant-dernier caractère
         const charBeforeBeforeLast = date.charAt(length - 2); // Avant-dernier caractère
@@ -209,9 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
             hour12: false,
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
-        if (hasHour && !hasMinute) formattedDate = formatHour(formattedDate);
+        if (hasHour && !hasMinute) {
+            formattedDate = formatHour(formattedDate);
+        }
         return formattedDate;
     }
+
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
