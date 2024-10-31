@@ -210,16 +210,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return formattedDate;
     }
     function fillTableDay(data) {
-        const daysColumn = document.getElementById('days-24h-column');
-        const hoursColumn = document.getElementById('hours-24h-column');
-        const temperatureColumn = document.getElementById('temperature-24h-column');
-        const rainColumn = document.getElementById('rain-24h-column');
-        const windColumn = document.getElementById('wind-24h-column');
-        const windGustColumn = document.getElementById('wind-gust-24h-column');
-        const windDirectionColumn = document.getElementById('wind-direction-24h-column');
-        const pressureColumn = document.getElementById('pressure-24h-column');
-        const weatherColumn = document.getElementById('weather-24h-column');
-        const uvColumn = document.getElementById('uv-24h-column');
+        const daysColumn = document.getElementById('days-24h-row');
+        const hoursColumn = document.getElementById('hours-24h-row');
+        const temperatureColumn = document.getElementById('temperature-24h-row');
+        const rainColumn = document.getElementById('rain-24h-row');
+        const windColumn = document.getElementById('wind-24h-row');
+        const windGustColumn = document.getElementById('wind-gust-24h-row');
+        const windDirectionColumn = document.getElementById('wind-direction-24h-row');
+        const pressureColumn = document.getElementById('pressure-24h-row');
+        const weatherColumn = document.getElementById('weather-24h-row');
+        const uvColumn = document.getElementById('uv-24h-row');
     
         let currentDate = null;
         let hourCount = 0;
