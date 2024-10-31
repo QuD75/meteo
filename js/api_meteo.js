@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
             console.log("date avant trim : " + formattedDate);
-            formattedDate = formattedDate.trim();
+            formattedDate = formattedDate.replace(/\s+/g, ' ').trim();
             console.log("date après trim : " + formattedDate);
         }
         return formattedDate;
