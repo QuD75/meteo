@@ -76,77 +76,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fillWeatherTable(data) {
         const tableBody = document.querySelector('#weatherTable tbody');
-
+    
+        // Objet pour stocker les données regroupées par date
+        const groupedData = {};
+    
         // Parcourir chaque paramètre de données
         data.forEach(parameter => {
             parameter.coordinates.forEach(coord => {
                 coord.dates.forEach(dateData => {
-                    // Créer une nouvelle ligne pour chaque date
-                    const row = document.createElement('tr');
-
-                    // Remplir la ligne avec les données
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = new Date(dateData.date).toLocaleString();
-                    row.appendChild(dateCell);
-
-                    // Remplir les autres cellules avec des valeurs par défaut (0 ou null)
-                    const temperatureCell = document.createElement('td');
-                    const precipitationsCell = document.createElement('td');
-                    const windSpeedCell = document.createElement('td');
-                    const windGustsCell = document.createElement('td');
-                    const windDirCell = document.createElement('td');
-                    const pressureCell = document.createElement('td');
-                    const weatherSymbolCell = document.createElement('td');
-                    const uvIndexCell = document.createElement('td');
-
-                    // Chercher les autres valeurs basées sur le paramètre
-                    parameter.coordinates.forEach(coord => {
-                        const dateValues = coord.dates.find(d => d.date === dateData.date);
-                        if (dateValues) {
-                            switch (parameter.parameter) {
-                                case 't_2m:C':
-                                    temperatureCell.textContent = dateValues.value;
-                                    break;
-                                case 'precip_1h:mm':
-                                    precipitationsCell.textContent = dateValues.value;
-                                    break;
-                                case 'wind_speed_10m:ms':
-                                    windSpeedCell.textContent = dateValues.value;
-                                    break;
-                                case 'wind_gusts_10m_1h:ms':
-                                    windGustsCell.textContent = dateValues.value;
-                                    break;
-                                case 'wind_dir_10m:d':
-                                    windDirCell.textContent = dateValues.value;
-                                    break;
-                                case 'msl_pressure:hPa':
-                                    pressureCell.textContent = dateValues.value;
-                                    break;
-                                case 'weather_symbol_1h:idx':
-                                    weatherSymbolCell.textContent = dateValues.value;
-                                    break;
-                                case 'uv:idx':
-                                    uvIndexCell.textContent = dateValues.value;
-                                    break;
-                            }
-                        }
-                    });
-
-                    // Ajouter les cellules à la ligne
-                    row.appendChild(temperatureCell);
-                    row.appendChild(precipitationsCell);
-                    row.appendChild(windSpeedCell);
-                    row.appendChild(windGustsCell);
-                    row.appendChild(windDirCell);
-                    row.appendChild(pressureCell);
-                    row.appendChild(weatherSymbolCell);
-                    row.appendChild(uvIndexCell);
-
-                    // Ajouter la ligne au corps du tableau
-                    tableBody.appendChild(row);
+                    const dateKey = new Date(dateData.date).toLocaleString(); // Utilisez une clé de date formatée
+    
+                    if (!groupedData[dateKey]) {
+                        // Si la date n'existe pas encore, créez une entrée
+                        groupedData[dateKey] = {
+                            temperature: null,
+                            precipitations: null,
+                            windSpeed: null,
+                            windGusts: null,
+                            windDir: null,
+                            pressure: null,
+                            weatherSymbol: null,
+                            uvIndex: null,
+                        };
+                    }
+    
+                    // Stockez les valeurs selon le paramètre
+                    switch (parameter.parameter) {
+                        case 't_2m:C':
+                            groupedData[dateKey].temperature = dateData.value;
+                            break;
+                        case 'precip_1h:mm':
+                            groupedData[dateKey].precipitations = dateData.value;
+                            break;
+                        case 'wind_speed_10m:ms':
+                            groupedData[dateKey].windSpeed = dateData.value;
+                            break;
+                        case 'wind_gusts_10m_1h:ms':
+                            groupedData[dateKey].windGusts = dateData.value;
+                            break;
+                        case 'wind_dir_10m:d':
+                            groupedData[dateKey].windDir = dateData.value;
+                            break;
+                        case 'msl_pressure:hPa':
+                            groupedData[dateKey].pressure = dateData.value;
+                            break;
+                        case 'weather_symbol_1h:idx':
+                            groupedData[dateKey].weatherSymbol = dateData.value;
+                            break;
+                        case 'uv:idx':
+                            groupedData[dateKey].uvIndex = dateData.value;
+                            break;
+                    }
                 });
             });
         });
+    
+        // Remplir le tableau à partir des données regroupées
+        for (const dateKey in groupedData) {
+            const row = document.createElement('tr');
+    
+            const dateCell = document.createElement('td');
+            dateCell.textContent = dateKey;
+            row.appendChild(dateCell);
+    
+            const temperatureCell = document.createElement('td');
+            temperatureCell.textContent = groupedData[dateKey].temperature;
+            row.appendChild(temperatureCell);
+    
+            const precipitationsCell = document.createElement('td');
+            precipitationsCell.textContent = groupedData[dateKey].precipitations;
+            row.appendChild(precipitationsCell);
+    
+            const windSpeedCell = document.createElement('td');
+            windSpeedCell.textContent = groupedData[dateKey].windSpeed;
+            row.appendChild(windSpeedCell);
+    
+            const windGustsCell = document.createElement('td');
+            windGustsCell.textContent = groupedData[dateKey].windGusts;
+            row.appendChild(windGustsCell);
+    
+            const windDirCell = document.createElement('td');
+            windDirCell.textContent = groupedData[dateKey].windDir;
+            row.appendChild(windDirCell);
+    
+            const pressureCell = document.createElement('td');
+            pressureCell.textContent = groupedData[dateKey].pressure;
+            row.appendChild(pressureCell);
+    
+            const weatherSymbolCell = document.createElement('td');
+            weatherSymbolCell.textContent = groupedData[dateKey].weatherSymbol;
+            row.appendChild(weatherSymbolCell);
+    
+            const uvIndexCell = document.createElement('td');
+            uvIndexCell.textContent = groupedData[dateKey].uvIndex;
+            row.appendChild(uvIndexCell);
+    
+            tableBody.appendChild(row);
+        }
     }
 
     //Afficher les données des API
