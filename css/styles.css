@@ -208,11 +208,11 @@ td {
     background-color: var(--light-background);
 }
 
-th:first-child,
+/*th:first-child,
 td:first-child {
     width: 150px;
     max-width: 150px;
-}
+}$/
 
 /* Cible les cellules sous la première ligne fusionnée
 #temperature-24h-row td,
