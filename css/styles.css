@@ -174,9 +174,14 @@ tr {
 td {
     width: auto;
     text-align: center;
+    height: 20px;
+    background-color: var(--light-background);
 }
 th {
     width: auto;
+    height: 20px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
 }
 
 #weather-day-tab,
@@ -191,20 +196,6 @@ td {
     padding-left: 0;
     padding-right: 0;
     border: 1px solid var(--border-color);
-    height: 20px;
-}
-
-th {
-    padding-top: 5px;
-    /* Espace en haut */
-    padding-bottom: 5px;
-    /* Espace en bas */
-    background-color: var(--primary-color);
-    color: var(--white-color);
-}
-
-td {
-    background-color: var(--light-background);
 }
 
 /*th:first-child,
