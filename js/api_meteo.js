@@ -188,17 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return merged;
     }
     function formatHour(date) {
-        console.log("Date brute : " + date);
-        const length = date.length;
-        console.log("Longueur date : " + length);
-        if (length < 3) {
-            return date; // Renvoie A si sa longueur est inférieure à 3
+        if (date.length < 2) {
+            return date;
         }
-        const charBeforeLast = date.charAt(length - 4); // Avant-avant-dernier caractère
-        const charBeforeBeforeLast = date.charAt(length - 3); // Avant-dernier caractère
-        const lastChar = date.charAt(length - 1); // Dernier caractère
-        console.log("Date modifiée : " + charBeforeLast + charBeforeBeforeLast + lastChar);
-        return charBeforeLast + charBeforeBeforeLast + lastChar; // Concaténation des résultats
+        return date.slice(0, -2) + date.charAt(date.length - 1);
     }
     function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
