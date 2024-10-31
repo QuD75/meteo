@@ -187,8 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("day-container-tab").style.display = "block";
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        //fillTableDay(dataDay);
-        fillWeatherTable(dataDay.data);
+        // Vérifie si l'écran a une largeur de plus de 768 pixels
+        if (window.matchMedia("(min-width: 768px)").matches) {
+            fillTableDay(dataDay);
+        } else {
+            fillWeatherTable(dataDay.data);
+        }
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
