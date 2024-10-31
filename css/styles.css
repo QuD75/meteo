@@ -241,7 +241,7 @@ td:first-child {
     max-width: 150px;
 }
 
-/* Cible les cellules sous la première ligne fusionnée */
+/* Cible les cellules sous la première ligne fusionnée
 #temperature-24h-row td,
 #rain-24h-row td,
 #wind-24h-row td,
@@ -261,7 +261,7 @@ td:first-child {
     width: 10px;
     max-width: 10px;
     text-align: center;
-}
+}*/
 
 .grid-graphs-container {
     display: grid;
