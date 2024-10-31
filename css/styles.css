@@ -145,24 +145,26 @@ footer a:hover {
 }
 
 @media (max-width: 1300px) {
-    /* Affiche les tableaux verticalement */
+    /* Configure les tableaux en affichage grid */
     .tab table {
-        display: block;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         width: 100%;
     }
 
-    /* Chaque ligne devient une "colonne" */
-    .tab tr {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    /* Alignez les cellules pour qu'elles occupent toute la largeur */
+    /* Configure chaque cellule pour s'afficher dans la grille */
     .tab th, .tab td {
         display: block;
-        width: 100%;
-        text-align: left;
+        text-align: center;
+        border: 1px solid var(--border-color);
+        padding: 10px;
+    }
+
+    /* Ajuste l'affichage des titres pour chaque colonne */
+    .tab th {
+        font-weight: bold;
+        background-color: var(--primary-color);
+        color: var(--white-color);
     }
 }
 
