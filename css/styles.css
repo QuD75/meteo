@@ -144,6 +144,28 @@ footer a:hover {
     text-align: center;
 }
 
+@media (max-width: 1300px) {
+    /* Affiche les tableaux verticalement */
+    .tab table {
+        display: block;
+        width: 100%;
+    }
+
+    /* Chaque ligne devient une "colonne" */
+    .tab tr {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Alignez les cellules pour qu'elles occupent toute la largeur */
+    .tab th, .tab td {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+}
+
 .tab {
     margin-bottom: 20px;
     overflow-x: auto;
