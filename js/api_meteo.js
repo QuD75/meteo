@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             daysRow.appendChild(th);
 
             const sunriseTime = formatDate(new Date(dateData.value), false, false, false, true, true);
-            const sunsetTime = formatDate(new Date(data.data[1].coordinates[0].dates[index].value, false, false, false, true, true));
+            const sunsetTime = formatDate(new Date(data.data[1].coordinates[0].dates[index].value), false, false, false, true, true);
 
             const td = document.createElement('td');
             td.textContent = `${sunriseTime} -> ${sunsetTime}`;
