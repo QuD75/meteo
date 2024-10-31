@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("day-container-graphs").style.display = "grid";
 
         // Vérifie si l'écran a une largeur de plus de 768 pixels
-        if (window.matchMedia("(min-width: 768px)").matches) {
+        if (window.matchMedia("(min-width: 76px)").matches) {
             fillTableDay(dataDay);
         } else {
             fillWeatherTable(dataDay.data);
