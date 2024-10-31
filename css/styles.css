@@ -163,7 +163,6 @@ td {
 }
 th {
     width: auto;
-    height: 20px;
     background-color: var(--primary-color);
     color: var(--white-color);
 }
@@ -177,7 +176,6 @@ th {
 
 th,
 td {
-    height: 20px;
     width: auto;
     padding-left: 0;
     padding-right: 0;
