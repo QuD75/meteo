@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
-            formattedDate = formattedDate.replace(/:\d{2}$/, ' h');
+            formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
             return formattedDate;
         }
         return formattedDate;
@@ -220,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let hourCount = 0;
 
         data.data[0].coordinates[0].dates.forEach((dateData) => {
-            //const hour = new Date(dateData.date).getUTCHours();
             const hour = formatDate(new Date(dateData.date), false, false, false, true, false);
             const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
 
@@ -251,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
         fillWindDirectionRow(data.data[4], windDirectionRow);
-        fillWeatherRow(data.data[5], 0, 1, null, pressureRow, () => ({ color: 'white', textColor: 'black' }));
+        fillWeatherRow(data.data[5], 0, 1, null, pressureRow);
         fillSymbolRow(data.data[6], weatherRow);
         fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
@@ -322,13 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getRainColor);
         fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor);
         fillSymbolRow(data.data[6], weatherRow);
-    }
-    function getParisTimezoneOffset(date) {
-        const january = new Date(date.getFullYear(), 0, 1);
-        const july = new Date(date.getFullYear(), 6, 1);
-        // Compare les décalages horaires entre la date donnée et janvier/juillet
-        const isDST = date.getTimezoneOffset() < Math.max(january.getTimezoneOffset(), july.getTimezoneOffset());
-        return isDST ? 2 : 1;
     }
 
     //Fonction de générations du graphique
