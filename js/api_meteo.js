@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (highestVigilanceLevel in colorMap) {
-                document.getElementById('vigilance-encart').style.setProperty("border", "2px solid #FFFF00");
+                document.getElementById('vigilance-encart').style.setProperty("border", "2px solid " + colorMapcolorMap[highestVigilanceLevel].color);
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
