@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                 }
                 vigilanceGroups[key].periods.push({
-                    begin_time: new Date(vigilance.begin_time).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', hour12: false }),
-                    end_time: new Date(vigilance.end_time).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', hour12: false })
+                    begin_time: new Date(vigilance.begin_time),
+                    end_time: new Date(vigilance.end_time)
                 });
             });
 
@@ -159,9 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             vigilanceDetails.innerHTML = mergedVigilances.map(vigilance =>
-                `Phénomène : ${vigilance.phenomenon}<br>Période : ${vigilance.periods.map(period =>
-                    ` ${formatPeriod(period.begin_time, period.end_time)}`
-                ).join('<br>')}<br><br>`
+                `<div>
+                    <strong>Phénomène :</strong> ${vigilance.phenomenon}<br>
+                    <strong>Période :</strong> ${vigilance.periods.map(period =>
+                        `${formatDatePeriod(period.begin_time, true, true, true, true, false)} - ${formatDatePeriod(period.end_time, true, true, true, true, false)}`
+                    ).join('<br>')}
+                </div><br>`
             ).join('');
 
             document.getElementById('vigilance-encart').style.display = 'block';
@@ -184,20 +187,20 @@ document.addEventListener('DOMContentLoaded', () => {
         merged.push(currentPeriod);
         return merged;
     }
-    function formatPeriod(beginTime, endTime) {
+    function formatDatePeriod(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
         const options = {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
+            year: hasYear ? 'numeric' : null,
+            month: hasMonth ? '2-digit' : null,
+            day: hasDay ? '2-digit' : null,
+            hour: hasHour ? '2-digit' : null,
+            minute: hasMinute ? '2-digit' : null,
             hour12: false,
         };
-
-        const formattedBeginTime = beginTime.toLocaleString('fr-FR', options);
-        const formattedEndTime = endTime.toLocaleString('fr-FR', options);
-
-        return `${formattedBeginTime} à ${formattedEndTime}`;
+        let formattedDate = date.toLocaleString('fr-FR', options);
+        if (hasHour && !hasMinute) {
+            formattedDate = formattedDate.replace(/:(\d{2})$/, 'h');
+        }
+        return `${formattedDate}`;
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
