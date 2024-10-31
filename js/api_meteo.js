@@ -162,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<div>
                     <strong>Phénomène :</strong> ${vigilance.phenomenon}<br>
                     <strong>Période :</strong> ${vigilance.periods.map(period =>
-                        `${formatDate(period.begin_time, true, true, true, true, false)} - ${formatDate(period.end_time, true, true, true, true, false)}`
-                    ).join('<br>')}
+                    `${formatDate(period.begin_time, true, true, true, true, false)} - ${formatDate(period.end_time, true, true, true, true, false)}`
+                ).join('<br>')}
                 </div><br>`
             ).join('');
 
@@ -198,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
+            console.log("Formattage HHh : " + formattedDate);
             formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
             return formattedDate.trim();
         }
