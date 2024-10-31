@@ -113,15 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillVigilance(data) {
         if (data.results && data.results.length > 0) {
-            //data.results.sort((a, b) => b.color_id - a.color_id);
+            // Trier aléatoirement les données
             data.results.sort(() => Math.random() - 0.5);
             const highestVigilanceLevel = data.results[0].color_id;
             const highestVigilanceColor = data.results[0].color;
-
+    
             const vigilanceDetails = document.getElementById('vigilance-details');
             const vigilanceIcon = document.getElementById('vigilance-icon');
             const vigilanceTitle = document.getElementById('vigilance-title');
-
+    
+            // Si pas de vigilance (verte), ne pas afficher
             if (highestVigilanceLevel === 1) {
                 document.getElementById('vigilance-encart').style.setProperty("display", "none", "important");
                 return;
@@ -135,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             if (highestVigilanceLevel in colorMap) {
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
-                vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color; // Définir la couleur du titre
+                vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
             }
     
@@ -166,11 +167,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             });
     
-            vigilanceDetails.innerHTML = mergedVigilances.map(vigilance =>
-                `Phénomène : ${vigilance.phenomenon}<br>Période : ${vigilance.periods.map(period =>
-                    ` ${formatPeriod(period.begin_time, period.end_time)}`
-                ).join('<br>')}<br><br>`
-            ).join('');
+            // Créer un tableau HTML
+            let tableHTML = `<table>
+                <thead>
+                    <tr>
+                        <th>Phénomène</th>
+                        <th>Période</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+    
+            mergedVigilances.forEach(vigilance => {
+                tableHTML += `<tr>
+                    <td>${vigilance.phenomenon}</td>
+                    <td>${vigilance.periods.map(period =>
+                        `${formatPeriod(period.begin_time, period.end_time)}`
+                    ).join('<br>')}</td>
+                </tr>`;
+            });
+    
+            tableHTML += `</tbody></table>`;
+            vigilanceDetails.innerHTML = tableHTML;
     
             document.getElementById('vigilance-encart').style.display = 'block'; // Afficher l'encart
         } else {
