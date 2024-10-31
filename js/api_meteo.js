@@ -126,9 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (highestVigilanceLevel in colorMap) {
-                document.getElementById('vigilance-encart').style.setProperty("border", "2px solid " + colorMapcolorMap[highestVigilanceLevel].color);
+                const colorHex = colorMap[highestVigilanceLevel].color;
+                document.getElementById('vigilance-encart').style.setProperty("border", "2px solid " + colorHex);
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
-                vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color;
+                vigilanceTitle.style.color = colorHex;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
             }
 
