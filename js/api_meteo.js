@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (highestVigilanceLevel in colorMap) {
+                document.getElementById('vigilance-encart').style.setProperty("border", "2px solid #FFFF00");
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorMap[highestVigilanceLevel].color;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
@@ -206,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return formattedDate;
     }
-
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getUVColor(uv) {
         let color;
-        if (uv > 0) color = `hsl(${Math.round(Math.max(-60,-26.667 * uv + 180))}, 100%, 50%)`;
+        if (uv > 0) color = `hsl(${Math.round(Math.max(-60, -30 * uv + 180))}, 100%, 50%)`;
         else color = `hsl(0, 0%, 100%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
