@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return date;
         }
         let transformeDate = date.slice(0, -2) + date.charAt(length - 1);
-        if (transformeDate.charAt(length - 3) === '0') {
+        if (transformeDate.charAt(length - 4) === '0') {
             transformeDate = transformeDate.slice(0, -3) + transformeDate.slice(-2);
         }
         return transformeDate;
