@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
-            formattedDate = formattedDate.replace(/:(\d{2})$/, 'h');
+            formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
         }
         return formattedDate;
     }
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getChartLabels(elementId, data) {
         return elementId.includes('day')
-            ? data.dates.map(date => formatDatePeriod(date.date, false, false, false, true, false))
+            ? data.dates.map(date => formatDatePeriod(new Date(date.date), false, false, false, true, false))
             : data.dates.map(date => {
                 return formatDatePeriod(new Date(date.date), false, true, true, false, false);
             });
