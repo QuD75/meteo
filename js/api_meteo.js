@@ -369,10 +369,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function getChartLabels(elementId, data) {
         return elementId.includes('day')
-            ? data.dates.map(date => formatDatePeriod(date.data, false, false, false, true, false))
+            ? data.dates.map(date => formatDatePeriod(date.date, false, false, false, true, false))
             : data.dates.map(date => {
-                const parsedDate = new Date(date.date);
-                return formatDatePeriod(parsedDate, false, true, true, false, false);
+                return formatDatePeriod(new Date(date.date), false, true, true, false, false);
             });
     }
     function getChartValues(data, label) {
