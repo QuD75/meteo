@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<div>
                     <strong>Phénomène :</strong> ${vigilance.phenomenon}<br>
                     <strong>Période :</strong> ${vigilance.periods.map(period =>
-                    `${formatDate(period.begin_time, false, true, true, true, false)} - ${formatDate(period.end_time, false, true, true, true, false)}`
+                    `${formatDate(period.begin_time, false, true, true, true, false)} à ${formatDate(period.end_time, false, true, true, true, false)}`
                 ).join('<br>')}
                 </div><br>`
             ).join('');
@@ -196,9 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
             minute: hasMinute ? '2-digit' : undefined,
             hour12: false,
         };
-        let formattedDate = date.toLocaleString('fr-FR', options).replace(/\s/g, '');
+        let formattedDate = date.toLocaleString('fr-FR', options);
         if (hasHour && !hasMinute) {
-            formattedDate = formattedDate.replace(/\s/g, '');
+            formattedDate = formattedDate.replace(/\s+$/, '');
             formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
         }
         return formattedDate;
@@ -276,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-    
     function fillSymbolRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
