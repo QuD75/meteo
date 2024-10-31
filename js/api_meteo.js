@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fillTableDayVertical(data) {
+        console.log(data);
         // Créer un tableau vide pour les lignes
         const rows = [];
 
