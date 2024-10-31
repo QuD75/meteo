@@ -507,9 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return { color, textColor };
     }
     function getWindColor(wind) {
-        let color;
-        if (wind < 70) color = `hsl(${Math.round((-250 / 70) * wind + 250)}, 100%, 50%)`;
-        else color = `hsl(0, 100%, 50%)`;
+        let hue = wind > 80 ? 300 : -3.75 * wind + 250;
+        hue = (hue + 360) % 360;
+        const color = `hsl(${Math.round(hue)}, 100%, 50%)`;
         const textColor = getTextColor(color);
         return { color, textColor };
     }
