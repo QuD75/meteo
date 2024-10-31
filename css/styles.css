@@ -156,6 +156,13 @@ footer a:hover {
         display: flex;
         flex-direction: column;
     }
+    td {
+        padding-top: 0;
+        padding-bottom: 0;
+        width: 10%;
+        max-width: 10%;
+        text-align: center;
+    }
 }
 
 .tab {
