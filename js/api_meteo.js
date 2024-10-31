@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
             const cachedData = JSON.parse(localStorage.getItem(cacheKey));
             // Vérifier si les données en cache sont encore valides
-            if (!mock && cachedData && (now - cachedData.timestamp < duration)) {
+            if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
                 console.log("Données en cache pour " + cacheKey);
                 displayFunction(cachedData.data);
                 return cachedData.data;
@@ -69,9 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Appels API indépendants
-        fetchData(proxyUrlDay, 'day', 15 * 60 * 1000, displayDataDay);
-        fetchData(proxyUrlWeek, 'week', 60 * 60 * 1000, displayDataWeek);
-        fetchData(apiVigilance, 'vigilance', 60 * 60 * 1000, displayDataVigilance);
+        fetchData(proxyUrlDay, 'day', 15, displayDataDay);
+        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
+        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance);
     }
 
     //Afficher les données des API
