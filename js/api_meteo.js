@@ -196,12 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
             minute: hasMinute ? '2-digit' : undefined,
             hour12: false,
         };
-        console.log("date brute : " + date);
         let formattedDate = date.toLocaleString('fr-FR', options);
-        console.log("date formattée : " + formattedDate);
         if (hasHour && !hasMinute) {
-            formattedDate = formattedDate.replace(/\s+$/, '');
-            formattedDate = formattedDate.replace(/:\d{2}$/, 'h');
+            console.log("date avant trim : " + formattedDate);
+            formattedDate = formattedDate.trim();
+            console.log("date après trim : " + formattedDate);
         }
         return formattedDate;
     }
