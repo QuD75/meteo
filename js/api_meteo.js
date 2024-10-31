@@ -74,6 +74,54 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance);
     }
 
+    function fillTableDayVertical(data) {
+        // Créer un tableau vide pour les lignes
+        const rows = [];
+
+        // Parcourir chaque paramètre dans le tableau 'data'
+        data.forEach(parameter => {
+            const { parameter: paramName, coordinates } = parameter;
+
+            // Pour chaque coordonnée, parcourir les dates
+            coordinates.forEach(coordinate => {
+                const { dates } = coordinate;
+
+                // Pour chaque date, extraire la valeur et l'heure
+                dates.forEach(entry => {
+                    const date = new Date(entry.date);
+                    const hour = date.toISOString().substring(11, 13); // Récupérer l'heure au format HH
+                    const value = entry.value;
+
+                    // Ajouter une ligne au tableau
+                    rows.push({
+                        hour: hour,
+                        parameter: paramName,
+                        value: value
+                    });
+                });
+            });
+        });
+
+        const tableBody = document.getElementById('weatherTableBody');
+
+        // Remplir le tableau
+        rows.forEach(row => {
+            const tableRow = document.createElement('tr');
+            const hourCell = document.createElement('td');
+            const parameterCell = document.createElement('td');
+            const valueCell = document.createElement('td');
+
+            hourCell.textContent = row.hour + ":00"; // Format de l'heure
+            parameterCell.textContent = row.parameter;
+            valueCell.textContent = row.value;
+
+            tableRow.appendChild(hourCell);
+            tableRow.appendChild(parameterCell);
+            tableRow.appendChild(valueCell);
+            tableBody.appendChild(tableRow);
+        });
+    }
+
     //Afficher les données des API
     function displayDataVigilance(dataVigilance) {
         document.getElementById("loading-message-vigilance").style.display = "none";
@@ -86,7 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("day-container-tab").style.display = "block";
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        fillTableDay(dataDay);
+        //fillTableDay(dataDay);
+        fillTableDayVertical(dataDay);
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');

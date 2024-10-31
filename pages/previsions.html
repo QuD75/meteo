@@ -30,6 +30,39 @@
         </div>
 
         <div id="day-container">
+            <h2>Test</h2>
+            <div id="day-container-tab" class="tab" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Heure</th>
+                            <th>Paramètre</th>
+                            <th>Valeur</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weatherTableBody">
+                        <!-- Les lignes seront ajoutées ici par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="day-container-graphs" class="grid-graphs-container" style="display: none;">
+                <div class="Temp">
+                    <canvas id="temperature-day-chart"></canvas>
+                </div>
+                <div class="Rain">
+                    <canvas id="precipitation-day-chart"></canvas>
+                </div>
+                <div class="Wind">
+                    <canvas id="wind-day-chart"></canvas>
+                </div>
+                <div class="Pressure">
+                    <canvas id="pressure-day-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="day-container">
             <h2>Météo pour les prochaines 24h</h2>
             <div id="loading-message-day" style="display: none;">En attente des données pour les prochaines 24h...
                 veuillez patienter</div>
