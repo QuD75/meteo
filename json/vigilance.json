@@ -51,7 +51,7 @@
             "phenomenon_id": 3,
             "phenomenon": "orages",
             "color_id": 1,
-            "color": "vert",
+            "color": "orange",
             "begin_time": "2024-10-29T05:00:00+00:00",
             "end_time": "2024-10-29T23:00:00+00:00",
             "product_datetime": "2024-10-28T15:00:00+00:00"
@@ -60,7 +60,7 @@
             "domain_id": "66",
             "echeance": "J",
             "phenomenon_id": 3,
-            "phenomenon": "orages",
+            "phenomenon": "orange",
             "color_id": 1,
             "color": "vert",
             "begin_time": "2024-10-28T15:00:00+00:00",
@@ -73,7 +73,7 @@
             "phenomenon_id": 2,
             "phenomenon": "pluie",
             "color_id": 2,
-            "color": "jaune",
+            "color": "rouge",
             "begin_time": "2024-10-28T23:00:00+00:00",
             "end_time": "2024-10-29T06:00:00+00:00",
             "product_datetime": "2024-10-28T15:00:00+00:00"
@@ -84,53 +84,9 @@
             "phenomenon_id": 2,
             "phenomenon": "pluie",
             "color_id": 1,
-            "color": "vert",
+            "color": "rouge",
             "begin_time": "2024-10-29T06:00:00+00:00",
             "end_time": "2024-10-29T23:00:00+00:00",
-            "product_datetime": "2024-10-28T15:00:00+00:00"
-        },
-        {
-            "domain_id": "66",
-            "echeance": "J",
-            "phenomenon_id": 2,
-            "phenomenon": "pluie",
-            "color_id": 1,
-            "color": "vert",
-            "begin_time": "2024-10-28T15:00:00+00:00",
-            "end_time": "2024-10-28T17:00:00+00:00",
-            "product_datetime": "2024-10-28T15:00:00+00:00"
-        },
-        {
-            "domain_id": "66",
-            "echeance": "J1",
-            "phenomenon_id": 1,
-            "phenomenon": "vent",
-            "color_id": 1,
-            "color": "vert",
-            "begin_time": "2024-10-28T23:00:00+00:00",
-            "end_time": "2024-10-29T23:00:00+00:00",
-            "product_datetime": "2024-10-28T15:00:00+00:00"
-        },
-        {
-            "domain_id": "66",
-            "echeance": "J",
-            "phenomenon_id": 3,
-            "phenomenon": "orages",
-            "color_id": 2,
-            "color": "jaune",
-            "begin_time": "2024-10-28T17:00:00+00:00",
-            "end_time": "2024-10-28T23:00:00+00:00",
-            "product_datetime": "2024-10-28T15:00:00+00:00"
-        },
-        {
-            "domain_id": "66",
-            "echeance": "J",
-            "phenomenon_id": 5,
-            "phenomenon": "neige / verglas",
-            "color_id": 1,
-            "color": "vert",
-            "begin_time": "2024-10-28T15:00:00+00:00",
-            "end_time": "2024-10-28T23:00:00+00:00",
             "product_datetime": "2024-10-28T15:00:00+00:00"
         }
     ]
