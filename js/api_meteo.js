@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dateCell.textContent = date;
             if (date === previousDate) {
                 rowspanCount++;
-                const previousRow = row.lastElementChild;
+                const previousRow = tableBody.lastElementChild;
                 const previousDateCell = previousRow.querySelector('td:first-child');
                 previousDateCell.rowSpan = rowspanCount;
                 dateCell.style.display = 'none';
