@@ -107,11 +107,8 @@ footer a:hover {
 #vigilance-encart {
     display: flex !important;
     width: 50%;
-    /* Ajustez la largeur selon vos besoins */
     background-color: var(--light-background);
-    /* Ajoutez un fond pour l'encart */
     border-radius: 8px;
-    /* Coins arrondis */
     margin-left: 25%;
 }
 
@@ -131,9 +128,7 @@ footer a:hover {
     flex: 2;
     display: flex;
     flex-direction: column;
-    /* Aligner le texte verticalement */
     justify-content: center;
-    /* Centrer le texte verticalement */
 }
 
 #vigilance-title {
@@ -158,14 +153,23 @@ footer a:hover {
 }
 
 td {
-    text-align: center;
+    height: 30px;
     background-color: var(--light-background);
 }
 
 th {
-    width: auto;
+    height: 50px;
     background-color: var(--primary-color);
     color: var(--white-color);
+}
+
+th,
+td {
+    padding-left: 0;
+    padding-right: 0;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    width: auto;
 }
 
 #weather-day-tab,
@@ -176,14 +180,6 @@ th {
     table-layout: fixed;
 }
 
-th,
-td {
-    width: auto;
-    padding-left: 0;
-    padding-right: 0;
-    border: 1px solid var(--border-color);
-}
-
 #weather-day-tab th:first-child,
 #weather-day-tab td:first-child,
 #weather-week-tab th:first-child,
@@ -192,7 +188,6 @@ td {
     max-width: 150px;
 }
 
-/* Cible les cellules sous la première ligne fusionnée*/
 #temperature-24h-row td,
 #rain-24h-row td,
 #wind-24h-row td,
