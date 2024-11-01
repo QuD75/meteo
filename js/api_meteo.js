@@ -285,6 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let { color, textColor } = getTempColor(temperatureCell);
             temperatureCell.color = color;
             temperatureCell.textColor = textColor;
+            console.log("Couleur cellule : " + color);
+            console.log("Couleur texte : " + textColor);
             temperatureCell.textContent = groupedData[dateKey].temperature;
             row.appendChild(temperatureCell);
 
