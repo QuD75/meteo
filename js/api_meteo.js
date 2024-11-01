@@ -286,10 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const dateCell = document.createElement('td');
             dateCell.textContent = date;
             if (date === previousDate) {
-                console.log("Date : " + date);
-                console.log("Heure : " + hour);
                 rowspanCount++;
-                const previousRow = row.previousElementSibling;
+                const previousRow = row.lastElementChild;
                 const previousDateCell = previousRow.querySelector('td:first-child');
                 previousDateCell.rowSpan = rowspanCount;
                 dateCell.style.display = 'none';
