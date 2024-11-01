@@ -293,14 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (day !== previousDay) {
                 const dayCell = document.createElement('td');
                 dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
-                dayCell.textContent = formatDate(newDate(dateKey), false, true, true, false, false);
+                dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
                 row.appendChild(dayCell);
                 previousDay = day;
             }
 
             // Ajouter la cellule d'heure pour chaque ligne
             const hourCell = document.createElement('td');
-            hourCell.textContent = formatDate(newDate(dateKey), false, false, false, true, false);
+            hourCell.textContent = formatDate(new Date(dateKey), false, false, false, true, false);
             row.appendChild(hourCell);
 
             const temperatureCell = document.createElement('td');
