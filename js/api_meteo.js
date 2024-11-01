@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const windSpeedCell = document.createElement('td');
             windSpeedCell.textContent = groupedData[dateKey].windSpeed;
-            ({ color, textColor } = getWindColor(windSpeedCell.textContent));
+            ({ color, textColor } = getWindColor(parseFloat(windSpeedCell.textContent) * 3.6));
             windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) * 3.6 / 5) * 5;
             windSpeedCell.style.backgroundColor = color;
             windSpeedCell.style.color = textColor;
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const windGustsCell = document.createElement('td');
             windGustsCell.textContent = groupedData[dateKey].windGusts;
-            ({ color, textColor } = getWindColor(windGustsCell.textContent));
+            ({ color, textColor } = getWindColor(parseFloat(windGustsCell.textContent) * 3.6));
             windGustsCell.textContent = Math.floor(parseFloat(windGustsCell.textContent) * 3.6 / 5) * 5;
             windGustsCell.style.backgroundColor = color;
             windGustsCell.style.color = textColor;
