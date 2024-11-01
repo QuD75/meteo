@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Remplir le tableau à partir des données regroupées
         for (const dateKey in groupedData) {
+            let color; let textColor;
             const row = document.createElement('tr');
 
             const dateCell = document.createElement('td');
@@ -283,21 +284,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
-            let { color, textColor } = getTempColor(temperatureCell.textContent);
+            ({ color, textColor } = getTempColor(temperatureCell.textContent));
             temperatureCell.style.backgroundColor = color;
             temperatureCell.style.color = textColor;
             row.appendChild(temperatureCell);
 
             const precipitationsCell = document.createElement('td');
             precipitationsCell.textContent = groupedData[dateKey].precipitations;
+            ({ color, textColor } = getRainColor(precipitationsCell.textContent));
+            precipitationsCell.style.backgroundColor = color;
+            precipitationsCell.style.color = textColor;
             row.appendChild(precipitationsCell);
 
             const windSpeedCell = document.createElement('td');
             windSpeedCell.textContent = groupedData[dateKey].windSpeed;
+            ({ color, textColor } = getWindColor(windSpeedCell.textContent));
+            windSpeedCell.style.backgroundColor = color;
+            windSpeedCell.style.color = textColor;
             row.appendChild(windSpeedCell);
 
             const windGustsCell = document.createElement('td');
             windGustsCell.textContent = groupedData[dateKey].windGusts;
+            ({ color, textColor } = getWindColor(windGustsCell.textContent));
+            windGustsCell.style.backgroundColor = color;
+            windGustsCell.style.color = textColor;
             row.appendChild(windGustsCell);
 
             const windDirCell = document.createElement('td');
@@ -314,6 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const uvIndexCell = document.createElement('td');
             uvIndexCell.textContent = groupedData[dateKey].uvIndex;
+            ({ color, textColor } = getUVColor(uvIndexCell.textContent));
+            uvIndexCell.style.backgroundColor = color;
+            uvIndexCell.style.color = textColor;
             row.appendChild(uvIndexCell);
 
             tableBody.appendChild(row);
