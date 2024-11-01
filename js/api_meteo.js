@@ -135,10 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (highestVigilanceLevel in colorMap) {
                 const colorHex = colorMap[highestVigilanceLevel].color;
-                document.getElementById('vigilance-encart').style.setProperty("border", "4px solid " + colorHex);
-                document.getElementById('vigilance-encart').style.setProperty("box-shadow", "0 4px 10px " + colorHex);
-                if (mobile) vigilanceIcon.style.setProperty("width", "50px");
-                else vigilanceIcon.style.setProperty("width", "150px");
+                const vigilanceEncart = document.getElementById('vigilance-encart');
+                vigilanceEncart.style.setProperty("border", "4px solid " + colorHex);
+                vigilanceEncart.style.setProperty("box-shadow", "0 4px 10px " + colorHex);
+                if (mobile) {
+                    vigilanceIcon.style.setProperty("width", "50px");
+                    vigilanceEncart.style.setProperty("width", "85%");
+                }
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorHex;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
