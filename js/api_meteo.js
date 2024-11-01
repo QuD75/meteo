@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        console.log("Largeur écran : " + window.width);
+        console.log("Largeur écran : " + window.innerWidth);
         if (window.matchMedia("(min-width: 700x)").matches) {
             console.log("Affichage normal");
             document.getElementById("day-container-tab").style.display = "block";
