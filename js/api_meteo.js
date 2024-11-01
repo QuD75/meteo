@@ -281,24 +281,29 @@ document.addEventListener('DOMContentLoaded', () => {
             let color; let textColor;
             const row = document.createElement('tr');
 
-            const [date, hour] = dateKey.split(' ');
+            const [day, hour] = dateKey.split(' ');
 
-            const dateCell = document.createElement('td');
-            dateCell.textContent = date;
-            if (date === previousDate) {
-                rowspanCount++;
-                const previousRow = tableBody.lastElementChild;
-                const previousDateCell = previousRow.querySelector('td:first-child');
-                previousDateCell.rowSpan = rowspanCount;
-                dateCell.style.display = 'none';
-            } else {
-                previousDate = date;
-                rowspanCount = 1;
-            }
-            row.appendChild(dateCell);
+            // Créez une cellule pour le jour
+            const dayCell = document.createElement('td');
+            dayCell.textContent = day;
 
+            // Créez une cellule pour l'heure'
             const hourCell = document.createElement('td');
             hourCell.textContent = hour;
+
+            let previousDay = '';
+            let rowspanCount = 1;
+            if (day === previousDay) {
+                rowspanCount++;
+                const previousRow = tableBody.lastElementChild;
+                const previousDayCell = previousRow.querySelector('td:first-child');
+                previousDayCell.rowSpan = rowspanCount;
+                dayCell.style.display = 'none';
+            } else {
+                previousDay = date;
+                rowspanCount = 1;
+            }
+            row.appendChild(dayCell);
             row.appendChild(hourCell);
 
             const temperatureCell = document.createElement('td');
