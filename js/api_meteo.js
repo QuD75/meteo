@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const textContainer = document.getElementById('text-container');
                     vigilanceIcon.style.setProperty("width", "80px");
                     vigilanceEncart.style.setProperty("width", "100%");
-                    //vigilanceEncart.style.setProperty("margin-left", "0");
+                    vigilanceEncart.style.setProperty("margin-left", "0");
                     textContainer.style.setProperty("font-size", "0.7em");
                     textContainer.style.setProperty("padding-right", "10px");
                 }
