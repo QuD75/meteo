@@ -289,6 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
             const [day, hour] = dateKey.split(' ');
 
+            console.log("Date : " + dateKey);
+
             // Si c'est un nouveau jour ou la première apparition de ce jour
             if (day !== previousDay) {
                 const dayCell = document.createElement('td');
