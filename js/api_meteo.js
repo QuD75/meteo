@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (mobile) {
                     vigilanceIcon.style.setProperty("width", "50px");
                     vigilanceEncart.style.setProperty("width", "85%");
+                    vigilanceEncart.style.setProperty("margin-left", "0");
                 }
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorHex;
