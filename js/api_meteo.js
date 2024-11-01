@@ -281,6 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
 
             const [date, day] = dateKey.split(' ');
+            const dayCell = document.createElement('td');
             const dateCell = document.createElement('td');
             dateCell.textContent = date;
             if (previousDate === date) {
@@ -301,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 rowspanCount = 1; // Réinitialiser le compteur de rowspan
             }
             row.appendChild(dateCell);
-            const dayCell = document.createElement('td');
             dayCell.textContent = day;
             row.appendChild(dayCell);
 
