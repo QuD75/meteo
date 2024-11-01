@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
             const cachedData = JSON.parse(localStorage.getItem(cacheKey));
             // Vérifier si les données en cache sont encore valides
-            if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
+            if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000 * 0)) {
                 console.log("Données en cache pour " + cacheKey);
                 displayFunction(cachedData.data);
                 return cachedData.data;
