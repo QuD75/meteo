@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const hourCell = document.createElement('td');
             hourCell.textContent = hour;
 
-            if (date === previousDay) {
+            if (day === previousDay) {
                 console.log(day + " vs " + previousDay);
                 rowspanCount++;
                 const previousRow = tableBody.lastElementChild;
