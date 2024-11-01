@@ -293,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const precipitationsCell = document.createElement('td');
             precipitationsCell.textContent = groupedData[dateKey].precipitations;
             ({ color, textColor } = getRainColor(precipitationsCell.textContent));
+            precipitationsCell.textContent = parseFloat(precipitationsCell.textContent).toFixed(1);
             precipitationsCell.style.backgroundColor = color;
             precipitationsCell.style.color = textColor;
             row.appendChild(precipitationsCell);
@@ -300,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const windSpeedCell = document.createElement('td');
             windSpeedCell.textContent = groupedData[dateKey].windSpeed;
             ({ color, textColor } = getWindColor(windSpeedCell.textContent));
+            windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) / 5) * 5;
             windSpeedCell.style.backgroundColor = color;
             windSpeedCell.style.color = textColor;
             row.appendChild(windSpeedCell);
@@ -307,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const windGustsCell = document.createElement('td');
             windGustsCell.textContent = groupedData[dateKey].windGusts;
             ({ color, textColor } = getWindColor(windGustsCell.textContent));
+            windGustsCell.textContent = Math.floor(parseFloat(windGustsCell.textContent) / 5) * 5;
             windGustsCell.style.backgroundColor = color;
             windGustsCell.style.color = textColor;
             row.appendChild(windGustsCell);
@@ -326,6 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const uvIndexCell = document.createElement('td');
             uvIndexCell.textContent = groupedData[dateKey].uvIndex;
             ({ color, textColor } = getUVColor(uvIndexCell.textContent));
+            uvIndexCell.textContent = parseFloat(uvIndexCell.textContent).toFixed(0);
             uvIndexCell.style.backgroundColor = color;
             uvIndexCell.style.color = textColor;
             row.appendChild(uvIndexCell);
