@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const windSpeedCell = document.createElement('td');
             windSpeedCell.textContent = groupedData[dateKey].windSpeed;
             ({ color, textColor } = getWindColor(windSpeedCell.textContent));
-            windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) / 5) * 5;
+            windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) * 3.6 / 5) * 5;
             windSpeedCell.style.backgroundColor = color;
             windSpeedCell.style.color = textColor;
             row.appendChild(windSpeedCell);
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const windGustsCell = document.createElement('td');
             windGustsCell.textContent = groupedData[dateKey].windGusts;
             ({ color, textColor } = getWindColor(windGustsCell.textContent));
-            windGustsCell.textContent = Math.floor(parseFloat(windGustsCell.textContent) / 5) * 5;
+            windGustsCell.textContent = Math.floor(parseFloat(windGustsCell.textContent) * 3.6 / 5) * 5;
             windGustsCell.style.backgroundColor = color;
             windGustsCell.style.color = textColor;
             row.appendChild(windGustsCell);
