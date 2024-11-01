@@ -87,12 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("day-container-graphs").style.display = "grid";
 
         if (window.innerWidth > 10000) {
-            console.log("Affichage normal");
             document.getElementById("day-container-tab").style.display = "block";
             fillTableDay(dataDay);
         }
         else {
-            console.log("Affichage mobile");
             document.getElementById("day-container-tab-mobile").style.display = "block";
             fillTableDayMobile(dataDay.data);
         }
