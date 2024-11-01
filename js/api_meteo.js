@@ -543,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayCell = document.createElement('td');
             dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
             dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
+            dayCell.textContent = dateKey;
             row.appendChild(dayCell);
             previousDay = day;
 
@@ -600,14 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
             weatherSymbolCell.appendChild(weatherIcon);
             row.appendChild(weatherSymbolCell);
-
-            const uvIndexCell = document.createElement('td');
-            uvIndexCell.textContent = groupedData[dateKey].uvIndex;
-            ({ color, textColor } = getUVColor(uvIndexCell.textContent));
-            uvIndexCell.textContent = parseFloat(uvIndexCell.textContent).toFixed(0);
-            uvIndexCell.style.backgroundColor = color;
-            uvIndexCell.style.color = textColor;
-            row.appendChild(uvIndexCell);
 
             tableBody.appendChild(row);
         }
