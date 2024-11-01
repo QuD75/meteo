@@ -192,10 +192,6 @@ td {
     font-size: 0.15em;
 }
 
-#weather-day-tab-mobile td {
-    font-size: 0.5em;
-}
-
 #temperature-24h-row td,
 #rain-24h-row td,
 #wind-24h-row td,
