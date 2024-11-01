@@ -39,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(mock ? "Données mockées" : "Données non mockées");
         const now = Date.now();
 
-        async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
+        async function fetchData(apiUrl, cacheKey, duration, displayFunction, mobile) {
             const cachedData = JSON.parse(localStorage.getItem(cacheKey));
             // Vérifier si les données en cache sont encore valides
             if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
                 console.log("Données en cache pour " + cacheKey);
-                displayFunction(cachedData.data);
+                displayFunction(cachedData.data, mobile);
                 return cachedData.data;
             } else {
                 try {
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                         console.log("Données mises en cache pour " + cacheKey);
                     }
-                    displayFunction(data);
+                    displayFunction(data, mobile);
                     return data;
                 } catch (error) {
                     console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
@@ -68,25 +68,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        const mobile = false;
+        if (window.innerWidth < 100000) {
+            mobile = true;
+        }
         // Appels API indépendants
-        fetchData(proxyUrlDay, 'day', 15, displayDataDay);
-        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
-        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance);
+        fetchData(proxyUrlDay, 'day', 15, displayDataDay, mobile);
+        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, mobile);
+        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance, mobile);
     }
 
     //Afficher les données des API
-    function displayDataVigilance(dataVigilance) {
+    function displayDataVigilance(dataVigilance, mobile) {
         document.getElementById("loading-message-vigilance").style.display = "none";
         document.getElementById("vigilance-encart").style.display = "block";
 
-        fillVigilance(dataVigilance);
+        fillVigilance(dataVigilance, mobile);
     }
-    function displayDataDay(dataDay) {
+    function displayDataDay(dataDay, mobile) {
         document.getElementById("loading-message-day").style.display = "none";
 
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        if (window.innerWidth > 100000) {
+        if (!mobile) {
             document.getElementById("day-container-tab").style.display = "block";
             fillTableDay(dataDay);
         }
@@ -100,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
         createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
-    function displayDataWeek(dataWeek) {
+    function displayDataWeek(dataWeek, mobile) {
         document.getElementById("loading-message-week").style.display = "none";
         document.getElementById("week-container-tab").style.display = "block";
         document.getElementById("week-container-graphs").style.display = "grid";
@@ -111,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-week-chart', 'du vent max sur les 7 prochaines jours', "Jour", "Vent (km/h)", dataWeek.data[5].coordinates[0], 'line', 'rgba(255, 140, 0, 1)', 'rgba(255, 140, 0, 0.2)');
     }
-    function fillVigilance(data) {
+    function fillVigilance(data, mobile) {
         if (data.results && data.results.length > 0) {
             data.results.sort(() => Math.random() - 0.5);
             const highestVigilanceLevel = data.results[0].color_id;
@@ -136,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const colorHex = colorMap[highestVigilanceLevel].color;
                 document.getElementById('vigilance-encart').style.setProperty("border", "4px solid " + colorHex);
                 document.getElementById('vigilance-encart').style.setProperty("box-shadow", "0 4px 10px " + colorHex);
+                if (mobile) vigilanceIcon.style.setProperty("width", "50px");
+                else vigilanceIcon.style.setProperty("width", "150px");
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorHex;
                 vigilanceTitle.textContent = `Vigilance ${highestVigilanceColor}`;
