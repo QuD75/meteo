@@ -274,35 +274,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Remplir le tableau à partir des données regroupées
-        let rowspanCount = 1;
+        let rowspanCount = 0;
         let previousDay = '';
-
         for (const dateKey in groupedData) {
             let color; let textColor;
             const row = document.createElement('tr');
-
             const [day, hour] = dateKey.split(' ');
-
-            // Créez une cellule pour le jour
-            const dayCell = document.createElement('td');
-            dayCell.textContent = day;
-
-            // Créez une cellule pour l'heure'
+            if (day !== previousDay) {
+                dayCell = document.createElement('td');
+                dayCell.setAttribute('rowspan', rowspanCount);
+                previousDay = day;
+                dayCell.textContent = day;
+                row.appendChild(dayCell);
+                rowspanCount = 1;
+            } else {
+                rowspanCount++;
+            }
             const hourCell = document.createElement('td');
             hourCell.textContent = hour;
-
-            if (day === previousDay) {
-                console.log(day + " vs " + previousDay);
-                rowspanCount++;
-                const previousRow = tableBody.lastElementChild;
-                const previousDayCell = previousRow.querySelector('td:first-child');
-                previousDayCell.rowSpan = rowspanCount;
-                dayCell.style.display = 'none';
-            } else {
-                previousDay = day;
-                rowspanCount = 1;
-            }
-            row.appendChild(dayCell);
             row.appendChild(hourCell);
 
             const temperatureCell = document.createElement('td');
