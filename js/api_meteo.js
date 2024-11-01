@@ -107,14 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!mobile) {
             document.getElementById("week-container-tab").style.display = "block";
-            fillTableWeek(dataDay);
+            fillTableWeek(dataWeek);
         }
         else {
             document.getElementById("week-container-tab-mobile").style.display = "block";
-            fillTableWeekMobile(dataDay.data);
+            fillTableWeekMobile(dataWeek.data);
         }
-
-        fillTableWeek(dataWeek);
 
         createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
         createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
