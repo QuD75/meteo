@@ -153,12 +153,12 @@ footer a:hover {
 }
 
 td {
-    height: 30px;
+    height: 20px;
     background-color: var(--light-background);
 }
 
 th {
-    height: 50px;
+    height: 40px;
     background-color: var(--primary-color);
     color: var(--white-color);
 }
