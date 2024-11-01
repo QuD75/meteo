@@ -161,6 +161,7 @@ td {
     text-align: center;
     background-color: var(--light-background);
 }
+
 th {
     width: auto;
     background-color: var(--primary-color);
@@ -183,8 +184,10 @@ td {
     border: 1px solid var(--border-color);
 }
 
-th:first-child,
-td:first-child {
+#weather-day-tab th:first-child,
+#weather-day-tab td:first-child,
+#weather-week-tab th:first-child,
+#weather-week-tab td:first-child {
     width: 150px;
     max-width: 150px;
 }
