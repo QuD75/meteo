@@ -282,6 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(dateCell);
 
             const temperatureCell = document.createElement('td');
+            let { color, textColor } = getTempColor(temperatureCell);
+            temperatureCell.color = color;
+            temperatureCell.textColor = textColor;
             temperatureCell.textContent = groupedData[dateKey].temperature;
             row.appendChild(temperatureCell);
 
