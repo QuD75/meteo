@@ -541,8 +541,8 @@ document.addEventListener('DOMContentLoaded', () => {
             dayCell.textContent = dayName;
             row.appendChild(dayCell);
 
-            const sunriseTime = formatDate(new Date(groupedData[dateKey].sunrise), false, false, false, true, false);
-            const sunsetTime = formatDate(new Date(groupedData[dateKey].sunset), false, false, false, true, false);
+            const sunriseTime = formatDate(new Date(groupedData[dateKey].sunrise), false, false, false, true, true);
+            const sunsetTime = formatDate(new Date(groupedData[dateKey].sunset), false, false, false, true, true);
             const sunCell = document.createElement('td');
             sunCell.textContent = `${sunriseTime} -> ${sunsetTime}`;
             row.appendChild(sunCell);
