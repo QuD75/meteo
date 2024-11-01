@@ -294,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let previousDay = '';
             let rowspanCount = 1;
             if (day === previousDay) {
+                console.log(day + " vs " + previousDay);
                 rowspanCount++;
                 const previousRow = tableBody.lastElementChild;
                 const previousDayCell = previousRow.querySelector('td:first-child');
