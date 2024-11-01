@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const mobile = window.innerWidth < 100000 ? true : false;
+        const mobile = window.innerWidth < 1000 ? true : false;
         // Appels API indépendants
         fetchData(proxyUrlDay, 'day', 15, displayDataDay, mobile);
         fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, mobile);
