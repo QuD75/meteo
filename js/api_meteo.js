@@ -274,8 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Remplir le tableau à partir des données regroupées
-        let previousDate = ''; // Variable pour stocker la date précédente
-        let rowspanCount = 1; // Compteur pour le rowspan
         for (const dateKey in groupedData) {
             let color; let textColor;
             const row = document.createElement('tr');
@@ -284,21 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayCell = document.createElement('td');
             const dateCell = document.createElement('td');
             dateCell.textContent = date;
-            if (previousDate === date) {
-                // Si la date est identique à la précédente, augmentez le rowspan
-                rowspanCount++;
-                const previousRow = tableBody.lastElementChild; // On suppose que la dernière ligne est la précédente
-                if (previousRow) {
-                    const previousDateCell = previousRow.querySelector('td:first-child'); // Supposons que c'est la première cellule
-                    if (previousDateCell) {
-                        previousDateCell.rowSpan = rowspanCount;
-                    }
-                }
-            } else {
-                // Si c'est une nouvelle date, réinitialisez le compteur
-                previousDate = date;
-                rowspanCount = 1; // Réinitialiser le compteur de rowspan
-            }
             row.appendChild(dateCell);
             dayCell.textContent = day;
             row.appendChild(dayCell);
