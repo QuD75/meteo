@@ -285,6 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
             ({ color, textColor } = getTempColor(temperatureCell.textContent));
+            temperatureCell.textContent = parseFloat(temperatureCell.textContent).toFixed(0);
             temperatureCell.style.backgroundColor = color;
             temperatureCell.style.color = textColor;
             row.appendChild(temperatureCell);
