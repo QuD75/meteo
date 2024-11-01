@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Si c'est un nouveau jour ou la première apparition de ce jour
             const dayCell = document.createElement('td');
-            const date = new Date(dateKey);
+            const date = new Date(groupedData[dateKey]);
             date.setDate(date.getDate() - 1);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
             dayCell.textContent = dayName;
