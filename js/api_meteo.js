@@ -139,9 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 vigilanceEncart.style.setProperty("border", "4px solid " + colorHex);
                 vigilanceEncart.style.setProperty("box-shadow", "0 4px 10px " + colorHex);
                 if (true) {
-                    vigilanceIcon.style.setProperty("width", "50px");
+                    const textContainer = document.getElementById('text-container');
+                    vigilanceIcon.style.setProperty("width", "70px");
                     vigilanceEncart.style.setProperty("width", "100%");
                     vigilanceEncart.style.setProperty("margin-left", "0");
+                    textContainer.style.setProperty("font-size", "0.5em");
+                    textContainer.style.setProperty("padding-right", "10px");
                 }
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
                 vigilanceTitle.style.color = colorHex;
