@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const vigilanceEncart = document.getElementById('vigilance-encart');
                 vigilanceEncart.style.setProperty("border", "4px solid " + colorHex);
                 vigilanceEncart.style.setProperty("box-shadow", "0 4px 10px " + colorHex);
-                if (mobile) {
+                if (true) {
                     vigilanceIcon.style.setProperty("width", "50px");
                     vigilanceEncart.style.setProperty("width", "85%");
                     vigilanceEncart.style.setProperty("margin-left", "0");
