@@ -277,11 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let previousDate = ''; // Variable pour stocker la date précédente
         let rowspanCount = 1; // Compteur pour le rowspan
         for (const dateKey in groupedData) {
+            let color; let textColor;
             const row = document.createElement('tr');
 
             const [date, day] = dateKey.split(' ');
-            const dayCell = document.createElement('td');
-            dayCell.textContent = day;
+            const dateCell = document.createElement('td');
+            dateCell.textContent = date;
             if (previousDate === date) {
                 // Si la date est identique à la précédente, augmentez le rowspan
                 rowspanCount++;
@@ -299,10 +300,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 previousDate = date;
                 rowspanCount = 1; // Réinitialiser le compteur de rowspan
             }
-            row.appendChild(dayCell); // Ajoutez la cellule du jour
-            const dateCell = document.createElement('td');
-            dateCell.textContent = date;
-            row.appendChild(dateCell); // Ajoutez la cellule de date
+            row.appendChild(dateCell);
+            const dayCell = document.createElement('td');
+            dayCell.textContent = day;
+            row.appendChild(dayCell);
 
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
