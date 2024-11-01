@@ -274,17 +274,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Remplir le tableau à partir des données regroupées
+        let rowspanCount = 1;
+        let previousDate = '';
+
         for (const dateKey in groupedData) {
             let color; let textColor;
             const row = document.createElement('tr');
 
-            const [date, day] = dateKey.split(' ');
-            const dayCell = document.createElement('td');
+            const [date, hour] = dateKey.split(' ');
+
             const dateCell = document.createElement('td');
             dateCell.textContent = date;
+            if (date === previousDate) {
+                console.log("Date : " + date);
+                console.log("Heure : " + hour);
+                rowspanCount++;
+                const previousRow = row.previousElementSibling;
+                const previousDateCell = previousRow.querySelector('td:first-child');
+                previousDateCell.rowSpan = rowspanCount;
+                dateCell.style.display = 'none';
+            } else {
+                previousDate = date;
+                rowspanCount = 1;
+            }
             row.appendChild(dateCell);
-            dayCell.textContent = day;
-            row.appendChild(dayCell);
+
+            const hourCell = document.createElement('td');
+            hourCell.textContent = hour;
+            row.appendChild(hourCell);
 
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
