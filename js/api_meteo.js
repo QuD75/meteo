@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        if (window.innerWidth > 1000) {
+        if (window.innerWidth > 1) {
             document.getElementById("day-container-tab").style.display = "block";
             fillTableDay(dataDay);
         }
