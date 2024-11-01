@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const previousRow = tableBody.lastElementChild;
                 const previousDayCell = previousRow.querySelector('td:first-child');
                 previousDayCell.rowSpan = rowspanCount;
-                //dayCell.style.display = 'none';
+                dayCell.style.display = 'none';
             } else {
                 previousDay = day;
                 rowspanCount = 1;
