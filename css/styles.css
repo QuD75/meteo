@@ -174,7 +174,8 @@ td {
 
 #weather-day-tab,
 #weather-day-tab-mobile,
-#weather-week-tab {
+#weather-week-tab,
+#weather-week-tab-mobile {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
@@ -188,7 +189,8 @@ td {
     max-width: 150px;
 }
 
-#weather-day-tab-mobile {
+#weather-day-tab-mobile,
+#weather-week-tab-mobile {
     font-size: 0.1em;
 }
 

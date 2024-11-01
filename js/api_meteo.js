@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function getMockValue() {
         const url = new URL(window.location.href);
         const mockParam = url.searchParams.get('mock');
-        return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
-        //return true;
+        //return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
+        return true;
     }
 
     // Appel aux API
@@ -103,8 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function displayDataWeek(dataWeek, mobile) {
         document.getElementById("loading-message-week").style.display = "none";
-        document.getElementById("week-container-tab").style.display = "block";
         document.getElementById("week-container-graphs").style.display = "grid";
+
+        if (!mobile) {
+            document.getElementById("week-container-tab").style.display = "block";
+            fillTableWeek(dataDay);
+        }
+        else {
+            document.getElementById("week-container-tab-mobile").style.display = "block";
+            fillTableWeekMobile(dataDay.data);
+        }
 
         fillTableWeek(dataWeek);
 
@@ -469,6 +477,142 @@ document.addEventListener('DOMContentLoaded', () => {
             td.appendChild(windDirectionIcon);
             rowElement.appendChild(td);
         });
+    }
+    function fillTableWeekMobile(data) {
+        const tableBody = document.querySelector('#weather-week-tab-mobile tbody');
+
+        // Objet pour stocker les données regroupées par date
+        const groupedData = {};
+
+        // Parcourir chaque paramètre de données
+        data.forEach(parameter => {
+            parameter.coordinates.forEach(coord => {
+                coord.dates.forEach(dateData => {
+                    const dateKey = new Date(dateData.date); // Utilisez une clé de date formatée
+
+                    if (!groupedData[dateKey]) {
+                        // Si la date n'existe pas encore, créez une entrée
+                        groupedData[dateKey] = {
+                            sunrise: null,
+                            sunset: null,
+                            tempMin: null,
+                            tempMax: null,
+                            rain: null,
+                            wind: null,
+                            weatherSymbol: null
+                        };
+                    }
+                    // Stockez les valeurs selon le paramètre
+                    switch (parameter.parameter) {
+                        case 'sunrise:sql':
+                            groupedData[dateKey].sunrise = dateData.value;
+                            break;
+                        case 'sunset:sql':
+                            groupedData[dateKey].sunset = dateData.value;
+                            break;
+                        case 't_min_2m_24h:C':
+                            groupedData[dateKey].tempMin = dateData.value;
+                            break;
+                        case 't_max_2m_24h:C':
+                            groupedData[dateKey].tempMax = dateData.value;
+                            break;
+                        case 'precip_24h:mm':
+                            groupedData[dateKey].rain = dateData.value;
+                            break;
+                        case 'wind_gusts_10m_24h:ms':
+                            groupedData[dateKey].wind = dateData.value;
+                            break;
+                        case 'weather_symbol_24h:idx':
+                            groupedData[dateKey].weatherSymbol = dateData.value;
+                            break;
+                    }
+                });
+            });
+        });
+
+        // Remplir le tableau à partir des données regroupées
+        let previousDay = '';
+        let dayOccurrences = {}; // Stocke le nombre de fois que chaque date apparaît
+
+
+        // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
+        for (const dateKey in groupedData) {
+            let color, textColor;
+            const row = document.createElement('tr');
+            const day = new Date(dateKey).getDate();
+
+            // Si c'est un nouveau jour ou la première apparition de ce jour
+            const dayCell = document.createElement('td');
+            dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
+            dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
+            row.appendChild(dayCell);
+            previousDay = day;
+
+            const date = new Date(dateKey.sunrise);
+            date.setDate(date.getDate() - 1);
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+            dayCell.textContent = dayName;
+            row.appendChild(dayCell);
+
+            const sunriseTime = formatDate(new Date(dateKey.sunrise), false, false, false, true, true);
+            const sunsetTime = formatDate(new Date(dateKey.sunset), false, false, false, true, true);
+            const sunCell = document.createElement('td');
+            sunCell.textContent = `${sunriseTime} -> ${sunsetTime}`;
+            row.appendChild(sunCell);
+
+            const tempMinCell = document.createElement('td');
+            tempMinCell.textContent = groupedData[dateKey].tempMin;
+            ({ color, textColor } = getTempColor(tempMinCell.textContent));
+            tempMinCell.textContent = parseFloat(tempMinCell.textContent).toFixed(0);
+            tempMinCell.style.backgroundColor = color;
+            tempMinCell.style.color = textColor;
+            row.appendChild(tempMinCell);
+
+            const tempMaxCell = document.createElement('td');
+            tempMaxCell.textContent = groupedData[dateKey].tempMax;
+            ({ color, textColor } = getTempColor(tempMaxCell.textContent));
+            tempMaxCell.textContent = parseFloat(tempMaxCell.textContent).toFixed(0);
+            tempMaxCell.style.backgroundColor = color;
+            tempMaxCell.style.color = textColor;
+            row.appendChild(tempMaxCell);
+
+            const precipitationsCell = document.createElement('td');
+            precipitationsCell.textContent = groupedData[dateKey].rain;
+            ({ color, textColor } = getRainColor(precipitationsCell.textContent));
+            precipitationsCell.textContent = parseFloat(precipitationsCell.textContent).toFixed(1);
+            precipitationsCell.style.backgroundColor = color;
+            precipitationsCell.style.color = textColor;
+            row.appendChild(precipitationsCell);
+
+            const windSpeedCell = document.createElement('td');
+            windSpeedCell.textContent = groupedData[dateKey].wind;
+            ({ color, textColor } = getWindColor(parseFloat(windSpeedCell.textContent) * 3.6));
+            windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) * 3.6 / 5) * 5;
+            windSpeedCell.style.backgroundColor = color;
+            windSpeedCell.style.color = textColor;
+            row.appendChild(windSpeedCell);
+
+            const weatherSymbolCell = document.createElement('td');
+            const weatherIcon = document.createElement('img');
+            weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
+            weatherIcon.style.width = "100%";
+            weatherIcon.style.height = "100%";
+            weatherIcon.style.objectFit = "cover";
+            weatherIcon.style.display = "block";
+            weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
+            weatherSymbolCell.appendChild(weatherIcon);
+            row.appendChild(weatherSymbolCell);
+
+            const uvIndexCell = document.createElement('td');
+            uvIndexCell.textContent = groupedData[dateKey].uvIndex;
+            ({ color, textColor } = getUVColor(uvIndexCell.textContent));
+            uvIndexCell.textContent = parseFloat(uvIndexCell.textContent).toFixed(0);
+            uvIndexCell.style.backgroundColor = color;
+            uvIndexCell.style.color = textColor;
+            row.appendChild(uvIndexCell);
+
+            tableBody.appendChild(row);
+        }
     }
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
