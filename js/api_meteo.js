@@ -83,15 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function displayDataDay(dataDay) {
         document.getElementById("loading-message-day").style.display = "none";
-        
+
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        // Vérifie si l'écran a une largeur de plus de 768 pixels
+        console.log("Largeur écran : " + window.width);
         if (window.matchMedia("(min-width: 700x)").matches) {
+            console.log("Affichage normal");
             document.getElementById("day-container-tab").style.display = "block";
             fillTableDay(dataDay);
         }
         else {
+            console.log("Affichage mobile");
             document.getElementById("day-container-tab-mobile").style.display = "block";
             fillTableDayMobile(dataDay.data);
         }
