@@ -284,14 +284,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayCell = document.createElement('td');
                 dayCell.setAttribute('rowspan', rowspanCount);
                 previousDay = day;
-                dayCell.textContent = day;
+                dayCell.textContent = formatDate(day, false, true, true, false, false);
                 row.appendChild(dayCell);
                 rowspanCount = 1;
             } else {
                 rowspanCount++;
             }
             const hourCell = document.createElement('td');
-            hourCell.textContent = hour;
+            hourCell.textContent = formatDate(hour, false, false, false, true, false);
             row.appendChild(hourCell);
 
             const temperatureCell = document.createElement('td');
