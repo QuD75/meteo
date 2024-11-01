@@ -29,53 +29,12 @@
             </div>
         </div>
 
-   <!--    <div id="day-container">
-            <h2>Test</h2>
-            <div id="day-container-tab" class="tab" style="display: none;">
-                <table id="weatherTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Température (°C)</th>
-                            <th>Précipitations (mm)</th>
-                            <th>Vitesse du Vent (m/s)</th>
-                            <th>Rafales du Vent (m/s)</th>
-                            <th>Direction du Vent (°)</th>
-                            <th>Pression (hPa)</th>
-                            <th>Symbole Météo</th>
-                            <th>UV Index</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-
-            <div id="day-container-graphs" class="grid-graphs-container" style="display: none;">
-                <div class="Temp">
-                    <canvas id="temperature-day-chart"></canvas>
-                </div>
-                <div class="Rain">
-                    <canvas id="precipitation-day-chart"></canvas>
-                </div>
-                <div class="Wind">
-                    <canvas id="wind-day-chart"></canvas>
-                </div>
-                <div class="Pressure">
-                    <canvas id="pressure-day-chart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        
-    -->
-
         <div id="day-container">
             <h2>Météo pour les prochaines 24h</h2>
             <div id="loading-message-day" style="display: none;">En attente des données pour les prochaines 24h...
                 veuillez patienter</div>
-            <div id="day-container-tab" class="tab" style="display: none;">
-                <table id="weather-day-tab">
+            <div id="day-container-tab-mobile" class="tab" style="display: none;">
+                <table id="weather-day-tab-mobile">
                     <thead>
                         <tr id="days-24h-row">
                             <th rowspan="2">Paramètres</th>
@@ -107,6 +66,26 @@
                         <tr id="weather-24h-row">
                             <td>Ciel</td>
                         </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="day-container-tab" class="tab" style="display: none;">
+                <table id="weatherTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Température (°C)</th>
+                            <th>Précipitations (mm)</th>
+                            <th>Vitesse du Vent (m/s)</th>
+                            <th>Rafales du Vent (m/s)</th>
+                            <th>Direction du Vent (°)</th>
+                            <th>Pression (hPa)</th>
+                            <th>Symbole Météo</th>
+                            <th>UV Index</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     </tbody>
                 </table>
             </div>
