@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.forEach(parameter => {
             parameter.coordinates.forEach(coord => {
                 coord.dates.forEach(dateData => {
-                    const dateKey = new Date(dateData.date).toLocaleString(); // Utilisez une clé de date formatée
+                    const dateKey = new Date(dateData.date); // Utilisez une clé de date formatée
 
                     if (!groupedData[dateKey]) {
                         // Si la date n'existe pas encore, créez une entrée
@@ -279,7 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Compter les occurrences de chaque date
         for (const dateKey in groupedData) {
-            const [day] = dateKey.split(' ');
+            const date = new Date(dateKey);
+            const day = date.toISOString().split('T')[0];
             dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
         }
 
@@ -287,17 +288,14 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const dateKey in groupedData) {
             let color, textColor;
             const row = document.createElement('tr');
-            const [day, hour] = dateKey.split(' ');
 
-            console.log("Date : " + dateKey);
-
-            // Si c'est un nouveau jour ou la première apparition de ce jour
-            if (day !== previousDay) {
+            // Si c'est un nouveau jour ou la premièe apparition de ce jour
+            if (dateKey !== previousDay) {
                 const dayCell = document.createElement('td');
-                dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
+                dayCell.setAttribute('rowspan', dayOccurrences[dateKey]); // Applique le rowspan selon le comptage
                 dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
                 row.appendChild(dayCell);
-                previousDay = day;
+                previousDay = dateKey;
             }
 
             // Ajouter la cellule d'heure pour chaque ligne
