@@ -292,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const previousDateCell = previousRow.querySelector('td:first-child'); // Supposons que c'est la première cellule
                     if (previousDateCell) {
                         previousDateCell.rowSpan = rowspanCount;
-                        dateCell.style.display = 'none'; // Masquez la cellule actuelle
                     }
                 }
             } else {
