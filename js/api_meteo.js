@@ -278,9 +278,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let color; let textColor;
             const row = document.createElement('tr');
 
+            const [date, day] = dateKey.split(' ');
             const dateCell = document.createElement('td');
-            dateCell.textContent = dateKey;
+            dateCell.textContent = date;
             row.appendChild(dateCell);
+            const dayCell = document.createElement('td');
+            dayCell.textContent = day;
+            row.appendChild(dayCell);
 
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
