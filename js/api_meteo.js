@@ -279,8 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Compter les occurrences de chaque date
         for (const dateKey in groupedData) {
-            const date = new Date(dateKey);
-            const day = date.toISOString().split('T')[0];
+            const day = dateKey.getDate();
             dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
         }
 
@@ -288,14 +287,15 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const dateKey in groupedData) {
             let color, textColor;
             const row = document.createElement('tr');
+            const day = dateKey.getDate();
 
-            // Si c'est un nouveau jour ou la premièe apparition de ce jour
-            if (dateKey !== previousDay) {
+            // Si c'est un nouveau jour ou la première apparition de ce jour
+            if (day !== previousDay) {
                 const dayCell = document.createElement('td');
-                dayCell.setAttribute('rowspan', dayOccurrences[dateKey]); // Applique le rowspan selon le comptage
+                dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
                 dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
                 row.appendChild(dayCell);
-                previousDay = dateKey;
+                previousDay = day;
             }
 
             // Ajouter la cellule d'heure pour chaque ligne
