@@ -274,22 +274,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Remplir le tableau à partir des données regroupées
-        let rowspanCount = 0;
         let previousDay = '';
+        let dayOccurrences = {}; // Stocke le nombre de fois que chaque date apparaît
+
+        // 1. Compter les occurrences de chaque date
         for (const dateKey in groupedData) {
-            let color; let textColor;
+            const [day] = dateKey.split(' ');
+            dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
+        }
+
+        // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
+        for (const dateKey in groupedData) {
+            let color, textColor;
             const row = document.createElement('tr');
             const [day, hour] = dateKey.split(' ');
+
+            // Si c'est un nouveau jour ou la première apparition de ce jour
             if (day !== previousDay) {
-                dayCell = document.createElement('td');
-                dayCell.setAttribute('rowspan', rowspanCount);
-                previousDay = day;
+                const dayCell = document.createElement('td');
+                dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
                 dayCell.textContent = formatDate(day, false, true, true, false, false);
                 row.appendChild(dayCell);
-                rowspanCount = 1;
-            } else {
-                rowspanCount++;
+                previousDay = day;
             }
+
+            // Ajouter la cellule d'heure pour chaque ligne
             const hourCell = document.createElement('td');
             hourCell.textContent = formatDate(hour, false, false, false, true, false);
             row.appendChild(hourCell);
