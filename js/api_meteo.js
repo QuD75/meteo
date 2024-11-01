@@ -343,8 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const weatherSymbolCell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            weatherIcon.style.width = "40px";
-            weatherIcon.style.height = "40px";
+            weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
+            weatherIcon.style.width = "100%";
+            weatherIcon.style.height = "100%";
+            weatherIcon.style.objectFit = "cover";
+            weatherIcon.style.display = "block";
             weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
             weatherSymbolCell.appendChild(weatherIcon);
             row.appendChild(weatherSymbolCell);
