@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Remplir le tableau à partir des données regroupées
         let rowspanCount = 1;
-        let previousDate = '';
+        let previousDay = '';
 
         for (const dateKey in groupedData) {
             let color; let textColor;
@@ -291,10 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const hourCell = document.createElement('td');
             hourCell.textContent = hour;
 
-            let previousDay = '';
-            let rowspanCount = 1;
-            console.log(day + " vs " + previousDay);
-            if (day === previousDay) {
+            if (date === previousDay) {
                 console.log(day + " vs " + previousDay);
                 rowspanCount++;
                 const previousRow = tableBody.lastElementChild;
