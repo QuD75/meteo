@@ -287,13 +287,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (previousDate === date) {
                 // Si la date est identique à la précédente, augmentez le rowspan
                 rowspanCount++;
-                // Vérifiez si la ligne précédente existe
                 const previousRow = tableBody.lastElementChild; // On suppose que la dernière ligne est la précédente
                 if (previousRow) {
-                    const previousDayCell = previousRow.querySelector('td:first-child'); // Supposons que c'est la première cellule
-                    if (previousDayCell) {
-                        previousDayCell.rowSpan = rowspanCount;
-                        dayCell.style.display = 'none'; // Masquez la cellule actuelle
+                    const previousDateCell = previousRow.querySelector('td:first-child'); // Supposons que c'est la première cellule
+                    if (previousDateCell) {
+                        previousDateCell.rowSpan = rowspanCount;
+                        dateCell.style.display = 'none'; // Masquez la cellule actuelle
                     }
                 }
             } else {
