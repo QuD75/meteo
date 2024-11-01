@@ -322,11 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
             pressureCell.textContent = groupedData[dateKey].pressure;
             row.appendChild(pressureCell);
 
-            const weatherSymbolCell = document.createElement('img');
-            weatherSymbolCell.textContent = groupedData[dateKey].weatherSymbol;
-            weatherSymbolCell.style.width = "40px";
-            weatherSymbolCell.style.height = "40px";
-            weatherSymbolCell.src = getWeatherIcon(weatherSymbolCell.textContent);
+            const weatherSymbolCell = document.createElement('td');
+            const weatherIcon = document.createElement('img');
+            weatherIcon.style.width = "40px";
+            weatherIcon.style.height = "40px";
+            weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
+            weatherSymbolCell.appendChild(weatherIcon);
             row.appendChild(weatherSymbolCell);
 
             const uvIndexCell = document.createElement('td');
