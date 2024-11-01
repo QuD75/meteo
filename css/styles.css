@@ -188,8 +188,12 @@ td {
     max-width: 150px;
 }
 
-#weather-day-tab-mobile {
+#weather-day-tab-mobile th {
     font-size: 0.15em;
+}
+
+#weather-day-tab-mobile td {
+    font-size: 0.3em;
 }
 
 #temperature-24h-row td,

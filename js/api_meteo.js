@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Compter les occurrences de chaque date
         for (const dateKey in groupedData) {
-            const day = dateKey.getDate();
+            const day = new Date(dateKey).getDate();
             dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
         }
 
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const dateKey in groupedData) {
             let color, textColor;
             const row = document.createElement('tr');
-            const day = dateKey.getDate();
+            const day = new Date(dateKey).getDate();
 
             // Si c'est un nouveau jour ou la première apparition de ce jour
             if (day !== previousDay) {
