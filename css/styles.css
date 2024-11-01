@@ -26,43 +26,29 @@ footer {
     background-color: var(--primary-color);
     color: var(--white-color);
     text-align: center;
-}
-
-header {
     padding: 20px 0;
 }
 
-header a {
-    color: inherit;
-    text-decoration: none;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.5em;
-    text-decoration: none;
+header h1, footer a, nav ul li a, th {
     color: var(--white-color);
-    vertical-align: middle;
+    text-decoration: none;
 }
 
 nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    list-style: none;
     display: flex;
     justify-content: center;
+    margin: 0;
+    padding: 0;
     background-color: var(--secondary-color);
 }
 
 nav ul li {
     margin: 0 10px;
-    flex: 0.1;
     text-align: center;
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: var(--white-color);
     font-size: 1.2em;
     padding: 5px 10px;
     transition: background-color 0.3s ease;
@@ -75,7 +61,6 @@ nav ul li a:hover {
 
 main {
     padding: 20px;
-    text-align: center;
     flex: 1;
     width: 85%;
     margin: 0 auto;
@@ -91,15 +76,6 @@ main p {
     color: var(--subtext-color);
 }
 
-footer {
-    padding: 10px 0;
-}
-
-footer a {
-    color: var(--white-color);
-    text-decoration: none;
-}
-
 footer a:hover {
     text-decoration: underline;
 }
@@ -107,33 +83,19 @@ footer a:hover {
 #vigilance-encart {
     display: flex !important;
     width: 50%;
-    /* Ajustez la largeur selon vos besoins */
     background-color: var(--light-background);
-    /* Ajoutez un fond pour l'encart */
     border-radius: 8px;
-    /* Coins arrondis */
     margin-left: 25%;
 }
 
-#vigilance-icon {
-    width: 150px;
-    height: auto;
-}
-
-#icon-container {
-    flex: 1;
+#icon-container, #text-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #text-container {
-    flex: 2;
-    display: flex;
     flex-direction: column;
-    /* Aligner le texte verticalement */
-    justify-content: center;
-    /* Centrer le texte verticalement */
 }
 
 #vigilance-title {
@@ -141,77 +103,42 @@ footer a:hover {
     font-weight: bold;
 }
 
-
-#day-container,
-#week-container {
-    margin: 40px auto 20px auto;
+#day-container, #week-container {
+    margin: 40px auto 20px;
     width: 100%;
     text-align: center;
 }
 
 .tab {
-    margin-bottom: 20px;
-    overflow-x: auto;
     border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    background-color: var(--light-background);
     width: 100% !important;
 }
 
-td {
-    text-align: center;
-    background-color: var(--light-background);
-}
-
-th {
-    width: auto;
-    background-color: var(--primary-color);
-    color: var(--white-color);
-}
-
-#weather-day-tab,
-#weather-day-tab-mobile,
-#weather-week-tab {
+#weather-day-tab, #weather-day-tab-mobile, #weather-week-tab {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-th,
-td {
-    width: auto;
-    padding-left: 0;
-    padding-right: 0;
+th, td {
+    text-align: center;
+    padding: 0;
     border: 1px solid var(--border-color);
 }
 
+th {
+    background-color: var(--primary-color);
+}
+
 #weather-day-tab th:first-child,
-#weather-day-tab td:first-child,
 #weather-week-tab th:first-child,
+#weather-day-tab td:first-child,
 #weather-week-tab td:first-child {
     width: 150px;
     max-width: 150px;
-}
-
-/* Cible les cellules sous la première ligne fusionnée*/
-#temperature-24h-row td,
-#rain-24h-row td,
-#wind-24h-row td,
-#wind-gust-24h-row td,
-#wind-direction-24h-row td,
-#pressure-24h-row td,
-#uv-24h-row td,
-#weather-24h-row td,
-#sun-week-row td,
-#temp-min-week-row td,
-#temp-max-week-row td,
-#rain-week-row td,
-#wind-week-row td,
-#weather-week-row td {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 10px;
-    max-width: 10px;
-    text-align: center;
 }
 
 .grid-graphs-container {
@@ -221,21 +148,7 @@ td {
     margin: 20px 0;
 }
 
-.Temp,
-.Rain,
-.Wind,
-.Pressure {
-    padding: 0;
-    margin-right: 0;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.Temp canvas,
-.Rain canvas,
-.Wind canvas,
-.Pressure canvas {
+canvas {
     width: 100%;
     height: 600px;
     background-color: var(--light-background) !important;
