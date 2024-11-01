@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 previousDayCell.rowSpan = rowspanCount;
                 dayCell.style.display = 'none';
             } else {
-                previousDay = date;
+                previousDay = day;
                 rowspanCount = 1;
             }
             row.appendChild(dayCell);
