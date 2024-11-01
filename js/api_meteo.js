@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Vérifie si l'écran a une largeur de plus de 768 pixels
         //if (window.matchMedia("(min-width: 76px)").matches) {
-            fillTableDay(dataDay);
+        fillTableDay(dataDay);
         //} else {
         //   fillTableDayMobile(dataDay.data);
         //}
@@ -216,16 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weatherTable tbody');
-    
+
         // Objet pour stocker les données regroupées par date
         const groupedData = {};
-    
+
         // Parcourir chaque paramètre de données
         data.forEach(parameter => {
             parameter.coordinates.forEach(coord => {
                 coord.dates.forEach(dateData => {
                     const dateKey = new Date(dateData.date).toLocaleString(); // Utilisez une clé de date formatée
-    
+
                     if (!groupedData[dateKey]) {
                         // Si la date n'existe pas encore, créez une entrée
                         groupedData[dateKey] = {
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             uvIndex: null,
                         };
                     }
-    
+
                     // Stockez les valeurs selon le paramètre
                     switch (parameter.parameter) {
                         case 't_2m:C':
@@ -270,47 +270,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
-    
+
         // Remplir le tableau à partir des données regroupées
         for (const dateKey in groupedData) {
             const row = document.createElement('tr');
-    
+
             const dateCell = document.createElement('td');
             dateCell.textContent = dateKey;
             row.appendChild(dateCell);
-    
+
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
             row.appendChild(temperatureCell);
-    
+
             const precipitationsCell = document.createElement('td');
             precipitationsCell.textContent = groupedData[dateKey].precipitations;
             row.appendChild(precipitationsCell);
-    
+
             const windSpeedCell = document.createElement('td');
             windSpeedCell.textContent = groupedData[dateKey].windSpeed;
             row.appendChild(windSpeedCell);
-    
+
             const windGustsCell = document.createElement('td');
             windGustsCell.textContent = groupedData[dateKey].windGusts;
             row.appendChild(windGustsCell);
-    
+
             const windDirCell = document.createElement('td');
             windDirCell.textContent = groupedData[dateKey].windDir;
             row.appendChild(windDirCell);
-    
+
             const pressureCell = document.createElement('td');
             pressureCell.textContent = groupedData[dateKey].pressure;
             row.appendChild(pressureCell);
-    
+
             const weatherSymbolCell = document.createElement('td');
             weatherSymbolCell.textContent = groupedData[dateKey].weatherSymbol;
             row.appendChild(weatherSymbolCell);
-    
+
             const uvIndexCell = document.createElement('td');
             uvIndexCell.textContent = groupedData[dateKey].uvIndex;
             row.appendChild(uvIndexCell);
-    
+
             tableBody.appendChild(row);
         }
     }
