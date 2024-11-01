@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
             const cachedData = JSON.parse(localStorage.getItem(cacheKey));
             // Vérifier si les données en cache sont encore valides
-            if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000 * 0)) {
+            if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
                 console.log("Données en cache pour " + cacheKey);
                 displayFunction(cachedData.data);
                 return cachedData.data;
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        if (window.innerWidth > 10000) {
+        if (window.innerWidth > 1) {
             document.getElementById("day-container-tab").style.display = "block";
             fillTableDay(dataDay);
         }
