@@ -528,26 +528,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Remplir le tableau à partir des données regroupées
-        let previousDay = '';
-        let dayOccurrences = {}; // Stocke le nombre de fois que chaque date apparaît
-
-
         // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
         for (const dateKey in groupedData) {
             let color, textColor;
             const row = document.createElement('tr');
-            const day = new Date(dateKey).getDate();
 
             // Si c'est un nouveau jour ou la première apparition de ce jour
             const dayCell = document.createElement('td');
-            dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
-            dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
-            dayCell.textContent = dateKey;
-            row.appendChild(dayCell);
-            previousDay = day;
-
-            const date = new Date(dateKey.sunrise);
+            const date = new Date(dateKey);
             date.setDate(date.getDate() - 1);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
             dayCell.textContent = dayName;
