@@ -277,29 +277,32 @@ document.addEventListener('DOMContentLoaded', () => {
         let previousDate = ''; // Variable pour stocker la date précédente
         let rowspanCount = 1; // Compteur pour le rowspan
         for (const dateKey in groupedData) {
-            let color; let textColor;
             const row = document.createElement('tr');
 
             const [date, day] = dateKey.split(' ');
-            const dateCell = document.createElement('td');
-            dateCell.textContent = date;
+            const dayCell = document.createElement('td');
+            dayCell.textContent = day;
             if (previousDate === date) {
                 // Si la date est identique à la précédente, augmentez le rowspan
                 rowspanCount++;
-                // Supprimez la cellule précédente pour la fusion
-                const previousRow = row.previousElementSibling;
-                const previousDateCell = previousRow.querySelector('td:first-child'); // Supposons que c'est la première cellule
-                previousDateCell.rowSpan = rowspanCount;
-                dateCell.style.display = 'none'; // Masquez la cellule actuelle
+                // Vérifiez si la ligne précédente existe
+                const previousRow = tableBody.lastElementChild; // On suppose que la dernière ligne est la précédente
+                if (previousRow) {
+                    const previousDayCell = previousRow.querySelector('td:first-child'); // Supposons que c'est la première cellule
+                    if (previousDayCell) {
+                        previousDayCell.rowSpan = rowspanCount;
+                        dayCell.style.display = 'none'; // Masquez la cellule actuelle
+                    }
+                }
             } else {
                 // Si c'est une nouvelle date, réinitialisez le compteur
                 previousDate = date;
                 rowspanCount = 1; // Réinitialiser le compteur de rowspan
             }
-            row.appendChild(dateCell);
-            const dayCell = document.createElement('td');
-            dayCell.textContent = day;
-            row.appendChild(dayCell);
+            row.appendChild(dayCell); // Ajoutez la cellule du jour
+            const dateCell = document.createElement('td');
+            dateCell.textContent = date;
+            row.appendChild(dateCell); // Ajoutez la cellule de date
 
             const temperatureCell = document.createElement('td');
             temperatureCell.textContent = groupedData[dateKey].temperature;
