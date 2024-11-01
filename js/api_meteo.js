@@ -335,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(pressureCell);
 
             const weatherSymbolCell = document.createElement('td');
+            weatherSymbolCell.style.width = "50px";
             const weatherIcon = document.createElement('img');
             weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
             weatherIcon.style.width = "100%";
