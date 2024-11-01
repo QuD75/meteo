@@ -293,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let previousDay = '';
             let rowspanCount = 1;
+            console.log(day + " vs " + previousDay);
             if (day === previousDay) {
                 console.log(day + " vs " + previousDay);
                 rowspanCount++;
