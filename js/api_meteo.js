@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 vigilanceEncart.style.setProperty("box-shadow", "0 4px 10px " + colorHex);
                 if (true) {
                     vigilanceIcon.style.setProperty("width", "50px");
-                    vigilanceEncart.style.setProperty("width", "85%");
+                    vigilanceEncart.style.setProperty("width", "100%");
                     vigilanceEncart.style.setProperty("margin-left", "0");
                 }
                 vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
