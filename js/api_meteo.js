@@ -682,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return elementId.includes('day')
             ? data.dates.map(date => formatDate(new Date(date.date), false, false, false, true, false))
             : data.dates.map(date => {
-                return formatDate(new Date(date.date), false, true, true, false, false);
+                return formatDate(new Date(date.date).toLocaleDateString('fr-FR', { weekday: 'long' }));
             });
     }
     function getChartValues(data, label) {
