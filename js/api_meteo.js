@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         data.data[0].coordinates[0].dates.forEach((dateData) => {
             const hour = formatDate(new Date(dateData.date), false, false, false, true, false);
-            const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+            const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { weekday: 'long' });
 
             if (currentDate !== newDate) {
                 if (dateCell) {
