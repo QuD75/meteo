@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lon = '-2.5201';
     const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
     const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,weather_symbol_24h:idx';
-
+    
     const currentDate = new Date();
     const currentHour = new Date(currentDate);
     currentHour.setMinutes(0, 0, 0);
@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
 
-    const mock = getMockValue();
+    const isMobile = window.innerWidth < 1000;
 
+    const mock = getMockValue();
     function getMockValue() {
         const url = new URL(window.location.href);
         const mockParam = url.searchParams.get('mock');
@@ -38,25 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Appel aux API
-    async function getApiData(mock) {
+    async function getApiData() {
         setLoadingMessageDisplay("block");
-
-        const mobile = window.innerWidth < 1000;
-
-        console.log(mock ? "Données mockées" : "Données non mockées");
-
         // Appels API indépendants
-        fetchData(proxyUrlDay, 'day', 15, displayDataDay, mobile);
-        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, mobile);
-        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance, mobile);
-
+        fetchData(proxyUrlDay, 'day', 15, displayDataDay, isMobile);
+        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, isMobile);
+        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance, isMobile);
         setLoadingMessageDisplay("none");
     }
-    async function fetchData(apiUrl, cacheKey, duration, displayFunction, mobile) {
+    async function fetchData(apiUrl, cacheKey, duration, displayFunction, isMobile) {
         const now = Date.now();
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
         if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
-            displayFunction(cachedData.data, mobile);
+            displayFunction(cachedData.data, isMobile);
             return cachedData.data;
         } else {
             try {
@@ -64,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
                 if (!mock) localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                displayFunction(data, mobile);
+                displayFunction(data, isMobile);
                 return data;
             } catch (error) {
                 console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
@@ -74,12 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions pour le tableau 24h
-    function displayDataDay(dataDay, mobile) {
+    function displayDataDay(dataDay, isMobile) {
         document.getElementById("loading-message-day").style.display = "none";
 
         document.getElementById("day-container-graphs").style.display = "grid";
 
-        if (!mobile) {
+        if (!isMobile) {
             document.getElementById("day-container-tab").style.display = "block";
             fillTableDay(dataDay);
         }
@@ -305,11 +300,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions pour le tableau de la semaine
-    function displayDataWeek(dataWeek, mobile) {
+    function displayDataWeek(dataWeek, isMobile) {
         document.getElementById("loading-message-week").style.display = "none";
         document.getElementById("week-container-graphs").style.display = "grid";
 
-        if (!mobile) {
+        if (!isMobile) {
             document.getElementById("week-container-tab").style.display = "block";
             fillTableWeek(dataWeek);
         }
@@ -517,5 +512,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    getApiData(getMockValue());
+    getApiData();
 });
