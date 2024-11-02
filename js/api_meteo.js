@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<div>
                     <strong>Phénomène :</strong> ${vigilance.phenomenon}<br>
                     <strong>Période :</strong> ${vigilance.periods.map(period =>
-                    `${formatDate(period.begin_time, false, true, true, true, false)} à ${formatDate(period.end_time, false, true, true, true, false)}`
+                    `du ${formatDate(period.begin_time, false, true, true, true, false)} au ${formatDate(period.end_time, false, true, true, true, false)}`
                 ).join('<br>')}
                 </div><br>`
             ).join('');
