@@ -468,7 +468,6 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            cell.style.display = "flex";   
             weatherIcon.style.width = "auto";
             weatherIcon.style.height = "100%";
             weatherIcon.style.maxHeight = "100%";
