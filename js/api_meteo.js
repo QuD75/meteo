@@ -467,24 +467,26 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
+            cell.style.alignItems = "center";       // Centre verticalement
+            cell.style.justifyContent = "center"; 
             weatherIcon.style.width = "auto";
             weatherIcon.style.height = "100%";
             weatherIcon.style.maxHeight = "100%";
             weatherIcon.style.objectFit = "contain";
             weatherIcon.style.display = "block";
-            weatherIcon.style.marginLeft = "37%"
+            //weatherIcon.style.marginLeft = "37%"
             weatherIcon.src = getWeatherIcon(dateData.value);
             cell.appendChild(weatherIcon);
             rowElement.appendChild(cell);
         });
     }
-    function putIconStyle(weatherIcon) {
+    function putIconStyle(weatherIcon, marginLeft) {
         weatherIcon.style.width = "auto";
         weatherIcon.style.height = "100%";
         weatherIcon.style.maxHeight = "100%";
         weatherIcon.style.objectFit = "contain";
         weatherIcon.style.display = "block";
-        weatherIcon.style.margin = "37%";
+        weatherIcon.style.marginLeft = marginLeft;
     }
     function fillWindDirectionRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
