@@ -445,13 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-    // Fonction de couleur par défaut
-    function defaultColorFunc(value) {
-        return {
-            color: 'white',
-            textColor: 'black'
-        };
-    }
     function fillSymbolRow(data, rowElement, marginLeft) {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
