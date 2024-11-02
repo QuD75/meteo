@@ -1,9 +1,8 @@
     //Fonctions d'icones
-    function putIconStyle(weatherIcon, marginLeft) {
-        weatherIcon.style.width = "auto";
-        weatherIcon.style.height = "100%";
-        weatherIcon.style.maxHeight = "100%";
-        weatherIcon.style.objectFit = "contain";
+    function putIconStyle(weatherIcon, width, height, objectFit, marginLeft) {
+        weatherIcon.style.width = width;
+        weatherIcon.style.height = height;
+        weatherIcon.style.objectFit = objectFit;
         weatherIcon.style.display = "block";
         weatherIcon.style.marginLeft = marginLeft;
     }

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lon = '-2.5201';
     const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
     const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,weather_symbol_24h:idx';
-    
+
     const currentDate = new Date();
     const currentHour = new Date(currentDate);
     currentHour.setMinutes(0, 0, 0);
@@ -145,6 +145,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Objet pour stocker les données regroupées par date
         const groupedData = {};
 
+        // Mapping pour associer les paramètres aux propriétés dans `groupedData`
+        const paramMapping = {
+            't_2m:C': 'temperature',
+            'precip_1h:mm': 'precipitations',
+            'wind_speed_10m:ms': 'windSpeed',
+            'wind_gusts_10m_1h:ms': 'windGusts',
+            'wind_dir_10m:d': 'windDir',
+            'msl_pressure:hPa': 'pressure',
+            'weather_symbol_1h:idx': 'weatherSymbol',
+            'uv:idx': 'uvIndex',
+        };
+
         // Parcourir chaque paramètre de données
         data.forEach(parameter => {
             parameter.coordinates.forEach(coord => {
@@ -152,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dateKey = new Date(dateData.date); // Utilisez une clé de date formatée
 
                     if (!groupedData[dateKey]) {
-                        // Si la date n'existe pas encore, créez une entrée
                         groupedData[dateKey] = {
                             temperature: null,
                             precipitations: null,
@@ -164,51 +175,31 @@ document.addEventListener('DOMContentLoaded', () => {
                             uvIndex: null,
                         };
                     }
-
-                    // Stockez les valeurs selon le paramètre
-                    switch (parameter.parameter) {
-                        case 't_2m:C':
-                            groupedData[dateKey].temperature = dateData.value;
-                            break;
-                        case 'precip_1h:mm':
-                            groupedData[dateKey].precipitations = dateData.value;
-                            break;
-                        case 'wind_speed_10m:ms':
-                            groupedData[dateKey].windSpeed = dateData.value;
-                            break;
-                        case 'wind_gusts_10m_1h:ms':
-                            groupedData[dateKey].windGusts = dateData.value;
-                            break;
-                        case 'wind_dir_10m:d':
-                            groupedData[dateKey].windDir = dateData.value;
-                            break;
-                        case 'msl_pressure:hPa':
-                            groupedData[dateKey].pressure = dateData.value;
-                            break;
-                        case 'weather_symbol_1h:idx':
-                            groupedData[dateKey].weatherSymbol = dateData.value;
-                            break;
-                        case 'uv:idx':
-                            groupedData[dateKey].uvIndex = dateData.value;
-                            break;
-                    }
+                    const property = paramMapping[parameter.parameter];
+                    if (property) groupedData[dateKey][property] = dateData.value;
                 });
             });
         });
 
-        // Remplir le tableau à partir des données regroupées
-        let previousDay = '';
-        let dayOccurrences = {}; // Stocke le nombre de fois que chaque date apparaît
-
-        // 1. Compter les occurrences de chaque date
-        for (const dateKey in groupedData) {
+        // Calcul des occurrences de chaque jour
+        const dayOccurrences = {};
+        Object.keys(groupedData).forEach(dateKey => {
             const day = new Date(dateKey).getDate();
             dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
+        });
+
+        // Fonction utilitaire pour appliquer le style de cellule
+        function applyCellStyle(cell, colorFunc, value) {
+            const { color, textColor } = colorFunc(value);
+            cell.style.backgroundColor = color;
+            cell.style.color = textColor;
+            cell.textContent = parseFloat(value).toFixed(1);
         }
 
+        let previousDay = '';
+
         // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
-        for (const dateKey in groupedData) {
-            let color, textColor;
+        Object.keys(groupedData).forEach(dateKey => {
             const row = document.createElement('tr');
             const day = new Date(dateKey).getDate();
 
@@ -221,82 +212,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 previousDay = day;
             }
 
-            // Ajouter la cellule d'heure pour chaque ligne
             const hourCell = document.createElement('td');
             hourCell.textContent = formatDate(new Date(dateKey), false, false, false, true, false);
             row.appendChild(hourCell);
 
             const temperatureCell = document.createElement('td');
-            temperatureCell.textContent = groupedData[dateKey].temperature;
-            ({ color, textColor } = getTempColor(temperatureCell.textContent));
-            temperatureCell.textContent = parseFloat(temperatureCell.textContent).toFixed(0);
-            temperatureCell.style.backgroundColor = color;
-            temperatureCell.style.color = textColor;
+            applyCellStyle(temperatureCell, getTempColor, groupedData[dateKey].temperature);
             row.appendChild(temperatureCell);
 
             const precipitationsCell = document.createElement('td');
-            precipitationsCell.textContent = groupedData[dateKey].precipitations;
-            ({ color, textColor } = getRainColor(precipitationsCell.textContent));
-            precipitationsCell.textContent = parseFloat(precipitationsCell.textContent).toFixed(1);
-            precipitationsCell.style.backgroundColor = color;
-            precipitationsCell.style.color = textColor;
+            applyCellStyle(precipitationsCell, getRainColor, groupedData[dateKey].precipitations);
             row.appendChild(precipitationsCell);
 
             const windSpeedCell = document.createElement('td');
-            windSpeedCell.textContent = groupedData[dateKey].windSpeed;
-            ({ color, textColor } = getWindColor(parseFloat(windSpeedCell.textContent) * 3.6));
-            windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) * 3.6 / 5) * 5;
-            windSpeedCell.style.backgroundColor = color;
-            windSpeedCell.style.color = textColor;
+            applyCellStyle(windSpeedCell, getWindColor, groupedData[dateKey].windSpeed * 3.6);
             row.appendChild(windSpeedCell);
 
             const windGustsCell = document.createElement('td');
-            windGustsCell.textContent = groupedData[dateKey].windGusts;
-            ({ color, textColor } = getWindColor(parseFloat(windGustsCell.textContent) * 3.6));
-            windGustsCell.textContent = Math.floor(parseFloat(windGustsCell.textContent) * 3.6 / 5) * 5;
-            windGustsCell.style.backgroundColor = color;
-            windGustsCell.style.color = textColor;
+            applyCellStyle(windGustsCell, getWindColor, groupedData[dateKey].windGusts * 3.6);
             row.appendChild(windGustsCell);
 
+            // Cellule de direction du vent avec icône
             const windDirCell = document.createElement('td');
             const windDirectionIcon = document.createElement('img');
             windDirectionIcon.src = getWindDirectionIcon(groupedData[dateKey].windDir);
-            windDirectionIcon.style.width = "80%";
-            windDirectionIcon.style.height = "80%";
-            windDirectionIcon.style.maxWidth = "80%";
-            windDirectionIcon.style.maxHeight = "80%";
-            windDirectionIcon.style.objectFit = "cover";
-            windDirectionIcon.style.display = "block";
+            putIconStyle(windDirectionIcon, "80%", "80%", "cover", 0);
             windDirCell.appendChild(windDirectionIcon);
             row.appendChild(windDirCell);
 
+            // Cellule de pression
             const pressureCell = document.createElement('td');
             pressureCell.textContent = groupedData[dateKey].pressure;
             row.appendChild(pressureCell);
 
+            // Cellule de symbole météo
             const weatherSymbolCell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
-            weatherIcon.style.width = "100%";
-            weatherIcon.style.height = "100%";
-            weatherIcon.style.maxWidth = "100%";
-            weatherIcon.style.maxHeight = "100%";
-            weatherIcon.style.objectFit = "cover";
-            weatherIcon.style.display = "block";
             weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
+            putIconStyle(windDirectionIcon, "100%", "100%", "cover", 0);
             weatherSymbolCell.appendChild(weatherIcon);
             row.appendChild(weatherSymbolCell);
 
+            // Cellule d'index UV
             const uvIndexCell = document.createElement('td');
-            uvIndexCell.textContent = groupedData[dateKey].uvIndex;
-            ({ color, textColor } = getUVColor(uvIndexCell.textContent));
-            uvIndexCell.textContent = parseFloat(uvIndexCell.textContent).toFixed(0);
-            uvIndexCell.style.backgroundColor = color;
-            uvIndexCell.style.color = textColor;
+            applyCellStyle(uvIndexCell, getUVColor, groupedData[dateKey].uvIndex);
             row.appendChild(uvIndexCell);
 
             tableBody.appendChild(row);
-        }
+        })
     }
 
     //Fonctions pour le tableau de la semaine
