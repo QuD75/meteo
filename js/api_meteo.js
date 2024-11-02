@@ -473,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherIcon.style.maxHeight = "100%";
             weatherIcon.style.objectFit = "contain";
             weatherIcon.style.display = "block";
+            weatherIcon.style.margin = "37%"
             weatherIcon.src = getWeatherIcon(dateData.value);
             cell.appendChild(weatherIcon);
             rowElement.appendChild(cell);
