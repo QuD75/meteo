@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
         fillWindDirectionRow(data.data[4], windDirectionRow);
         fillWeatherRow(data.data[5], 0, 1, null, pressureRow);
-        fillSymbolRow(data.data[6], weatherRow);
+        fillSymbolRow(data.data[6], weatherRow, "0");
         fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
     }
     function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
@@ -463,16 +463,11 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-    function fillSymbolRow(data, rowElement) {
+    function fillSymbolRow(data, rowElement, marginLeft) {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            weatherIcon.style.width = "auto";
-            weatherIcon.style.height = "100%";
-            weatherIcon.style.maxHeight = "100%";
-            weatherIcon.style.objectFit = "contain";
-            weatherIcon.style.display = "block";
-            //weatherIcon.style.marginLeft = "37%"
+            putIconStyle(weatherIcon, marginLeft);
             weatherIcon.src = getWeatherIcon(dateData.value);
             cell.appendChild(weatherIcon);
             rowElement.appendChild(cell);
@@ -645,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempColor);
         fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getRainColor);
         fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor);
-        fillSymbolRow(data.data[6], weatherRow);
+        fillSymbolRow(data.data[6], weatherRow, "37%");
     }
 
     //Fonction de générations du graphique
