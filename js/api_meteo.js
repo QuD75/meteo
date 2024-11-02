@@ -466,16 +466,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillSymbolRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
-            const td = document.createElement('td');
+            const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
+            cell.style.display = "flex";   
             weatherIcon.style.width = "auto";
-            weatherIcon.style.height = "100%";
+            weatherIcon.style.height = "100%";s
             weatherIcon.style.maxHeight = "100%";
             weatherIcon.style.objectFit = "contain";
             weatherIcon.style.display = "block";
             weatherIcon.src = getWeatherIcon(dateData.value);
-            td.appendChild(weatherIcon);
-            rowElement.appendChild(td);
+            cell.appendChild(weatherIcon);
+            rowElement.appendChild(cell);
         });
     }
     function fillWindDirectionRow(data, rowElement) {
