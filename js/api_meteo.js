@@ -354,10 +354,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const windDirCell = document.createElement('td');
             const windDirectionIcon = document.createElement('img');
             windDirectionIcon.src = getWindDirectionIcon(groupedData[dateKey].windDir);
-            windDirectionIcon.style.width = "100%";
-            windDirectionIcon.style.height = "100%";
-            windDirectionIcon.style.maxWidth = "100%";
-            windDirectionIcon.style.maxHeight = "100%";
+            windDirectionIcon.style.width = "80%";
+            windDirectionIcon.style.height = "80%";
+            windDirectionIcon.style.maxWidth = "80%";
+            windDirectionIcon.style.maxHeight = "80%";
             windDirectionIcon.style.objectFit = "cover";
             windDirectionIcon.style.display = "block";
             windDirCell.appendChild(windDirectionIcon);
