@@ -22,57 +22,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
 
-    //Données mockées ou non ?
+    const mock = getMockValue();
+
     function getMockValue() {
         const url = new URL(window.location.href);
         const mockParam = url.searchParams.get('mock');
         //return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
         return true;
-    }
+    }e
+
+    const setLoadingMessageDisplay = (display) => {
+        document.getElementById("loading-message-vigilance").style.display = display;
+        document.getElementById("loading-message-day").style.display = display;
+        document.getElementById("loading-message-week").style.display = display;
+    };
 
     // Appel aux API
     async function getApiData(mock) {
-        document.getElementById("loading-message-vigilance").style.display = "block";
-        document.getElementById("loading-message-day").style.display = "block";
-        document.getElementById("loading-message-week").style.display = "block";
+        setLoadingMessageDisplay("block");
+
+        const mobile = window.innerWidth < 1000;
 
         console.log(mock ? "Données mockées" : "Données non mockées");
-        const now = Date.now();
 
-        async function fetchData(apiUrl, cacheKey, duration, displayFunction, mobile) {
-            const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-            // Vérifier si les données en cache sont encore valides
-            if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
-                console.log("Données en cache pour " + cacheKey);
-                displayFunction(cachedData.data, mobile);
-                return cachedData.data;
-            } else {
-                try {
-                    console.log("Données non cachées pour " + cacheKey);
-                    const response = await fetch(mock ? `/json/${cacheKey}.json` : apiUrl);
-
-                    if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
-
-                    const data = await response.json();
-
-                    if (!mock) {
-                        localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                        console.log("Données mises en cache pour " + cacheKey);
-                    }
-                    displayFunction(data, mobile);
-                    return data;
-                } catch (error) {
-                    console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
-                    return null;
-                }
-            }
-        }
-
-        const mobile = window.innerWidth < 1000 ? true : false;
         // Appels API indépendants
         fetchData(proxyUrlDay, 'day', 15, displayDataDay, mobile);
         fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, mobile);
         fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance, mobile);
+
+        setLoadingMessageDisplay("none");
+    }
+    async function fetchData(apiUrl, cacheKey, duration, displayFunction, mobile) {
+        const now = Date.now();
+        const cachedData = JSON.parse(localStorage.getItem(cacheKey));
+
+        if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
+            console.log("Données en cache pour " + cacheKey);
+            displayFunction(cachedData.data, mobile);
+            return cachedData.data;
+        } else {
+            try {
+                console.log("Données non cachées pour " + cacheKey);
+                const response = await fetch(mock ? `/json/${cacheKey}.json` : apiUrl);
+
+                if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+                const data = await response.json();
+
+                if (!mock) {
+                    localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+                    console.log("Données mises en cache pour " + cacheKey);
+                }
+                displayFunction(data, mobile);
+                return data;
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
+                return null;
+            }
+        }
     }
 
     //Afficher les données des API
