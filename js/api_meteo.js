@@ -352,7 +352,13 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(windGustsCell);
 
             const windDirCell = document.createElement('td');
-            windDirCell.textContent = groupedData[dateKey].windDir;
+            const windDirectionIcon = document.createElement('img');
+            windDirectionIcon.src = getWindDirectionIcon(groupedData[dateKey].windDir);
+            windDirectionIcon.style.width = "100%";
+            windDirectionIcon.style.height = "100%";
+            windDirectionIcon.style.objectFit = "cover";
+            windDirectionIcon.style.display = "block";
+            windDirCell.appendChild(windDirectionIcon);
             row.appendChild(windDirCell);
 
             const pressureCell = document.createElement('td');
