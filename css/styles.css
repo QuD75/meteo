@@ -165,7 +165,7 @@ th {
 
 th,
 td {
-    padding: 0;
+    padding: 0 !important;
     border: 1px solid var(--border-color);
     text-align: center;
     width: auto;
@@ -207,8 +207,6 @@ td {
 #rain-week-row td,
 #wind-week-row td,
 #weather-week-row td {
-    padding-top: 10px;
-    padding-bottom: 10px;
     width: 10px;
     max-width: 10px;
     text-align: center;
@@ -225,7 +223,7 @@ td {
 .Rain,
 .Wind,
 .Pressure {
-    padding: 0;
+    padding: 0 !important;
     margin-right: 0;
     border: 1px solid var(--border-color);
     border-radius: 8px;
