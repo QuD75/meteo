@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function getMockValue() {
         const url = new URL(window.location.href);
         const mockParam = url.searchParams.get('mock');
-        return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
+        //return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
+        return true;
     }
 
     const setLoadingMessageDisplay = (display) => {
