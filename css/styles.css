@@ -153,8 +153,7 @@ footer a:hover {
 }
 
 td {
-    height: 20px;
-    background-color: var(--light-background);
+    height: 40px;
 }
 
 th {
@@ -167,8 +166,6 @@ th,
 td {
     padding: 0 !important;
     border: 1px solid var(--border-color);
-    text-align: center;
-    width: auto;
 }
 
 #weather-day-tab,
