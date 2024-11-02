@@ -468,11 +468,10 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            weatherIcon.style.width = "100%";
+            weatherIcon.style.width = "auto%";
             weatherIcon.style.height = "100%";
-            weatherIcon.style.maxWidth = "100%";
             weatherIcon.style.maxHeight = "100%";
-            weatherIcon.style.objectFit = "cover";
+            weatherIcon.style.objectFit = "contain";
             weatherIcon.style.display = "block";
             weatherIcon.src = getWeatherIcon(dateData.value);
             td.appendChild(weatherIcon);
