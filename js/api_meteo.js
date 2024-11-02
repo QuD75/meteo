@@ -356,6 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
             windDirectionIcon.src = getWindDirectionIcon(groupedData[dateKey].windDir);
             windDirectionIcon.style.width = "100%";
             windDirectionIcon.style.height = "100%";
+            windDirectionIcon.style.maxWidth = "100%";
+            windDirectionIcon.style.maxHeight = "100%";
             windDirectionIcon.style.objectFit = "cover";
             windDirectionIcon.style.display = "block";
             windDirCell.appendChild(windDirectionIcon);
@@ -371,6 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
             weatherIcon.style.width = "100%";
             weatherIcon.style.height = "100%";
+            weatherIcon.style.maxWidth = "100%";
+            weatherIcon.style.maxHeight = "100%";
             weatherIcon.style.objectFit = "cover";
             weatherIcon.style.display = "block";
             weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
