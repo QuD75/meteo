@@ -368,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(pressureCell);
 
             const weatherSymbolCell = document.createElement('td');
-            //weatherSymbolCell.style.width = "50px";
             const weatherIcon = document.createElement('img');
             weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
             weatherIcon.style.width = "100%";
@@ -471,13 +470,20 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherIcon.style.width = "auto";
             weatherIcon.style.height = "100%";
             weatherIcon.style.maxHeight = "100%";
-            weatherIcon.style.objectFit = "contain";
             weatherIcon.style.display = "block";
             weatherIcon.style.margin = "37%"
             weatherIcon.src = getWeatherIcon(dateData.value);
             cell.appendChild(weatherIcon);
             rowElement.appendChild(cell);
         });
+    }
+    function putIconStyle(weatherIcon) {
+        weatherIcon.style.width = "auto";
+        weatherIcon.style.height = "100%";
+        weatherIcon.style.maxHeight = "100%";
+        weatherIcon.style.objectFit = "contain";
+        weatherIcon.style.display = "block";
+        weatherIcon.style.margin = "37%";
     }
     function fillWindDirectionRow(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
