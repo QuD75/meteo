@@ -491,6 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!groupedData[dateKey]) {
                         // Si la date n'existe pas encore, créez une entrée
                         groupedData[dateKey] = {
+                            day: dateKey,
                             sunrise: null,
                             sunset: null,
                             tempMin: null,
@@ -535,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Si c'est un nouveau jour ou la première apparition de ce jour
             const dayCell = document.createElement('td');
-            const date = new Date(groupedData[dateKey]);
+            const date = new Date(groupedData[dateKey].day);
             date.setDate(date.getDate() - 1);
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
             dayCell.textContent = dayName;
