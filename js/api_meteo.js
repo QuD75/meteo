@@ -458,8 +458,10 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            weatherIcon.style.width = "40px";
-            weatherIcon.style.height = "40px";
+            weatherIcon.style.width = "100%";
+            weatherIcon.style.height = "100%";
+            weatherIcon.style.objectFit = "cover";
+            weatherIcon.style.display = "block";
             weatherIcon.src = getWeatherIcon(dateData.value);
             td.appendChild(weatherIcon);
             rowElement.appendChild(td);
