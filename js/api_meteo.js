@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (day !== previousDay) {
                 const dayCell = document.createElement('td');
                 dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
-                dayCell.textContent = formatDate(new Date(dateKey), false, true, true, false, false);
+                dayCell.textContent = new Date(dateKey).toLocaleDateString('fr-FR', { weekday: 'long' });
                 row.appendChild(dayCell);
                 previousDay = day;
             }
