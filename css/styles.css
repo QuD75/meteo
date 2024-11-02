@@ -153,6 +153,8 @@ footer a:hover {
 td {
     overflow: hidden;
     position: relative;
+    align-items: center;
+    justify-content: center;
 }
 
 th {
