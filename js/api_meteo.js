@@ -91,53 +91,58 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
-        const temperatureRow = document.getElementById('temperature-24h-row');
-        const rainRow = document.getElementById('rain-24h-row');
-        const windRow = document.getElementById('wind-24h-row');
-        const windGustRow = document.getElementById('wind-gust-24h-row');
-        const windDirectionRow = document.getElementById('wind-direction-24h-row');
-        const pressureRow = document.getElementById('pressure-24h-row');
-        const weatherRow = document.getElementById('weather-24h-row');
-        const uvRow = document.getElementById('uv-24h-row');
-
-        let currentDate = null;
-        let dateCell;
-        let hourCount = 0;
-
-        data.data[0].coordinates[0].dates.forEach((dateData) => {
-            const hour = formatDate(new Date(dateData.date), false, false, false, true, false);
-            const newDate = new Date(dateData.date).toLocaleDateString('fr-FR', { weekday: 'long' });
-
-            if (currentDate !== newDate) {
-                if (dateCell) {
-                    dateCell.setAttribute('colspan', hourCount);
+        const rowsConfig = {
+            temperatureRow: { index: 0, multiplier: 1, round: 0, colorFunc: getTempColor, min: -5, max: 40, hueMin: 300, hueMax: 0 },
+            rainRow: { index: 1, multiplier: 1, round: 1, colorFunc: getRainColor },
+            windRow: { index: 2, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
+            windGustRow: { index: 3, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
+            pressureRow: { index: 5, multiplier: 1, round: 0 },
+            uvRow: { index: 7, multiplier: 1, round: 0, colorFunc: getUVColor }
+        };
+    
+        // Fonction utilitaire pour ajouter les cellules de jour et d'heure
+        function addDateAndHourCells(dates) {
+            let currentDate = null;
+            let dateCell;
+            let hourCount = 0;
+    
+            dates.forEach(dateData => {
+                const date = new Date(dateData.date);
+                const hour = formatDate(date, false, false, false, true, false);
+                const newDate = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+    
+                if (currentDate !== newDate) {
+                    if (dateCell) dateCell.setAttribute('colspan', hourCount);
+                    currentDate = newDate;
+                    dateCell = document.createElement('th');
+                    dateCell.textContent = currentDate;
+                    daysRow.appendChild(dateCell);
+                    hourCount = 1;
+                } else {
+                    hourCount++;
                 }
-                currentDate = newDate;
-                dateCell = document.createElement('th');
-                dateCell.textContent = currentDate;
-                daysRow.appendChild(dateCell);
-                hourCount = 1;
-            } else {
-                hourCount++;
-            }
-
-            const th = document.createElement('th');
-            th.textContent = hour;
-            hoursRow.appendChild(th);
-        });
-
-        if (dateCell) {
-            dateCell.setAttribute('colspan', hourCount);
+    
+                const th = document.createElement('th');
+                th.textContent = hour;
+                hoursRow.appendChild(th);
+            });
+    
+            if (dateCell) dateCell.setAttribute('colspan', hourCount);
         }
-
-        fillWeatherRow(data.data[0], 0, 1, null, temperatureRow, getTempColor, -5, 40, 300, 0);
-        fillWeatherRow(data.data[1], 1, 1, null, rainRow, getRainColor);
-        fillWeatherRow(data.data[2], 0, 3.6, 5, windRow, getWindColor);
-        fillWeatherRow(data.data[3], 0, 3.6, 5, windGustRow, getWindColor);
-        fillWindDirectionRow(data.data[4], windDirectionRow);
-        fillWeatherRow(data.data[5], 0, 1, null, pressureRow);
-        fillSymbolRow(data.data[6], weatherRow, "0");
-        fillWeatherRow(data.data[7], 0, 1, null, uvRow, getUVColor);
+    
+        // Remplir les cellules de jour et d'heure
+        addDateAndHourCells(data.data[0].coordinates[0].dates);
+    
+        // Remplissage des lignes de données météo
+        Object.entries(rowsConfig).forEach(([rowId, config]) => {
+            const rowElement = document.getElementById(rowId);
+            const { index, multiplier, round, colorFunc, min, max, hueMin, hueMax, step } = config;
+            fillWeatherRow(data.data[index], round, multiplier, step, rowElement, colorFunc, min, max, hueMin, hueMax);
+        });
+    
+        // Remplir les lignes pour les directions du vent et les symboles météo
+        fillWindDirectionRow(data.data[4], document.getElementById('wind-direction-24h-row'));
+        fillSymbolRow(data.data[6], document.getElementById('weather-24h-row'), "0");
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
@@ -283,35 +288,47 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
         const sunRow = document.getElementById('sun-week-row');
-        const tempMinRow = document.getElementById('temp-min-week-row');
-        const tempMaxRow = document.getElementById('temp-max-week-row');
-        const rainRow = document.getElementById('rain-week-row');
-        const windRow = document.getElementById('wind-week-row');
-        const weatherRow = document.getElementById('weather-week-row');
-
-        data.data[0].coordinates[0].dates.forEach((dateData, index) => {
-            const date = new Date(dateData.date);
-            date.setDate(date.getDate() - 1);
-            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
-
-            const th = document.createElement('th');
-            th.textContent = dayName;
-            daysRow.appendChild(th);
-
-            const sunriseTime = formatDate(new Date(dateData.value), false, false, false, true, true);
-            const sunsetTime = formatDate(new Date(data.data[1].coordinates[0].dates[index].value), false, false, false, true, true);
-
-            const td = document.createElement('td');
-            td.textContent = `${sunriseTime} -> ${sunsetTime}`;
-            sunRow.appendChild(td);
+        const rowsConfig = {
+            tempMinRow: { index: 2, multiplier: 1, round: 0, colorFunc: getTempColor },
+            tempMaxRow: { index: 3, multiplier: 1, round: 0, colorFunc: getTempColor },
+            rainRow: { index: 4, multiplier: 1, round: 1, colorFunc: getRainColor },
+            windRow: { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 }
+        };
+    
+        // Fonction utilitaire pour ajouter les jours et heures de lever/coucher du soleil
+        function addDayAndSunCells(dates) {
+            dates.forEach((dateData, index) => {
+                const date = new Date(dateData.date);
+                date.setDate(date.getDate() - 1);
+                const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+    
+                // Ajout du jour
+                const dayCell = document.createElement('th');
+                dayCell.textContent = dayName;
+                daysRow.appendChild(dayCell);
+    
+                // Ajout du lever et coucher du soleil
+                const sunriseTime = formatDate(new Date(dateData.value), false, false, false, true, true);
+                const sunsetTime = formatDate(new Date(data.data[1].coordinates[0].dates[index].value), false, false, false, true, true);
+                const sunCell = document.createElement('td');
+                sunCell.textContent = `${sunriseTime} -> ${sunsetTime}`;
+                sunRow.appendChild(sunCell);
+            });
+        }
+    
+        // Remplir les jours et heures de lever/coucher du soleil
+        addDayAndSunCells(data.data[0].coordinates[0].dates);
+    
+        // Remplissage des lignes de données météo
+        Object.entries(rowsConfig).forEach(([rowId, config]) => {
+            const rowElement = document.getElementById(rowId);
+            const { index, multiplier, round, colorFunc, step } = config;
+            fillWeatherRow(data.data[index], round, multiplier, step, rowElement, colorFunc);
         });
-
-        fillWeatherRow(data.data[2], 0, 1, 1, tempMinRow, getTempColor);
-        fillWeatherRow(data.data[3], 0, 1, 1, tempMaxRow, getTempColor);
-        fillWeatherRow(data.data[4], 1, 1, 1, rainRow, getRainColor);
-        fillWeatherRow(data.data[5], 0, 3.6, 5, windRow, getWindColor);
-        fillSymbolRow(data.data[6], weatherRow, "37%");
-    }
+    
+        // Remplissage de la ligne pour les symboles météo
+        fillSymbolRow(data.data[6], document.getElementById('weather-week-row'), "37%");
+    }    
     function fillTableWeekMobile(data) {
         const tableBody = document.querySelector('#weather-week-tab-mobile tbody');
         const groupedData = {};
@@ -409,27 +426,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    //Fonctions communes de remplissage
-    function fillWeatherRow(data, round, multiple, floor, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
+    //Fonctions communes de remplissage des lignes
+    function fillWeatherRow(data, round = 0, multiple = 1, floor = null, rowElement, colorFunc = defaultColorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
-            const value = dateData.value;
-            let valueMultiplied = value * multiple;
-            let color, textColor;
-            // Vérification si colorFunc est défini
-            if (typeof colorFunc === 'function') {
-                ({ color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv));
-            } else {
-                color = 'white';
-                textColor = 'black';
-            }
+            let valueMultiplied = dateData.value * multiple;
+    
+            // Appliquer arrondi si `floor` est défini
             if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
-            valueMultiplied = valueMultiplied.toFixed(round);
-            td.textContent = valueMultiplied;
+    
+            // Déterminer la couleur de la cellule
+            const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv);
+            
+            // Appliquer style et contenu
+            td.textContent = valueMultiplied.toFixed(round);
             td.style.backgroundColor = color;
             td.style.color = textColor;
             rowElement.appendChild(td);
         });
+    }
+    // Fonction de couleur par défaut
+    function defaultColorFunc(value) {
+        return {
+            color: 'white',
+            textColor: 'black'
+        };
     }
     function fillSymbolRow(data, rowElement, marginLeft) {
         data.coordinates[0].dates.forEach(dateData => {
