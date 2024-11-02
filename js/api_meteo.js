@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            putIconStyle(weatherIcon, marginLeft);
+            putIconStyle(weatherIcon, "auto", "100%", "contain", marginLeft);
             weatherIcon.src = getWeatherIcon(dateData.value);
             cell.appendChild(weatherIcon);
             rowElement.appendChild(cell);
