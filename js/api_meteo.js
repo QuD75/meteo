@@ -314,20 +314,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillTableWeekMobile(data) {
         const tableBody = document.querySelector('#weather-week-tab-mobile tbody');
-
-        // Objet pour stocker les données regroupées par date
         const groupedData = {};
-
-        // Parcourir chaque paramètre de données
+    
+        // Mapping des paramètres vers les propriétés de groupedData
+        const paramMapping = {
+            'sunrise:sql': 'sunrise',
+            'sunset:sql': 'sunset',
+            't_min_2m_24h:C': 'tempMin',
+            't_max_2m_24h:C': 'tempMax',
+            'precip_24h:mm': 'rain',
+            'wind_gusts_10m_24h:ms': 'wind',
+            'weather_symbol_24h:idx': 'weatherSymbol',
+        };
+    
+        // Regrouper les données par date
         data.forEach(parameter => {
             parameter.coordinates.forEach(coord => {
                 coord.dates.forEach(dateData => {
-                    const dateKey = new Date(dateData.date); // Utilisez une clé de date formatée
-
+                    const dateKey = new Date(dateData.date).toISOString();
+    
                     if (!groupedData[dateKey]) {
-                        // Si la date n'existe pas encore, créez une entrée
                         groupedData[dateKey] = {
-                            day: dateKey,
+                            day: new Date(dateData.date),
                             sunrise: null,
                             sunset: null,
                             tempMin: null,
@@ -337,98 +345,68 @@ document.addEventListener('DOMContentLoaded', () => {
                             weatherSymbol: null
                         };
                     }
-                    // Stockez les valeurs selon le paramètre
-                    switch (parameter.parameter) {
-                        case 'sunrise:sql':
-                            groupedData[dateKey].sunrise = dateData.value;
-                            break;
-                        case 'sunset:sql':
-                            groupedData[dateKey].sunset = dateData.value;
-                            break;
-                        case 't_min_2m_24h:C':
-                            groupedData[dateKey].tempMin = dateData.value;
-                            break;
-                        case 't_max_2m_24h:C':
-                            groupedData[dateKey].tempMax = dateData.value;
-                            break;
-                        case 'precip_24h:mm':
-                            groupedData[dateKey].rain = dateData.value;
-                            break;
-                        case 'wind_gusts_10m_24h:ms':
-                            groupedData[dateKey].wind = dateData.value;
-                            break;
-                        case 'weather_symbol_24h:idx':
-                            groupedData[dateKey].weatherSymbol = dateData.value;
-                            break;
-                    }
+    
+                    const property = paramMapping[parameter.parameter];
+                    if (property) groupedData[dateKey][property] = dateData.value;
                 });
             });
         });
-
-        // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
-        for (const dateKey in groupedData) {
-            let color, textColor;
+    
+        // Fonction utilitaire pour appliquer le style de cellule
+        function applyCellStyle(cell, colorFunc, value) {
+            const { color, textColor } = colorFunc(value);
+            cell.style.backgroundColor = color;
+            cell.style.color = textColor;
+            cell.textContent = parseFloat(value).toFixed(1);
+        }
+    
+        // Remplissage du tableau avec fusion des cellules pour les jours
+        Object.keys(groupedData).forEach(dateKey => {
             const row = document.createElement('tr');
-
-            // Si c'est un nouveau jour ou la première apparition de ce jour
+            const data = groupedData[dateKey];
+    
+            // Cellule de jour
             const dayCell = document.createElement('td');
-            const date = new Date(groupedData[dateKey].day);
-            date.setDate(date.getDate() - 1);
-            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+            const dayName = data.day.toLocaleDateString('fr-FR', { weekday: 'long' });
             dayCell.textContent = dayName;
             row.appendChild(dayCell);
-
-            const sunriseTime = formatDate(new Date(groupedData[dateKey].sunrise), false, false, false, true, true);
-            const sunsetTime = formatDate(new Date(groupedData[dateKey].sunset), false, false, false, true, true);
+    
+            // Cellule de lever et coucher du soleil
             const sunCell = document.createElement('td');
+            const sunriseTime = formatDate(new Date(data.sunrise), false, false, false, true, true);
+            const sunsetTime = formatDate(new Date(data.sunset), false, false, false, true, true);
             sunCell.textContent = `${sunriseTime} -> ${sunsetTime}`;
             row.appendChild(sunCell);
-
+    
+            // Cellules de température min et max
             const tempMinCell = document.createElement('td');
-            tempMinCell.textContent = groupedData[dateKey].tempMin;
-            ({ color, textColor } = getTempColor(tempMinCell.textContent));
-            tempMinCell.textContent = parseFloat(tempMinCell.textContent).toFixed(0);
-            tempMinCell.style.backgroundColor = color;
-            tempMinCell.style.color = textColor;
+            applyCellStyle(tempMinCell, getTempColor, data.tempMin);
             row.appendChild(tempMinCell);
-
+    
             const tempMaxCell = document.createElement('td');
-            tempMaxCell.textContent = groupedData[dateKey].tempMax;
-            ({ color, textColor } = getTempColor(tempMaxCell.textContent));
-            tempMaxCell.textContent = parseFloat(tempMaxCell.textContent).toFixed(0);
-            tempMaxCell.style.backgroundColor = color;
-            tempMaxCell.style.color = textColor;
+            applyCellStyle(tempMaxCell, getTempColor, data.tempMax);
             row.appendChild(tempMaxCell);
-
+    
+            // Cellule de précipitations
             const precipitationsCell = document.createElement('td');
-            precipitationsCell.textContent = groupedData[dateKey].rain;
-            ({ color, textColor } = getRainColor(precipitationsCell.textContent));
-            precipitationsCell.textContent = parseFloat(precipitationsCell.textContent).toFixed(1);
-            precipitationsCell.style.backgroundColor = color;
-            precipitationsCell.style.color = textColor;
+            applyCellStyle(precipitationsCell, getRainColor, data.rain);
             row.appendChild(precipitationsCell);
-
+    
+            // Cellule de vitesse du vent
             const windSpeedCell = document.createElement('td');
-            windSpeedCell.textContent = groupedData[dateKey].wind;
-            ({ color, textColor } = getWindColor(parseFloat(windSpeedCell.textContent) * 3.6));
-            windSpeedCell.textContent = Math.floor(parseFloat(windSpeedCell.textContent) * 3.6 / 5) * 5;
-            windSpeedCell.style.backgroundColor = color;
-            windSpeedCell.style.color = textColor;
+            applyCellStyle(windSpeedCell, getWindColor, data.wind * 3.6); // Convertir m/s en km/h
             row.appendChild(windSpeedCell);
-
+    
+            // Cellule du symbole météo avec icône
             const weatherSymbolCell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            weatherIcon.src = getWeatherIcon(weatherSymbolCell.textContent);
-            weatherIcon.style.width = "100%";
-            weatherIcon.style.height = "100%";
-            weatherIcon.style.objectFit = "cover";
-            weatherIcon.style.display = "block";
-            weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
+            weatherIcon.src = getWeatherIcon(data.weatherSymbol);
+            putIconStyle(weatherIcon, "100%", "100%", "cover");
             weatherSymbolCell.appendChild(weatherIcon);
             row.appendChild(weatherSymbolCell);
-
+    
             tableBody.appendChild(row);
-        }
+        });
     }
 
     //Fonctions communes de remplissage
