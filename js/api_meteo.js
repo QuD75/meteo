@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mockParam = url.searchParams.get('mock');
         //return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
         return true;
-    }e
+    }
 
     const setLoadingMessageDisplay = (display) => {
         document.getElementById("loading-message-vigilance").style.display = display;
