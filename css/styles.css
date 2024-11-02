@@ -151,17 +151,18 @@ footer a:hover {
 }
 
 td {
-    height: 40px;
+    overflow: hidden;
+    position: relative;
 }
 
 th {
-    height: 40px;
     background-color: var(--primary-color);
     color: var(--white-color);
 }
 
 th,
 td {
+    height: 40px;
     padding: 0 !important;
     border: 1px solid var(--border-color);
 }
