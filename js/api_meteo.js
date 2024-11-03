@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchData(proxyUrlDay, 'day', 15, displayDataDay, isMobile);
         fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, isMobile);
         fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance, isMobile);
-        setLoadingMessageDisplay("none");
     }
     async function fetchData(apiUrl, cacheKey, duration, displayFunction, isMobile) {
         const now = Date.now();
