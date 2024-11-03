@@ -238,7 +238,12 @@ td {
 }
 
 main iframe {
-    width: 100%;
+    width: 80%;
     height: auto;
-    aspect-ratio: 16 / 9; /* Assure un ratio 16:9 pour l'iframe */
+}
+@media (max-width: 1000px) {
+    main iframe {
+        width: 100%;
+        height: auto;
+    }
 }
