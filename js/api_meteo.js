@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
         const rowsConfig = {
-            temperatureRow: { index: 0, multiplier: 1, round: 0, colorFunc: getTempColor, min: -5, max: 40, hueMin: 300, hueMax: 0 },
+            "temperature-24h-row": { index: 0, multiplier: 1, round: 0, colorFunc: getTempColor, min: -5, max: 40, hueMin: 300, hueMax: 0 },
             rainRow: { index: 1, multiplier: 1, round: 1, colorFunc: getRainColor },
             windRow: { index: 2, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
             windGustRow: { index: 3, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
