@@ -93,11 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const hoursRow = document.getElementById('hours-24h-row');
         const rowsConfig = {
             "temperature-24h-row": { index: 0, multiplier: 1, round: 0, colorFunc: getTempColor, min: -5, max: 40, hueMin: 300, hueMax: 0 },
-            rainRow: { index: 1, multiplier: 1, round: 1, colorFunc: getRainColor },
-            windRow: { index: 2, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
-            windGustRow: { index: 3, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
-            pressureRow: { index: 5, multiplier: 1, round: 0 },
-            uvRow: { index: 7, multiplier: 1, round: 0, colorFunc: getUVColor }
+            "rain-24h-row": { index: 1, multiplier: 1, round: 1, colorFunc: getRainColor },
+            "wind-24h-row": { index: 2, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
+            "wind-gust-24h-row": { index: 3, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
+            "pressure-24h-row": { index: 5, multiplier: 1, round: 0 },
+            "uv-24h-row": { index: 7, multiplier: 1, round: 0, colorFunc: getUVColor }
         };
     
         // Fonction utilitaire pour ajouter les cellules de jour et d'heure
@@ -289,10 +289,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysRow = document.getElementById('days-week-row');
         const sunRow = document.getElementById('sun-week-row');
         const rowsConfig = {
-            tempMinRow: { index: 2, multiplier: 1, round: 0, colorFunc: getTempColor },
-            tempMaxRow: { index: 3, multiplier: 1, round: 0, colorFunc: getTempColor },
-            rainRow: { index: 4, multiplier: 1, round: 1, colorFunc: getRainColor },
-            windRow: { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 }
+            "temp-min-week-row": { index: 2, multiplier: 1, round: 0, colorFunc: getTempColor },
+            "temp-max-week-row": { index: 3, multiplier: 1, round: 0, colorFunc: getTempColor },
+            "rain-week-row": { index: 4, multiplier: 1, round: 1, colorFunc: getRainColor },
+            "wind-week-row": { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 }
         };
     
         // Fonction utilitaire pour ajouter les jours et heures de lever/coucher du soleil
