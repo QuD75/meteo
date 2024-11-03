@@ -236,3 +236,9 @@ td {
     height: 600px;
     background-color: var(--light-background) !important;
 }
+
+main iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Assure un ratio 16:9 pour l'iframe */
+}
