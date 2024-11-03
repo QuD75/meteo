@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions communes de remplissage des lignes
-    function fillWeatherRow(data, round = 0, multiple = 1, floor = null, rowElement, colorFunc = defaultColorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
+    function fillWeatherRow(data, round = 0, multiple = 1, floor = null, rowElement, colorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             let valueMultiplied = dateData.value * multiple;
