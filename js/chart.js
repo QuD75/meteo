@@ -23,7 +23,8 @@
                 scales: {
                     x: {
                         title: { display: true, text: xAxisLabel },
-                        ticks: { maxRotation: 30, minRotation: 30 }
+                        ticks: { maxRotation: 30, minRotation: 30 },
+                        barPercentage: 1.0
                     },
                     y: {
                         title: { display: true, text: yAxisLabel },
