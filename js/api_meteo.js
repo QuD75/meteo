@@ -39,9 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Appel aux API
     async function getApiData() {
-        const test = process.env.TEST;
-        console.log("Test : " + test);
-
         setLoadingMessageDisplay("block");
         // Appels API indépendants
         fetchData(proxyUrlDay, 'day', 15, displayDataDay, isMobile);
