@@ -41,15 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
-        fetchData(proxyUrlDay, 'day', 15, displayDataDay, isMobile);
-        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek, isMobile);
-        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance, isMobile);
+        fetchData(proxyUrlDay, 'day', 30, displayDataDay);
+        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
+        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance);
     }
-    async function fetchData(apiUrl, cacheKey, duration, displayFunction, isMobile) {
+    async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
         if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
-            displayFunction(cachedData.data, isMobile);
+            displayFunction(cachedData.data);
             return cachedData.data;
         } else {
             try {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
                 if (!mock) localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-                displayFunction(data, isMobile);
+                displayFunction(data);
                 return data;
             } catch (error) {
                 console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions pour le tableau 24h
-    function displayDataDay(dataDay, isMobile) {
+    function displayDataDay(dataDay) {
         document.getElementById("loading-message-day").style.display = "none";
 
         document.getElementById("day-container-graphs").style.display = "grid";
