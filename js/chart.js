@@ -1,5 +1,5 @@
     //Fonction de générations du graphique
-    function createChart(elementId, label, xAxisLabel, yAxisLabel, data, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
+    function createChart(elementId, label, xAxisLabel, yAxisLabel, data, round ,chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
         const ctx = document.getElementById(elementId).getContext('2d');
         const labels = getChartLabels(elementId, data);
         const values = getChartValues(data, label);
@@ -28,7 +28,7 @@
                     },
                     y: {
                         title: { display: true, text: yAxisLabel },
-                        ticks: { callback: value => value.toFixed(0) }
+                        ticks: { callback: value => value.toFixed(round) }
                     }
                 }
             }
