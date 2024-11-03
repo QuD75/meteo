@@ -37,7 +37,9 @@
         return elementId.includes('day')
             ? data.dates.map(date => formatDate(new Date(date.date), false, false, false, true, false))
             : data.dates.map(date => {
-                return formatDate(new Date(date.date).toLocaleDateString('fr-FR', { weekday: 'long' }));
+                const day = new Date(date.date);
+                day.setDate(day.getDate() - 1);
+                return formatDate(day.toLocaleDateString('fr-FR', { weekday: 'long' }));
             });
     }
     function getChartValues(data, label) {
