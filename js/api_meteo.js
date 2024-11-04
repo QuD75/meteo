@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
-        fetchData(proxyUrlDay, 'day', 30, displayDataDay);
-        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
-        fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
+        fetchData(proxyUrlDay, 'day', 0, displayDataDay);
+        fetchData(proxyUrlWeek, 'week', 0, displayDataWeek);
+        fetchData(proxyUrlVigilance, 'vigilance', 0, displayDataVigilance);
     }
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
