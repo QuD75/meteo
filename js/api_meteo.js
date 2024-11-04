@@ -1,26 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const dep = '44';
-    const lat = '47.2917';
-    const lon = '-2.5201';
-    const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
-    const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,msl_pressure:hPa,weather_symbol_24h:idx';
+    //const dep = '44';
+    //const lat = '47.2917';
+    //const lon = '-2.5201';
+    //const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
+    //const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,msl_pressure:hPa,weather_symbol_24h:idx';
 
-    const currentDate = new Date();
-    const currentHour = new Date(currentDate);
-    currentHour.setMinutes(0, 0, 0);
+    //const currentDate = new Date();
+    //const currentHour = new Date(currentDate);
+    //currentHour.setMinutes(0, 0, 0);
 
-    const nextDayMidnight = new Date(currentDate);
-    nextDayMidnight.setHours(0, 0, 0, 0);
-    nextDayMidnight.setDate(nextDayMidnight.getDate() + 1);
+    //const nextDayMidnight = new Date(currentDate);
+    //nextDayMidnight.setHours(0, 0, 0, 0);
+    //nextDayMidnight.setDate(nextDayMidnight.getDate() + 1);
 
-    const beginDateDay = currentHour.toISOString().split('.')[0] + 'Z';
-    const beginDateWeek = nextDayMidnight.toISOString().split('.')[0] + 'Z';
+    //const beginDateDay = currentHour.toISOString().split('.')[0] + 'Z';
+    //const beginDateWeek = nextDayMidnight.toISOString().split('.')[0] + 'Z';
 
-    const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
-    const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
-    const apiVigilance = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%22${dep}%22&limit=20`;
-    const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
-    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
+    //const apiUrlDay = `https://api.meteomatics.com/${beginDateDay}PT23H:PT1H/${paramsDay}/${lat},${lon}/json`;
+    //const apiUrlWeek = `https://api.meteomatics.com/${beginDateWeek}P6D:P1D/${paramsWeek}/${lat},${lon}/json`;
+    //const apiVigilance = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%22${dep}%22&limit=20`;
+    //const proxyUrlDay = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlDay}`;
+    //const proxyUrlWeek = `https://proxy-ddj0.onrender.com/apimeteo?url=${apiUrlWeek}`;
+
+    const proxyUrlVigilance = `https://proxy-ddj0.onrender.com/vigilance`;
+    const proxyUrlDay = `https://proxy-ddj0.onrender.com/meteoday`;
+    const proxyUrlWeek = `https://proxy-ddj0.onrender.com/meteoweek`;
 
     const isMobile = window.innerWidth < 1000;
 
@@ -43,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Appels API indépendants
         fetchData(proxyUrlDay, 'day', 30, displayDataDay);
         fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
-        fetchData(apiVigilance, 'vigilance', 60, displayDataVigilance);
+        fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
     }
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
