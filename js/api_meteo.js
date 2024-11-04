@@ -368,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
 
             // Déterminer la couleur de la cellule
-            const { color, textColor } = colorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv);
+            const effectiveColorFunc = colorFunc || defaultColorFunc;
+            const { color, textColor } = effectiveColorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv);
 
             // Appliquer style et contenu
             td.textContent = valueMultiplied.toFixed(round);
