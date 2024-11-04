@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillCellMobile(row, getRainColor, data.precipitations, 1, 1);
             fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0, 5);
             fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0, 5);
-            fillSymbolCellMobile(row, data.windDir, "80%", getWindDirectionIcon);
+            fillSymbolCellMobile(row, data.windDir, "75%", getWindDirectionIcon);
             fillCellMobile(row, null, data.pressure, 0, 1);
             fillCellMobile(row, getUVColor, data.uvIndex, 0, 1);
             fillSymbolCellMobile(row, data.weatherSymbol, "100%", getWeatherIcon);
