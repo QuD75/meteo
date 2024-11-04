@@ -74,6 +74,9 @@ nav ul li a {
 }
 
 @media (max-width: 1000px) {
+    nav ul li {
+        flex: 0 1 auto;
+    }
     nav ul li a {
         font-size: 1em;
     }
