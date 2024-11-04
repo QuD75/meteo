@@ -211,13 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(hourCell);
 
             fillCellMobile(row, getTempColor, data.temperature, 0);
-            fillCellMobile(row, getRainColor, data.precipitations, 1);
+            fillCellMobile(row, getRainColsor, data.precipitations, 1);
             fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0);
             fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0);
-            fillSymbolCellMobile(row, windDir, getWindDirectionIcon);
+            fillSymbolCellMobile(row, data.windDir, getWindDirectionIcon);
             fillCellMobile(row, null, data.pressure, 0);
             fillCellMobile(row, getUVColor, data.uvIndex, 0);
-            fillSymbolCellMobile(row, weatherSymbol, getWeatherIcon);
+            fillSymbolCellMobile(row, data.weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
         })
