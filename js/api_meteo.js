@@ -214,10 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
             fillCellMobile(row, getRainColor, data.precipitations, 1);
             fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0);
             fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0);
-            fillSymbolCellMobile(row, data, data.windDir, getWindDirectionIcon);
+            fillSymbolCellMobile(row, data.windDir, getWindDirectionIcon);
             fillCellMobile(row, null, data.pressure, 0);
             fillCellMobile(row, getUVColor, data.uvIndex, 0);
-            fillSymbolCellMobile(row, data, data.weatherSymbol, getWeatherIcon);
+            fillSymbolCellMobile(row, data.weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
         })
@@ -410,10 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.textContent = value;
         row.appendChild(cell);
     }
-    function fillSymbolCellMobile(row, data, propertyName, symbolFunction) {
+    function fillSymbolCellMobile(row, value, symbolFunction) {
         const cell = document.createElement('td');
         const icon = document.createElement('img');
-        icon.src = symbolFunction(data[propertyName]);
+        icon.src = symbolFunction(value);
         putIconStyle(icon, "100%", "100%", "cover", 0);
         cell.appendChild(icon);
         row.appendChild(cell);
