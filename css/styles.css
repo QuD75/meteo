@@ -59,19 +59,18 @@ nav ul li {
     flex: 0.15;
 }
 
-@media (max-width: 1000px) {
-    nav ul li {
-        margin: 0 5px; /* Ajuste l'espacement */
-        flex: 0 1 120px; /* Réduit la largeur minimale des éléments */
-    }
-}
-
 nav ul li a {
     text-decoration: none;
     color: var(--white-color);
     font-size: 1.2em;
     padding: 5px 10px;
     transition: background-color 0.3s ease;
+}
+
+@media (max-width: 1000px) {
+    nav ul li a {
+        font-size: 0.8em;
+    }
 }
 
 nav ul li a:hover {
