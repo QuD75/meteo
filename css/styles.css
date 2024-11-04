@@ -59,6 +59,13 @@ nav ul li {
     flex: 0.15;
 }
 
+@media (max-width: 1000px) {
+    nav ul li {
+        margin: 0 5px; /* Ajuste l'espacement */
+        flex: 0 1 120px; /* Réduit la largeur minimale des éléments */
+    }
+}
+
 nav ul li a {
     text-decoration: none;
     color: var(--white-color);
