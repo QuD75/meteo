@@ -134,12 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.entries(rowsConfig).forEach(([rowId, config]) => {
             const rowElement = document.getElementById(rowId);
             const { index, multiplier, round, colorFunc, min, max, hueMin, hueMax, step } = config;
-            fillWeatherRow(data.data[index], round, multiplier, step, rowElement, colorFunc, min, max, hueMin, hueMax);
+            fillCellDesktop(data.data[index], round, multiplier, step, rowElement, colorFunc, min, max, hueMin, hueMax);
         });
 
         // Remplir les lignes pour les directions du vent et les symboles météo
-        fillWindDirectionRow(data.data[4], document.getElementById('wind-direction-24h-row'));
-        fillSymbolRow(data.data[6], document.getElementById('weather-24h-row'), "0");
+        fillWindDirectionCell(data.data[4], document.getElementById('wind-direction-24h-row'));
+        fillSymboleCellDesktop(data.data[6], document.getElementById('weather-24h-row'), "0");
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
@@ -190,19 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
             dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
         });
 
-        // Fonction utilitaire pour appliquer le style de cellule
-        function applyCellStyle(cell, colorFunc, value) {
-            const { color, textColor } = colorFunc(value);
-            cell.style.backgroundColor = color;
-            cell.style.color = textColor;
-            cell.textContent = parseFloat(value).toFixed(1);
-        }
-
         let previousDay = '';
 
         // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
         Object.keys(groupedData).forEach(dateKey => {
             const row = document.createElement('tr');
+            const data = groupedData[dateKey];
             const day = new Date(dateKey).getDate();
 
             // Si c'est un nouveau jour ou la première apparition de ce jour
@@ -213,52 +206,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(dayCell);
                 previousDay = day;
             }
-
             const hourCell = document.createElement('td');
             hourCell.textContent = formatDate(new Date(dateKey), false, false, false, true, false);
             row.appendChild(hourCell);
 
-            const temperatureCell = document.createElement('td');
-            applyCellStyle(temperatureCell, getTempColor, groupedData[dateKey].temperature);
-            row.appendChild(temperatureCell);
-
-            const precipitationsCell = document.createElement('td');
-            applyCellStyle(precipitationsCell, getRainColor, groupedData[dateKey].precipitations);
-            row.appendChild(precipitationsCell);
-
-            const windSpeedCell = document.createElement('td');
-            applyCellStyle(windSpeedCell, getWindColor, groupedData[dateKey].windSpeed * 3.6);
-            row.appendChild(windSpeedCell);
-
-            const windGustsCell = document.createElement('td');
-            applyCellStyle(windGustsCell, getWindColor, groupedData[dateKey].windGusts * 3.6);
-            row.appendChild(windGustsCell);
-
-            // Cellule de direction du vent avec icône
-            const windDirCell = document.createElement('td');
-            const windDirectionIcon = document.createElement('img');
-            windDirectionIcon.src = getWindDirectionIcon(groupedData[dateKey].windDir);
-            putIconStyle(windDirectionIcon, "80%", "80%", "cover", 0);
-            windDirCell.appendChild(windDirectionIcon);
-            row.appendChild(windDirCell);
-
-            // Cellule de pression
-            const pressureCell = document.createElement('td');
-            pressureCell.textContent = groupedData[dateKey].pressure;
-            row.appendChild(pressureCell);
-
-            // Cellule de symbole météo
-            const weatherSymbolCell = document.createElement('td');
-            const weatherIcon = document.createElement('img');
-            weatherIcon.src = getWeatherIcon(groupedData[dateKey].weatherSymbol);
-            putIconStyle(windDirectionIcon, "100%", "100%", "cover", 0);
-            weatherSymbolCell.appendChild(weatherIcon);
-            row.appendChild(weatherSymbolCell);
-
-            // Cellule d'index UV
-            const uvIndexCell = document.createElement('td');
-            applyCellStyle(uvIndexCell, getUVColor, groupedData[dateKey].uvIndex);
-            row.appendChild(uvIndexCell);
+            fillCellMobile(row, getTempColor, data.temperature, 0);
+            fillCellMobile(row, getRainColor, data.precipitations, 1);
+            fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0);
+            fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0);
+            fillSymbolCellMobile(row, windDir, getWindDirectionIcon);
+            fillCellMobile(row, null, data.pressure, 0);
+            fillCellMobile(row, getUVColor, data.uvIndex, 0);
+            fillSymbolCellMobile(row, weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
         })
@@ -320,11 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.entries(rowsConfig).forEach(([rowId, config]) => {
             const rowElement = document.getElementById(rowId);
             const { index, multiplier, round, colorFunc, step } = config;
-            fillWeatherRow(data.data[index], round, multiplier, step, rowElement, colorFunc);
+            fillCellDesktop(data.data[index], round, multiplier, step, rowElement, colorFunc);
         });
 
         // Remplissage de la ligne pour les symboles météo
-        fillSymbolRow(data.data[6], document.getElementById('weather-week-row'), "37%");
+        fillSymboleCellDesktop(data.data[6], document.getElementById('weather-week-row'), "37%");
     }
     function fillTableWeekMobile(data) {
         const tableBody = document.querySelector('#weather-week-tab-mobile tbody');
@@ -366,14 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Fonction utilitaire pour appliquer le style de cellule
-        function applyCellStyle(cell, colorFunc, value) {
-            const { color, textColor } = colorFunc(value);
-            cell.style.backgroundColor = color;
-            cell.style.color = textColor;
-            cell.textContent = parseFloat(value).toFixed(1);
-        }
-
         // Remplissage du tableau avec fusion des cellules pour les jours
         Object.keys(groupedData).forEach(dateKey => {
             const row = document.createElement('tr');
@@ -392,39 +343,18 @@ document.addEventListener('DOMContentLoaded', () => {
             sunCell.textContent = `${sunriseTime} -> ${sunsetTime}`;
             row.appendChild(sunCell);
 
-            // Cellules de température min et max
-            const tempMinCell = document.createElement('td');
-            applyCellStyle(tempMinCell, getTempColor, data.tempMin);
-            row.appendChild(tempMinCell);
-
-            const tempMaxCell = document.createElement('td');
-            applyCellStyle(tempMaxCell, getTempColor, data.tempMax);
-            row.appendChild(tempMaxCell);
-
-            // Cellule de précipitations
-            const precipitationsCell = document.createElement('td');
-            applyCellStyle(precipitationsCell, getRainColor, data.rain);
-            row.appendChild(precipitationsCell);
-
-            // Cellule de vitesse du vent
-            const windSpeedCell = document.createElement('td');
-            applyCellStyle(windSpeedCell, getWindColor, data.wind * 3.6); // Convertir m/s en km/h
-            row.appendChild(windSpeedCell);
-
-            // Cellule du symbole météo avec icône
-            const weatherSymbolCell = document.createElement('td');
-            const weatherIcon = document.createElement('img');
-            weatherIcon.src = getWeatherIcon(data.weatherSymbol);
-            putIconStyle(weatherIcon, "100%", "100%", "cover");
-            weatherSymbolCell.appendChild(weatherIcon);
-            row.appendChild(weatherSymbolCell);
+            fillCellMobile(row, getTempColor, data.tempMin, 0);
+            fillCellMobile(row, getTempColor, data.tempMax, 0);
+            fillCellMobile(row, getRainColor, data.rain, 1);
+            fillCellMobile(row, getWindColor, data.wind * 3.6, 0);
+            fillSymbolCellMobile(row, data.weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
         });
     }
 
-    //Fonctions communes de remplissage des lignes
-    function fillWeatherRow(data, round = 0, multiple = 1, floor = null, rowElement, colorFunc = defaultColorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
+    //Fonctions de remplissage Desktop
+    function fillCellDesktop(data, round = 0, multiple = 1, floor = null, rowElement, colorFunc = defaultColorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             let valueMultiplied = dateData.value * multiple;
@@ -442,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(td);
         });
     }
-    function fillSymbolRow(data, rowElement, marginLeft) {
+    function fillSymboleCellDesktop(data, rowElement, marginLeft) {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
@@ -452,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rowElement.appendChild(cell);
         });
     }
-    function fillWindDirectionRow(data, rowElement) {
+    function fillWindDirectionCell(data, rowElement) {
         data.coordinates[0].dates.forEach(dateData => {
             const td = document.createElement('td');
             const windDirectionIcon = document.createElement('img');
@@ -462,6 +392,24 @@ document.addEventListener('DOMContentLoaded', () => {
             td.appendChild(windDirectionIcon);
             rowElement.appendChild(td);
         });
+    }
+    //Fonctions de remplissage Mobile
+    function fillCellMobile(row, colorFunc, value, round) {
+        const cell = document.createElement('td');
+        const { color, textColor } = colorFunc(value);
+        cell.style.backgroundColor = color;
+        cell.style.color = textColor;
+        cell.textContent = parseFloat(value).toFixed(round);
+        row.appendChild(cell);
+
+    }
+    function fillSymbolCellMobile(row, property, symbolFunction) {
+        const cell = document.createElement('td');
+        const icon = document.createElement('img');
+        icon.src = symbolFunction(groupedData[dateKey][property]);
+        putIconStyle(icon, "100%", "100%", "cover", 0);
+        cell.appendChild(icon);
+        row.appendChild(cell);
     }
 
     getApiData();
