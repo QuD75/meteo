@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.2917';
     const lon = '-2.5201';
     const paramsDay = 't_2m:C,precip_1h:mm,wind_speed_10m:ms,wind_gusts_10m_1h:ms,wind_dir_10m:d,msl_pressure:hPa,weather_symbol_1h:idx,uv:idx';
-    const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,weather_symbol_24h:idx';
+    const paramsWeek = 'sunrise:sql,sunset:sql,t_min_2m_24h:C,t_max_2m_24h:C,precip_24h:mm,wind_gusts_10m_24h:ms,msl_pressure:hPa,weather_symbol_24h:idx';
 
     const currentDate = new Date();
     const currentHour = new Date(currentDate);
@@ -240,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('temperature-week-chart', 'de la température sur les 7 prochaines jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 0, 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
         createChart('precipitation-week-chart', 'des précipitations sur les 7 prochaines jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-week-chart', 'du vent max sur les 7 prochaines jours', "Jour", "Vent (km/h)", dataWeek.data[5].coordinates[0], 0, 'line', 'rgba(255, 140, 0, 1)', 'rgba(255, 140, 0, 0.2)');
+        createChart('pressure-week-chart', 'de la pression sur les 7 prochaines jours', "Jour", "Pression (Hpa))", dataWeek.data[6].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
@@ -248,7 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "temp-min-week-row": { index: 2, multiplier: 1, round: 0, colorFunc: getTempColor },
             "temp-max-week-row": { index: 3, multiplier: 1, round: 0, colorFunc: getTempColor },
             "rain-week-row": { index: 4, multiplier: 1, round: 1, colorFunc: getRainColor },
-            "wind-week-row": { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 }
+            "wind-week-row": { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
+            "pressure-week-row": { index: 6, multiplier: 1, round: 0, colorFunc: null, step: 5 }
         };
 
         // Fonction utilitaire pour ajouter les jours et heures de lever/coucher du soleil
@@ -297,7 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
             't_max_2m_24h:C': 'tempMax',
             'precip_24h:mm': 'rain',
             'wind_gusts_10m_24h:ms': 'wind',
-            'weather_symbol_24h:idx': 'weatherSymbol',
+            'msl_pressure:hPa': 'pressure',
+            'weather_symbol_24h:idx': 'weatherSymbol'
         };
 
         // Regrouper les données par date
@@ -315,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             tempMax: null,
                             rain: null,
                             wind: null,
+                            pressure: null,
                             weatherSymbol: null
                         };
                     }
@@ -347,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillCellMobile(row, getTempColor, data.tempMax, 0);
             fillCellMobile(row, getRainColor, data.rain, 1);
             fillCellMobile(row, getWindColor, data.wind * 3.6, 0);
+            fillCellMobile(row, null, data.pressure, 0);
             fillSymbolCellMobile(row, data.weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
