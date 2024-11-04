@@ -400,14 +400,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     //Fonctions de remplissage Mobile
-    function fillCellMobile(row, colorFunc, value, round) {
+    function fillCellMobile(row, colorFunc = defaultColorFunc, value, round) {
         const cell = document.createElement('td');
-        const { color, textColor } = colorFunc(value);
+        const effectiveColorFunc = colorFunc || defaultColorFunc;
+        const { color, textColor } = effectiveColorFunc(value);
         cell.style.backgroundColor = color;
         cell.style.color = textColor;
-        cell.textContent = parseFloat(value).toFixed(round);
+        value = parseFloat(value).toFixed(round);
+        cell.textContent = value;
         row.appendChild(cell);
-
     }
     function fillSymbolCellMobile(row, property, symbolFunction) {
         const cell = document.createElement('td');
