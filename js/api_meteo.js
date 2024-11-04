@@ -210,13 +210,13 @@ document.addEventListener('DOMContentLoaded', () => {
             hourCell.textContent = formatDate(new Date(dateKey), false, false, false, true, false);
             row.appendChild(hourCell);
 
-            fillCellMobile(row, getTempColor, data.temperature, 0);
-            fillCellMobile(row, getRainColor, data.precipitations, 1);
-            fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0);
-            fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0);
+            fillCellMobile(row, getTempColor, data.temperature, 0, 1);
+            fillCellMobile(row, getRainColor, data.precipitations, 1, 1);
+            fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0, 5);
+            fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0, 5);
             fillSymbolCellMobile(row, data.windDir, getWindDirectionIcon);
-            fillCellMobile(row, null, data.pressure, 0);
-            fillCellMobile(row, getUVColor, data.uvIndex, 0);
+            fillCellMobile(row, null, data.pressure, 0, 1);
+            fillCellMobile(row, getUVColor, data.uvIndex, 0, 1);
             fillSymbolCellMobile(row, data.weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
@@ -347,12 +347,12 @@ document.addEventListener('DOMContentLoaded', () => {
             sunCell.textContent = `${sunriseTime} -> ${sunsetTime}`;
             row.appendChild(sunCell);
 
-            fillCellMobile(row, getTempColor, data.tempMin, 0);
-            fillCellMobile(row, getTempColor, data.tempMax, 0);
-            fillCellMobile(row, getRainColor, data.rain, 1);
-            fillCellMobile(row, getWindColor, data.wind * 3.6, 0);
-            fillCellMobile(row, null, data.pressure, 0);
-            fillSymbolCellMobile(row, data, data.weatherSymbol, getWeatherIcon);
+            fillCellMobile(row, getTempColor, data.tempMin, 0, 1);
+            fillCellMobile(row, getTempColor, data.tempMax, 0, 1);
+            fillCellMobile(row, getRainColor, data.rain, 1, 1);
+            fillCellMobile(row, getWindColor, data.wind * 3.6, 0, 5);
+            fillCellMobile(row, null, data.pressure, 0, 1);
+            fillSymbolCellMobile(row, data.weatherSymbol, getWeatherIcon);
 
             tableBody.appendChild(row);
         });
@@ -400,13 +400,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     //Fonctions de remplissage Mobile
-    function fillCellMobile(row, colorFunc = defaultColorFunc, value, round) {
+    function fillCellMobile(row, colorFunc = defaultColorFunc, value, round, floor) {
         const cell = document.createElement('td');
         const effectiveColorFunc = colorFunc || defaultColorFunc;
         const { color, textColor } = effectiveColorFunc(value);
         cell.style.backgroundColor = color;
         cell.style.color = textColor;
         value = parseFloat(value).toFixed(round);
+        value = Math.floor(value / floor) * floor;
         cell.textContent = value;
         row.appendChild(cell);
     }
