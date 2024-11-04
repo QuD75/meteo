@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //Fonctions pour le tableau 24h
     function displayDataDay(dataDay) {
         document.getElementById("loading-message-day").style.display = "none";
-
         document.getElementById("day-container-graphs").style.display = "grid";
 
         if (!isMobile) {
@@ -266,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions pour le tableau de la semaine
-    function displayDataWeek(dataWeek, isMobile) {
+    function displayDataWeek(dataWeek) {
         document.getElementById("loading-message-week").style.display = "none";
         document.getElementById("week-container-graphs").style.display = "grid";
 
