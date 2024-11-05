@@ -35,7 +35,7 @@ async function getWeatherIcon(code, dayOrNight) {
     console.log("Day or night : " + dayOrNight);
 
     if (weatherData[code]) {
-        return dayOrNight === '1' ? weatherData[code].day.image : weatherData[code].night.image;
+        return dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night.image;
     } else {
         return '/icons/weather/wsymbol_0999_unknown.png';
     }
