@@ -167,10 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherSymbol('weather-24h-row', weatherToDisplay, '100%', 0);
 
         timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
-        createChartOM('temperature-day-chart', timesToDisplay, tempsToDisplay, 'Evolution de la température dans les prochaines 24h', 'Heure', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChartOM('precipitation-day-chart', timesToDisplay, rainToDisplay, 'Evolution des précipitations dans les prochaines 24h', 'Heure', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChartOM('wind-day-chart', timesToDisplay, windSpeedToDisplay, 'Evolution du vent dans les prochaines 24h', 'Heure', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
-        createChartOM('pressure-day-chart', timesToDisplay, pressureToDisplay, 'Evolution de la pression dans les prochaines 24h', 'Heure', 'Pression (hPa)', 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChartOM('temperature-day-chart', timesToDisplay, tempsToDisplay, 1, 'Evolution de la température dans les prochaines 24h', 'Heure', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChartOM('precipitation-day-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations dans les prochaines 24h', 'Heure', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChartOM('wind-day-chart', timesToDisplay, windSpeedToDisplay, 5, 'Evolution du vent dans les prochaines 24h', 'Heure', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
+        createChartOM('pressure-day-chart', timesToDisplay, pressureToDisplay, 1, 'Evolution de la pression dans les prochaines 24h', 'Heure', 'Pression (hPa)', 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');

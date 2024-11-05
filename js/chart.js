@@ -38,7 +38,7 @@ function createDatasets(x, y, borderColor, backgroundColor, secondaryDataWind, s
 
     return datasets;
 }
-function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
+function createChartOM(elementId, x, y, step, title, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
     const datasets = createDatasets(x, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
 
@@ -64,7 +64,10 @@ function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, ch
                 },
                 y: {
                     title: { display: true, text: yAxisLabel },
-                    ticks: { callback: value => value.toFixed(round) }
+                    ticks: {
+                        stepSize: step,
+                        callback: value => value.toFixed(round)
+                    }
                 }
             }
         }
