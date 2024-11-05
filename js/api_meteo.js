@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/meteoday`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/meteoweek`;
 
+    const dep = '44';
+    const urlVigilance = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id=${dep}&limit=20`
     const urlOpenMeteo = 'https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin';
 
     const isMobile = window.innerWidth < 1000;
@@ -17,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         setLoadingMessageDisplay('block');
         // Appels API indépendants
+        fetchData(urlVigilance, 'vigilance', 0, displayDataVigilance);
         fetchData(urlOpenMeteo, 'day', 0, displayDataDay);
     }
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
