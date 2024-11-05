@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+import Chart from 'https://cdn.jsdelivr.net/npm/chart.js';
 
 //Fonction de générations du graphique
 function createChart(elementId, label, xAxisLabel, yAxisLabel, data, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
