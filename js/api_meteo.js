@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const startHour = now.getHours();
         const hoursToDisplay = 24; // Nombre d'heures à afficher (de l'heure actuelle jusqu'à +23 heures)
-    
+
         // Récupère les heures à partir de l'heure actuelle jusqu'à +23 heures
         const times = jsonData.hourly.time.map(time => new Date(time));
         const startIndex = times.findIndex(time => time.getUTCHours() === startHour);
-    
+
         // Sélectionne les données pour les heures dans la plage souhaitée
         const timesToDisplay = jsonData.hourly.time.slice(startIndex, startIndex + hoursToDisplay);
         const tempsToDisplay = jsonData.hourly.temperature_2m.slice(startIndex, startIndex + hoursToDisplay);
@@ -95,36 +95,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(startIndex, startIndex + hoursToDisplay);
         const pressureToDisplay = jsonData.hourly.pressure_msl.slice(startIndex, startIndex + hoursToDisplay);
         const weatherCodeToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
-    
-        // Remplit les entêtes des heures
+
+        const daysRow = document.getElementById("days-24h-row");
         const hoursRow = document.getElementById("hours-24h-row");
-        hoursRow.innerHTML = "<th>Heures</th>"; // Réinitialiser le contenu
-        timesToDisplay.forEach(time => {
-            const hour = new Date(time).getUTCHours();
-            hoursRow.innerHTML += `<th>${hour}h</th>`;
+
+        // Parcours des jours et création des cellules fusionnées pour chaque jour
+        timesToDisplay.forEach(date => {
+            const dayCell = document.createElement("th");
+            dayCell.textContent = date.dayName;
+            dayCell.colSpan = date.getHours() - startHour + 1;
+            daysRow.appendChild(dayCell);
         });
-    
-    // Remplit les données des différentes lignes
-    function fillRow(rowId, data, decimals, floor, colorFunction) {
-        const row = document.getElementById(rowId);
-        data.forEach(value => {
-            const cell = document.createElement('td');
-            const { color, textColor } = colorFunction(value);
-            value = roundToNearestMultiple(value, decimals, floor);
-            cell.style.backgroundColor = color;
-            cell.style.color = textColor;
-            cell.textContent = value;
-            row.appendChild(cell);
+
+        // Remplit les entêtes des heures
+        timesToDisplay.forEach(hour => {
+            const hourCell = document.createElement("th");
+            hourCell.textContent = new Date(hour).getUTCHours();
+            hoursRow.appendChild(hourCell);
         });
-    }
-    
+
+        // Remplit les données des différentes lignes
+        function fillRow(rowId, data, decimals, floor, colorFunction) {
+            const row = document.getElementById(rowId);
+            data.forEach(value => {
+                const cell = document.createElement('td');
+                const { color, textColor } = colorFunction(value);
+                value = roundToNearestMultiple(value, decimals, floor);
+                cell.style.backgroundColor = color;
+                cell.style.color = textColor;
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+        }
+
         fillRow("temperature-24h-row", tempsToDisplay, 0, null, getTempColor);
         fillRow("rain-24h-row", rainToDisplay, 1, null, getRainColor);
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
         fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
-        //fillRow("wind-direction-24h-row", windDirectionToDisplay);
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
-        //fillRow("weather-24h-row", weatherCodeToDisplay);
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
