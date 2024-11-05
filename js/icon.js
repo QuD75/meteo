@@ -35,3 +35,20 @@ async function getWeatherIcon(code, dayOrNight) {
     ? (dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night?.image || weatherData[code].day.image)
     : '/icons/weather/wsymbol_0999_unknown.png';
 }
+async function fillWeatherSymbol(rowId, weathers, width, marginLeft, isDayToDisplay) {
+    const row = document.getElementById(rowId);
+    for (const [index, value] of weathers.entries()) {
+        const cell = document.createElement('td');
+        const icon = document.createElement('img');
+
+        // Configure le style de l'icône
+        putIconStyle(icon, width, 'auto%', 'contain', marginLeft);
+
+        // Attend l'URL de l'icône avant de l'assigner
+        icon.src = await getWeatherIcon(value, isDayToDisplay[index]);
+
+        // Ajoute l'icône dans la cellule et la cellule dans la ligne
+        cell.appendChild(icon);
+        row.appendChild(cell);
+    }
+}
