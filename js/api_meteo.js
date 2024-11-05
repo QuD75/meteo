@@ -102,8 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Parcours des jours et création des cellules fusionnées pour chaque jour
         timesToDisplay.forEach(date => {
             const dayCell = document.createElement("th");
-            dayCell.textContent = date.dayName;
-            dayCell.colSpan = date.getHours() - startHour + 1;
+            dayCell.textContent = new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' });
+            dayCell.colSpan = new Date(date).getHours() - startHour + 1;
             daysRow.appendChild(dayCell);
         });
 
