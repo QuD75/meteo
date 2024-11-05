@@ -29,6 +29,9 @@ function getWindDirectionIcon(wind_deg) {
     return directions.find(d => wind_deg >= d.min && wind_deg <= d.max)?.icon || '/icons/wind/unknown.png';
 }
 async function getWeatherIcon(code, day) {
+    console.log("Code : " + code);
+    console.log("Day : " + day);
+    console.log("-------------------");
     const response = await fetch('/icons/weather/weatherIcons.json');
     const weatherData = await response.json();
 
