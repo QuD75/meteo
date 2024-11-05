@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Parcours des heures pour créer les cellules fusionnées pour chaque jour
         timesToDisplay.forEach(date => {
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
-            const hour = date.getHoursgetHours();
+            const hour = date.getHours();
 
             // Si c'est un nouveau jour, on initialise la cellule de jour
             if (!hoursPerDay[dayName]) {
