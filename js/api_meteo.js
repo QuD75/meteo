@@ -79,8 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const tempsToDisplay = jsonData.hourly.temperature_2m.slice(startIndex, startIndex + hoursToDisplay);
         const rainToDisplay = jsonData.hourly.precipitation.slice(startIndex, startIndex + hoursToDisplay);
         const windSpeedToDisplay = jsonData.hourly.wind_speed_10m.slice(startIndex, startIndex + hoursToDisplay);
-        const windGustsToDisplay = jsonData.hourly.wind_gusts_10m.slice(startIndex, startIndex + hoursToDisplay);
+        const windGustToDisplay = jsonData.hourly.wind_gusts_10m.slice(startIndex, startIndex + hoursToDisplay);
+        const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(startIndex, startIndex + hoursToDisplay);
         const pressureToDisplay = jsonData.hourly.pressure_msl.slice(startIndex, startIndex + hoursToDisplay);
+        const weatherToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
 
         const daysRow = document.getElementById("days-24h-row");
         const hoursRow = document.getElementById("hours-24h-row");
@@ -134,8 +136,24 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow("temperature-24h-row", tempsToDisplay, 0, null, getTempColor);
         fillRow("rain-24h-row", rainToDisplay, 1, null, getRainColor);
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
-        fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
+        fillRow("wind-gust-24h-row", windGustToDisplay, 0, 5, getWindColor);
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
+
+        // Remplit les données des différentes lignes avec symbole
+        function fillRowSymbol(rowId, data, symbolFunction) {
+            const row = document.getElementById(rowId);
+            data.forEach(value => {
+                const cell = document.createElement('td');
+                const icon = document.createElement('img');
+                putIconStyle(icon, "auto", "100%", "contain", marginLeft);
+                icon.src = symbolFunction(value);
+                cell.appendChild(icon);
+                row.appendChild(cell);
+            });
+        }
+
+        fillRowSymbol("wind-dir-24h-row", windDirectionToDisplay, getWindDirectionIcon);
+        fillRowSymbol("weather-24h-row", weatherToDisplay, getWeatherIcon);
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
