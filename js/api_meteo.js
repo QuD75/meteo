@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
         //fetchData("proxyUrlDay", 'day', 10, displayDataDay);
-        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2&timezone=Europe%2FBerlin', 'day', 0, displayDataDayOpenMeteo);
+        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin', 'day', 0, displayDataDayOpenMeteo);
         //fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
         //fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
     }
@@ -71,7 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const windGustToDisplay = jsonData.hourly.wind_gusts_10m.slice(startIndex, startIndex + hoursToDisplay);
         const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(startIndex, startIndex + hoursToDisplay);
         const pressureToDisplay = jsonData.hourly.pressure_msl.slice(startIndex, startIndex + hoursToDisplay);
+        const uvToDisplay = jsonData.hourly.uv_index.slice(startIndex, startIndex + hoursToDisplay);
         const weatherToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
+        const isDayToDisplay = jsonData.hourly.is_day.slice(startIndex, startIndex + hoursToDisplay);
 
         const daysRow = document.getElementById("days-24h-row");
         const hoursRow = document.getElementById("hours-24h-row");
@@ -127,34 +129,34 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
         fillRow("wind-gust-24h-row", windGustToDisplay, 0, 5, getWindColor);
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
+        fillRow("uv-24h-row", uvToDisplay, 0, null, getUVColor);
 
         // Remplit les données des différentes lignes avec symbole
-        function fillWindDirSymbol(rowId, data, symbolFunction, widht, marginLeft) {
+        function fillWindDirSymbol(rowId, data, widht, marginLeft) {
             const row = document.getElementById(rowId);
             data.forEach(value => {
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
                 putIconStyle(icon, widht, "auto%", "contain", marginLeft);
-                icon.src = symbolFunction(value);
+                icon.src = getWindDirectionIcon(value);
                 cell.appendChild(icon);
                 row.appendChild(cell);
             });
         }
-        function fillWeatherSymbol(rowId, times, weathers, symbolFunction, widht, marginLeft) {
+        function fillWeatherSymbol(rowId, weathers, widht, marginLeft) {
             const row = document.getElementById(rowId);
             weathers.forEach((value, index) => {
-                console.log("Heure : " + times[index]);
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
                 putIconStyle(icon, widht, "auto%", "contain", marginLeft);
-                icon.src = symbolFunction(value);
+                icon.src = getWeatherIcon(value, isDayToDisplay[index] === 1 ? true : false);
                 cell.appendChild(icon);
                 row.appendChild(cell);
             });
         }
 
         fillWindDirSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, "65%", 0);
-        fillWeatherSymbol("weather-24h-row", timesToDisplay, weatherToDisplay, getWeatherIcon, "100%", 0);
+        fillWeatherSymbol("weather-24h-row", weatherToDisplay, getWeatherIcon, "100%", 0);
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
