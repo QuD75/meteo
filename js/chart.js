@@ -50,7 +50,7 @@ function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, ch
         },
         options: {
             plugins: {
-                legend: { display: true }, // Affiche la légende pour identifier les séries
+                legend: { display: false },
                 title: {
                     display: true,
                     text: `${title}`,
