@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
-        fetchData(proxyUrlDay, 'day', 10, displayDataDay);
+        //fetchData("proxyUrlDay", 'day', 10, displayDataDay);
+        fetchData("https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2", 'day', 10, displayDataDayOpenMeteo);
         fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
         fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
     }
@@ -65,6 +66,50 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
         createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+    }
+    function displayDataDayOpenMeteo(jsonData) {
+        const now = new Date();
+        const startHour = now.getHours();
+        const hoursToDisplay = 24; // Nombre d'heures à afficher (de l'heure actuelle jusqu'à +23 heures)
+    
+        // Récupère les heures à partir de l'heure actuelle jusqu'à +23 heures
+        const times = jsonData.hourly.time.map(time => new Date(time));
+        const startIndex = times.findIndex(time => time.getUTCHours() === startHour);
+    
+        // Sélectionne les données pour les heures dans la plage souhaitée
+        const timesToDisplay = jsonData.hourly.time.slice(startIndex, startIndex + hoursToDisplay);
+        const tempsToDisplay = jsonData.hourly.temperature_2m.slice(startIndex, startIndex + hoursToDisplay);
+        const rainToDisplay = jsonData.hourly.precipitation.slice(startIndex, startIndex + hoursToDisplay);
+        const windSpeedToDisplay = jsonData.hourly.wind_speed_10m.slice(startIndex, startIndex + hoursToDisplay);
+        const windGustsToDisplay = jsonData.hourly.wind_gusts_10m.slice(startIndex, startIndex + hoursToDisplay);
+        const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(startIndex, startIndex + hoursToDisplay);
+        const pressureToDisplay = jsonData.hourly.pressure_msl.slice(startIndex, startIndex + hoursToDisplay);
+        const weatherCodeToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
+    
+        // Remplit les entêtes des heures
+        const hoursRow = document.getElementById("hours-24h-row");
+        hoursRow.innerHTML = "<th>Heures</th>"; // Réinitialiser le contenu
+        timesToDisplay.forEach(time => {
+            const hour = new Date(time).getUTCHours();
+            hoursRow.innerHTML += `<th>${hour}h</th>`;
+        });
+    
+        // Remplit les données des différentes lignes
+        function fillRow(rowId, data) {
+            const row = document.getElementById(rowId);
+            row.innerHTML = `<td>${row.getAttribute("data-label")}</td>`; // Met le label en premier
+            data.forEach(value => {
+                row.innerHTML += `<td>${value}</td>`;
+            });
+        }
+    
+        fillRow("temperature-24h-row", tempsToDisplay);
+        fillRow("rain-24h-row", rainToDisplay);
+        fillRow("wind-24h-row", windSpeedToDisplay);
+        fillRow("wind-gust-24h-row", windGustsToDisplay);
+        fillRow("wind-direction-24h-row", windDirectionToDisplay);
+        fillRow("pressure-24h-row", pressureToDisplay);
+        fillRow("weather-24h-row", weatherCodeToDisplay);
     }
     function fillTableDay(data) {
         const daysRow = document.getElementById('days-24h-row');
