@@ -119,9 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow("rain-24h-row", rainToDisplay, 1, null, getRainColor);
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
         fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
-        fillRow("wind-direction-24h-row", windDirectionToDisplay);
+        //fillRow("wind-direction-24h-row", windDirectionToDisplay);
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
-        fillRow("weather-24h-row", weatherCodeToDisplay);
+        //fillRow("weather-24h-row", weatherCodeToDisplay);
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
