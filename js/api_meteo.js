@@ -115,12 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-        fillRow("temperature-24h-row", tempsToDisplay, 0, getTempColor);
-        fillRow("rain-24h-row", rainToDisplay, 1, getRainColor);
+        fillRow("temperature-24h-row", tempsToDisplay, 0, null, getTempColor);
+        fillRow("rain-24h-row", rainToDisplay, 1, null, getRainColor);
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
         fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
         fillRow("wind-direction-24h-row", windDirectionToDisplay);
-        fillRow("pressure-24h-row", pressureToDisplay, 0);
+        fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
         fillRow("weather-24h-row", weatherCodeToDisplay);
     }
     function fillTableDayMobile(data) {
