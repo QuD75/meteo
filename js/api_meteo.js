@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!isMobile) {
             document.getElementById("day-container-tab").style.display = "block";
-            fillTableDay(dataDay);
+            //fillTableDay(dataDay);
         }
         else {
             document.getElementById("day-container-tab-mobile").style.display = "block";
-            fillTableDayMobile(dataDay.data);
+            //fillTableDayMobile(dataDay.data);
         }
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
@@ -104,78 +104,24 @@ document.addEventListener('DOMContentLoaded', () => {
             hoursRow.innerHTML += `<th>${hour}h</th>`;
         });
     
-        // Remplit les données des différentes lignes
-        function fillRow(rowId, data) {
-            const row = document.getElementById(rowId);
-            row.innerHTML = `<td>${row.getAttribute("data-label")}</td>`; // Met le label en premier
-            data.forEach(value => {
-                row.innerHTML += `<td>${value}</td>`;
-            });
-        }
-    
-        fillRow("temperature-24h-row", tempsToDisplay);
-        fillRow("rain-24h-row", rainToDisplay);
-        fillRow("wind-24h-row", windSpeedToDisplay);
-        fillRow("wind-gust-24h-row", windGustsToDisplay);
-        fillRow("wind-direction-24h-row", windDirectionToDisplay);
-        fillRow("pressure-24h-row", pressureToDisplay);
-        fillRow("weather-24h-row", weatherCodeToDisplay);
-    }
-    function fillTableDay(data) {
-        const daysRow = document.getElementById('days-24h-row');
-        const hoursRow = document.getElementById('hours-24h-row');
-        const rowsConfig = {
-            "temperature-24h-row": { index: 0, multiplier: 1, round: 0, colorFunc: getTempColor, min: -5, max: 40, hueMin: 300, hueMax: 0 },
-            "rain-24h-row": { index: 1, multiplier: 1, round: 1, colorFunc: getRainColor },
-            "wind-24h-row": { index: 2, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
-            "wind-gust-24h-row": { index: 3, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
-            "pressure-24h-row": { index: 5, multiplier: 1, round: 0 },
-            "uv-24h-row": { index: 7, multiplier: 1, round: 0, colorFunc: getUVColor }
-        };
-
-        // Fonction utilitaire pour ajouter les cellules de jour et d'heure
-        function addDateAndHourCells(dates) {
-            let currentDate = null;
-            let dateCell;
-            let hourCount = 0;
-
-            dates.forEach(dateData => {
-                const date = new Date(dateData.date);
-                const hour = formatDate(date, false, false, false, true, false);
-                const newDate = date.toLocaleDateString('fr-FR', { weekday: 'long' });
-
-                if (currentDate !== newDate) {
-                    if (dateCell) dateCell.setAttribute('colspan', hourCount);
-                    currentDate = newDate;
-                    dateCell = document.createElement('th');
-                    dateCell.textContent = currentDate;
-                    daysRow.appendChild(dateCell);
-                    hourCount = 1;
-                } else {
-                    hourCount++;
-                }
-
-                const th = document.createElement('th');
-                th.textContent = hour;
-                hoursRow.appendChild(th);
-            });
-
-            if (dateCell) dateCell.setAttribute('colspan', hourCount);
-        }
-
-        // Remplir les cellules de jour et d'heure
-        addDateAndHourCells(data.data[0].coordinates[0].dates);
-
-        // Remplissage des lignes de données météo
-        Object.entries(rowsConfig).forEach(([rowId, config]) => {
-            const rowElement = document.getElementById(rowId);
-            const { index, multiplier, round, colorFunc, min, max, hueMin, hueMax, step } = config;
-            fillCellDesktop(data.data[index], round, multiplier, step, rowElement, colorFunc, min, max, hueMin, hueMax);
+    // Remplit les données des différentes lignes
+    function fillRow(rowId, data, decimals, floor, colorFunction) {
+        const row = document.getElementById(rowId);
+        row.innerHTML = `<td>${row.getAttribute("data-label")}</td>`; // Met le label en premier
+        data.forEach(value => {
+            const color = colorFunction(value);
+            value = roundToNearestMultiple(value, decimals, floor);
+            row.innerHTML += `<td style="background-color: ${color};">${value}</td>`;
         });
-
-        // Remplir les lignes pour les directions du vent et les symboles météo
-        fillWindDirectionCell(data.data[4], document.getElementById('wind-direction-24h-row'));
-        fillSymboleCellDesktop(data.data[6], document.getElementById('weather-24h-row'), "0");
+    }
+    
+        fillRow("temperature-24h-row", tempsToDisplay, 0, getTempColor);
+        fillRow("rain-24h-row", rainToDisplay, 1, getRainColor);
+        fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
+        fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
+        fillRow("wind-direction-24h-row", windDirectionToDisplay);
+        fillRow("pressure-24h-row", pressureToDisplay, 0);
+        fillRow("weather-24h-row", weatherCodeToDisplay);
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
