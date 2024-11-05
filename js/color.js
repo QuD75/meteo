@@ -7,6 +7,7 @@ function getRainColor(rain) {
     return { color, textColor };
 }
 function getTempColor(temp) {
+    console.log("temp : " + temp);
     let hue;
     if (temp <= -5) hue = 300;
     else if (temp <= 10) hue = -8 * temp + 260;
