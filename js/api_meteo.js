@@ -164,10 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWindDirSymbol("wind-direction-24h-row", windDirectionToDisplay, "65%", 0);
         fillWeatherSymbol("weather-24h-row", weatherToDisplay, "100%", 0);
 
-        createChart('temperature-day-chart', 'Evolution de la température dans les prochaines 24h', "Heure", "Température (°C)", tempsToDisplay, 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChart('precipitation-day-chart', 'Evolution des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", rainToDisplay, 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-day-chart', 'Evolution du vent dans les prochaines 24h', "Heure", "Vent (km/h)", windSpeedToDisplay, 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
-        createChart('pressure-day-chart', 'Evolution de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", pressureToDisplay, 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChartOM('temperature-day-chart', 'Evolution de la température dans les prochaines 24h', "Heure", "Température (°C)", tempsToDisplay, 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChartOM('precipitation-day-chart', 'Evolution des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", rainToDisplay, 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChartOM('wind-day-chart', 'Evolution du vent dans les prochaines 24h', "Heure", "Vent (km/h)", windSpeedToDisplay, 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
+        createChartOM('pressure-day-chart', 'Evolution de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", pressureToDisplay, 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
