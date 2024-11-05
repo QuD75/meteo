@@ -161,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        fillWindDirSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, "65%", 0);
-        fillWeatherSymbol("weather-24h-row", weatherToDisplay, getWeatherIcon, "100%", 0);
+        fillWindDirSymbol("wind-direction-24h-row", windDirectionToDisplay, "65%", 0);
+        fillWeatherSymbol("weather-24h-row", weatherToDisplay, "100%", 0);
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
