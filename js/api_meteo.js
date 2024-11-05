@@ -49,24 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions pour le tableau 24h
-    function displayDataDay(dataDay) {
-        document.getElementById("loading-message-day").style.display = "none";
-        document.getElementById("day-container-graphs").style.display = "grid";
-
-        if (!isMobile) {
-            document.getElementById("day-container-tab").style.display = "block";
-            //fillTableDay(dataDay);
-        }
-        else {
-            document.getElementById("day-container-tab-mobile").style.display = "block";
-            //fillTableDayMobile(dataDay.data);
-        }
-
-        createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
-        createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
-    }
     function displayDataDayOpenMeteo(jsonData) {
         document.getElementById("loading-message-day").style.display = "none";
         document.getElementById("day-container-graphs").style.display = "block";
@@ -147,8 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
         fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
-    }
 
+        //createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        //createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        //createChart('wind-day-chart', 'du vent dans les prochaines 24h', "Heure", "Vent (km/h)", dataDay.data[2].coordinates[0], 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', dataDay.data[3].coordinates[0]);
+        //createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+    }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
 
