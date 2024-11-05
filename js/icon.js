@@ -32,8 +32,10 @@ async function getWeatherIcon(code, dayOrNight) {
     const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
 
+    console.log("Day or night : " + dayOrNight);
+
     if (weatherData[code]) {
-        return dayOrNight === 'day' ? weatherData[code].day.image : weatherData[code].night.image;
+        return dayOrNight === '1' ? weatherData[code].day.image : weatherData[code].night.image;
     } else {
         return '/icons/weather/wsymbol_0999_unknown.png';
     }
