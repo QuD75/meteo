@@ -1,6 +1,5 @@
-import Chart from 'https://cdn.jsdelivr.net/npm/chart.js';
-
 //Fonction de générations du graphique
+/*
 function createChart(elementId, label, xAxisLabel, yAxisLabel, data, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
     const labels = getChartLabels(elementId, data);
@@ -47,7 +46,7 @@ function getChartLabels(elementId, data) {
 }
 function getChartValues(data, label) {
     return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1));
-}
+}*/
 function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
     const datasets = [{
         label,
