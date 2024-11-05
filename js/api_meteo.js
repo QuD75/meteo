@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        fillRowSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, "80%", 0);
+        fillRowSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, "70%", 0);
         fillRowSymbol("weather-24h-row", weatherToDisplay, getWeatherIcon, "100%", 0);
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
