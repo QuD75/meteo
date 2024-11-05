@@ -20,12 +20,8 @@ function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
 }
 //Fonction pour arrondir les valeurs
 function roundToNearestMultiple(value, decimals, floor) {
-
-    if (decimals == 1) console.log('Pluie initiale : ' + value);
-
     const factor = Math.pow(10, decimals);
     value = Math.round((value * factor)) / factor;
-    if (decimals == 1) console.log('Pluie arrondie : ' + value);
     if (floor != null) value = Math.round(value / floor) * floor;
     return value;
 }
