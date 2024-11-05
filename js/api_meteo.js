@@ -123,8 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Met à jour la colonne des jours pour fusionner correctement
         Object.entries(hoursPerDay).forEach(([dayName, count], index) => {
-            const dayCell = daysRow.children[index];
-            dayCell.colSpan = count; // Met à jour la colSpan avec le nombre d'heures
+            // Commence à l'index 1 pour ignorer la première cellule
+            if (index > 0) {
+                const dayCell = daysRow.children[index];
+                dayCell.colSpan = count; // Met à jour la colSpan avec le nombre d'heures
+            }
         });
     
         // Remplit les données des différentes lignes
