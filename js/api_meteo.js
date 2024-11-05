@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
         //fetchData("proxyUrlDay", 'day', 10, displayDataDay);
-        fetchData("https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2", 'day', 10, displayDataDayOpenMeteo);
+        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2', 'day', 10, displayDataDayOpenMeteo);
         fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
         fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
     }
