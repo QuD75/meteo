@@ -31,9 +31,7 @@ function getWindDirectionIcon(wind_deg) {
 async function getWeatherIcon(code, dayOrNight) {
     const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
-    if (weatherData[code]) {
-        return dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night.image;
-    } else {
-        return '/icons/weather/wsymbol_0999_unknown.png';
-    }
+    return weatherData[code]
+    ? (dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night?.image || weatherData[code].day.image)
+    : '/icons/weather/wsymbol_0999_unknown.png';
 }

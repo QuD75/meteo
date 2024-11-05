@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 putIconStyle(icon, width, 'auto%', 'contain', marginLeft);
 
                 // Attend l'URL de l'icône avant de l'assigner
-                icon.src = await getWeatherIcon(value, isDayToDisplay[index]);
+                icon.src = await getWeatherIcon(value, null);
 
                 // Ajoute l'icône dans la cellule et la cellule dans la ligne
                 cell.appendChild(icon);
