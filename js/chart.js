@@ -1,52 +1,4 @@
 //Fonction de générations du graphique
-/*
-function createChart(elementId, label, xAxisLabel, yAxisLabel, data, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
-    const ctx = document.getElementById(elementId).getContext('2d');
-    const labels = getChartLabels(elementId, data);
-    const values = getChartValues(data, label);
-    const datasets = createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
-
-    new Chart(ctx, {
-        type: chartType,
-        data: {
-            labels,
-            datasets
-        },
-        options: {
-            plugins: {
-                legend: { display: false },
-                title: {
-                    display: true,
-                    text: `Évolution ${label}`,
-                    font: { size: 20 }
-                }
-            },
-            scales: {
-                x: {
-                    title: { display: true, text: xAxisLabel },
-                    ticks: { maxRotation: 30, minRotation: 30 },
-                    barPercentage: 1.0
-                },
-                y: {
-                    title: { display: true, text: yAxisLabel },
-                    ticks: { callback: value => value.toFixed(round) }
-                }
-            }
-        }
-    });
-}
-function getChartLabels(elementId, data) {
-    return elementId.includes('day')
-        ? data.dates.map(date => formatDate(new Date(date.date), false, false, false, true, false))
-        : data.dates.map(date => {
-            const day = new Date(date.date);
-            day.setDate(day.getDate() - 1);
-            return formatDate(day.toLocaleDateString('fr-FR', { weekday: 'long' }));
-        });
-}
-function getChartValues(data, label) {
-    return data.dates.map(date => date.value * (label.includes('vent') ? 3.6 : 1));
-}*/
 function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
     const datasets = [{
         label,
@@ -84,7 +36,7 @@ function createDatasets(label, values, borderColor, backgroundColor, secondaryDa
 
     return datasets;
 }
-function createChartOM(elementId, x, y, label, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
+function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
     const datasets = createDatasets(label, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
 
@@ -99,7 +51,7 @@ function createChartOM(elementId, x, y, label, xAxisLabel, yAxisLabel, round, ch
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: `${label}`,
+                    text: `${title}`,
                     font: { size: 20 }
                 }
             },

@@ -3,7 +3,7 @@ function putIconStyle(weatherIcon, width, height, objectFit, marginLeft) {
     weatherIcon.style.width = width;
     weatherIcon.style.height = height;
     weatherIcon.style.objectFit = objectFit;
-    //weatherIcon.style.display = "block";
+    //weatherIcon.style.display = 'block';
     weatherIcon.style.marginLeft = marginLeft;
 }
 function getWindDirectionIcon(wind_deg) {
@@ -32,7 +32,7 @@ async function getWeatherIcon(code, dayOrNight) {
     const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
 
-    console.log("Day or night : " + dayOrNight);
+    console.log('Day or night : ' + dayOrNight);
 
     if (weatherData[code]) {
         return dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night.image;

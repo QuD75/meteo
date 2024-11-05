@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = window.innerWidth < 1000;
 
     const setLoadingMessageDisplay = (display) => {
-        document.getElementById("loading-message-vigilance").style.display = display;
-        document.getElementById("loading-message-day").style.display = display;
-        document.getElementById("loading-message-week").style.display = display;
+        document.getElementById('loading-message-vigilance').style.display = display;
+        document.getElementById('loading-message-day').style.display = display;
+        document.getElementById('loading-message-week').style.display = display;
     };
 
     // Appel aux API
     async function getApiData() {
-        setLoadingMessageDisplay("block");
+        setLoadingMessageDisplay('block');
         // Appels API indépendants
-        //fetchData("proxyUrlDay", 'day', 10, displayDataDay);
+        //fetchData('proxyUrlDay', 'day', 10, displayDataDay);
         fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin', 'day', 0, displayDataDayOpenMeteo);
         //fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
         //fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayFunction(data);
                 return data;
             } catch (error) {
-                console.error("Erreur lors de la récupération des données de " + cacheKey + ":", error);
+                console.error('Erreur lors de la récupération des données de ' + cacheKey + ':', error);
                 return null;
             }
         }
@@ -43,14 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Fonctions pour le tableau 24h
     function displayDataDayOpenMeteo(jsonData) {
-        document.getElementById("loading-message-day").style.display = "none";
-        document.getElementById("day-container-graphs").style.display = "block";
+        document.getElementById('loading-message-day').style.display = 'none';
+        document.getElementById('day-container-graphs').style.display = 'block';
 
         if (!isMobile) {
-            document.getElementById("day-container-tab").style.display = "block";
+            document.getElementById('day-container-tab').style.display = 'block';
             fillTableDay(jsonData);
         } else {
-            document.getElementById("day-container-tab-mobile").style.display = "block";
+            document.getElementById('day-container-tab-mobile').style.display = 'block';
         }
 
     }
@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const weatherToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
         const isDayToDisplay = jsonData.hourly.is_day.slice(startIndex, startIndex + hoursToDisplay);
 
-        const daysRow = document.getElementById("days-24h-row");
-        const hoursRow = document.getElementById("hours-24h-row");
+        const daysRow = document.getElementById('days-24h-row');
+        const hoursRow = document.getElementById('hours-24h-row');
 
         // Crée un objet pour stocker le nombre d'heures par jour
         const hoursPerDay = {};
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Si c'est un nouveau jour, on initialise la cellule de jour
             if (!hoursPerDay[dayName]) {
                 hoursPerDay[dayName] = 1; // Commence le comptage des heures
-                const dayCell = document.createElement("th");
+                const dayCell = document.createElement('th');
                 dayCell.textContent = dayName;
                 dayCell.colSpan = 1; // Initialement, on ne fusionne pas
                 daysRow.appendChild(dayCell);
@@ -98,14 +98,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Remplit les entêtes des heures
-            const hourCell = document.createElement("th");
+            const hourCell = document.createElement('th');
             hourCell.textContent = `${hour}h`;
             hoursRow.appendChild(hourCell);
         });
 
         // Met à jour la colonne des jours pour fusionner correctement
         Object.entries(hoursPerDay).forEach(([dayName, count], index) => {
-            const dayCell = daysRow.children[index + 1]; //A cause de la cellule "Paramètres"
+            const dayCell = daysRow.children[index + 1]; //A cause de la cellule 'Paramètres'
             dayCell.colSpan = count; // Met à jour la colSpan avec le nombre d'heures
 
         });
@@ -124,12 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        fillRow("temperature-24h-row", tempsToDisplay, 0, null, getTempColor);
-        fillRow("rain-24h-row", rainToDisplay, 1, null, getRainColor);
-        fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
-        fillRow("wind-gust-24h-row", windGustToDisplay, 0, 5, getWindColor);
-        fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
-        fillRow("uv-24h-row", uvToDisplay, 0, null, getUVColor);
+        fillRow('temperature-24h-row', tempsToDisplay, 0, null, getTempColor);
+        fillRow('rain-24h-row', rainToDisplay, 1, null, getRainColor);
+        fillRow('wind-24h-row', windSpeedToDisplay, 0, 5, getWindColor);
+        fillRow('wind-gust-24h-row', windGustToDisplay, 0, 5, getWindColor);
+        fillRow('pressure-24h-row', pressureToDisplay, 0, null, defaultColorFunc);
+        fillRow('uv-24h-row', uvToDisplay, 0, null, getUVColor);
 
         // Remplit les données des différentes lignes avec symbole
         function fillWindDirSymbol(rowId, data, widht, marginLeft) {
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data.forEach(value => {
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
-                putIconStyle(icon, widht, "auto%", "contain", marginLeft);
+                putIconStyle(icon, widht, 'auto%', 'contain', marginLeft);
                 icon.src = getWindDirectionIcon(value);
                 cell.appendChild(icon);
                 row.appendChild(cell);
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const icon = document.createElement('img');
                 
                 // Configure le style de l'icône
-                putIconStyle(icon, width, "auto%", "contain", marginLeft);
+                putIconStyle(icon, width, 'auto%', 'contain', marginLeft);
                 
                 // Attend l'URL de l'icône avant de l'assigner
                 icon.src = await getWeatherIcon(value, isDayToDisplay[index]);
@@ -161,13 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        fillWindDirSymbol("wind-direction-24h-row", windDirectionToDisplay, "65%", 0);
-        fillWeatherSymbol("weather-24h-row", weatherToDisplay, "100%", 0);
+        fillWindDirSymbol('wind-direction-24h-row', windDirectionToDisplay, '65%', 0);
+        fillWeatherSymbol('weather-24h-row', weatherToDisplay, '100%', 0);
 
-        createChartOM('temperature-day-chart', 'Evolution de la température dans les prochaines 24h', "Heure", "Température (°C)", tempsToDisplay, 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
-        createChartOM('precipitation-day-chart', 'Evolution des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", rainToDisplay, 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChartOM('wind-day-chart', 'Evolution du vent dans les prochaines 24h', "Heure", "Vent (km/h)", windSpeedToDisplay, 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
-        createChartOM('pressure-day-chart', 'Evolution de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", pressureToDisplay, 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChartOM('temperature-day-chart', timesToDisplay, tempsToDisplay, 'Evolution de la température dans les prochaines 24h', 'Heure', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChartOM('precipitation-day-chart', timesToDisplay, rainToDisplay, 'Evolution des précipitations dans les prochaines 24h', 'Heure', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChartOM('wind-day-chart', timesToDisplay, windSpeedToDisplay, 'Evolution du vent dans les prochaines 24h', 'Heure', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
+        createChartOM('pressure-day-chart', timesToDisplay, pressureToDisplay, 'Evolution de la pression dans les prochaines 24h', 'Heure', 'Pression (hPa)', 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
@@ -242,10 +242,10 @@ document.addEventListener('DOMContentLoaded', () => {
             fillCellMobile(row, getRainColor, data.precipitations, 1, 1);
             fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0, 5);
             fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0, 5);
-            fillSymbolCellMobile(row, data.windDir, "75%", getWindDirectionIcon);
+            fillSymbolCellMobile(row, data.windDir, '75%', getWindDirectionIcon);
             fillCellMobile(row, null, data.pressure, 0, 1);
             fillCellMobile(row, getUVColor, data.uvIndex, 0, 1);
-            fillSymbolCellMobile(row, data.weatherSymbol, "100%", getWeatherIcon);
+            fillSymbolCellMobile(row, data.weatherSymbol, '100%', getWeatherIcon);
 
             tableBody.appendChild(row);
         })
@@ -253,32 +253,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Fonctions pour le tableau de la semaine
     function displayDataWeek(dataWeek) {
-        document.getElementById("loading-message-week").style.display = "none";
-        document.getElementById("week-container-graphs").style.display = "grid";
+        document.getElementById('loading-message-week').style.display = 'none';
+        document.getElementById('week-container-graphs').style.display = 'grid';
 
         if (!isMobile) {
-            document.getElementById("week-container-tab").style.display = "block";
+            document.getElementById('week-container-tab').style.display = 'block';
             fillTableWeek(dataWeek);
         }
         else {
-            document.getElementById("week-container-tab-mobile").style.display = "block";
+            document.getElementById('week-container-tab-mobile').style.display = 'block';
             fillTableWeekMobile(dataWeek.data);
         }
 
-        createChart('temperature-week-chart', 'de la température sur les 7 prochains jours', "Jour", "Température (°C)", dataWeek.data[2].coordinates[0], 0, 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
-        createChart('precipitation-week-chart', 'des précipitations sur les 7 prochains jours', "Jour", "Pluie (mm)", dataWeek.data[4].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
-        createChart('wind-week-chart', 'du vent max sur les 7 prochains jours', "Jour", "Vent (km/h)", dataWeek.data[5].coordinates[0], 0, 'line', 'rgba(255, 140, 0, 1)', 'rgba(255, 140, 0, 0.2)');
-        createChart('pressure-week-chart', 'de la pression sur les 7 prochains jours', "Jour", "Pression (Hpa))", dataWeek.data[6].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+        createChart('temperature-week-chart', 'de la température sur les 7 prochains jours', 'Jour', 'Température (°C)', dataWeek.data[2].coordinates[0], 0, 'line', 'rgba(0, 0, 139, 1)', 'rgba(255, 255, 255, 0)', null, dataWeek.data[3].coordinates[0]);
+        createChart('precipitation-week-chart', 'des précipitations sur les 7 prochains jours', 'Jour', 'Pluie (mm)', dataWeek.data[4].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-week-chart', 'du vent max sur les 7 prochains jours', 'Jour', 'Vent (km/h)', dataWeek.data[5].coordinates[0], 0, 'line', 'rgba(255, 140, 0, 1)', 'rgba(255, 140, 0, 0.2)');
+        createChart('pressure-week-chart', 'de la pression sur les 7 prochains jours', 'Jour', 'Pression (Hpa))', dataWeek.data[6].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function fillTableWeek(data) {
         const daysRow = document.getElementById('days-week-row');
         const sunRow = document.getElementById('sun-week-row');
         const rowsConfig = {
-            "temp-min-week-row": { index: 2, multiplier: 1, round: 0, colorFunc: getTempColor },
-            "temp-max-week-row": { index: 3, multiplier: 1, round: 0, colorFunc: getTempColor },
-            "rain-week-row": { index: 4, multiplier: 1, round: 1, colorFunc: getRainColor },
-            "wind-week-row": { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
-            "pressure-week-row": { index: 6, multiplier: 1, round: 0, colorFunc: null, step: 1 }
+            'temp-min-week-row': { index: 2, multiplier: 1, round: 0, colorFunc: getTempColor },
+            'temp-max-week-row': { index: 3, multiplier: 1, round: 0, colorFunc: getTempColor },
+            'rain-week-row': { index: 4, multiplier: 1, round: 1, colorFunc: getRainColor },
+            'wind-week-row': { index: 5, multiplier: 3.6, round: 0, colorFunc: getWindColor, step: 5 },
+            'pressure-week-row': { index: 6, multiplier: 1, round: 0, colorFunc: null, step: 1 }
         };
 
         // Fonction utilitaire pour ajouter les jours et heures de lever/coucher du soleil
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Remplissage de la ligne pour les symboles météo
-        fillSymboleCellDesktop(data.data[7], document.getElementById('weather-week-row'), "37%");
+        fillSymboleCellDesktop(data.data[7], document.getElementById('weather-week-row'), '37%');
     }
     function fillTableWeekMobile(data) {
         const tableBody = document.querySelector('#weather-week-tab-mobile tbody');
@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillCellMobile(row, getRainColor, data.rain, 1, 1);
             fillCellMobile(row, getWindColor, data.wind * 3.6, 0, 5);
             fillCellMobile(row, null, data.pressure, 0, 1);
-            fillSymbolCellMobile(row, data.weatherSymbol, "100%", getWeatherIcon);
+            fillSymbolCellMobile(row, data.weatherSymbol, '100%', getWeatherIcon);
 
             tableBody.appendChild(row);
         });
@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.coordinates[0].dates.forEach(dateData => {
             const cell = document.createElement('td');
             const weatherIcon = document.createElement('img');
-            putIconStyle(weatherIcon, "auto", "100%", "contain", marginLeft);
+            putIconStyle(weatherIcon, 'auto', '100%', 'contain', marginLeft);
             weatherIcon.src = getWeatherIcon(dateData.value);
             cell.appendChild(weatherIcon);
             rowElement.appendChild(cell);
@@ -421,8 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const td = document.createElement('td');
             const windDirectionIcon = document.createElement('img');
             windDirectionIcon.src = getWindDirectionIcon(dateData.value);
-            windDirectionIcon.style.width = "30px";
-            windDirectionIcon.style.height = "30px";
+            windDirectionIcon.style.width = '30px';
+            windDirectionIcon.style.height = '30px';
             td.appendChild(windDirectionIcon);
             rowElement.appendChild(td);
         });
@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cell = document.createElement('td');
         const icon = document.createElement('img');
         icon.src = symbolFunction(value);
-        putIconStyle(icon, width, "auto", "cover", 0);
+        putIconStyle(icon, width, 'auto', 'cover', 0);
         cell.appendChild(icon);
         row.appendChild(cell);
     }

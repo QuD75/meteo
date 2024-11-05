@@ -1,7 +1,7 @@
 //Fonctions pour la vigilance météo
 function displayDataVigilance(dataVigilance, mobile) {
-    document.getElementById("loading-message-vigilance").style.display = "none";
-    document.getElementById("vigilance-encart").style.display = "block";
+    document.getElementById('loading-message-vigilance').style.display = 'none';
+    document.getElementById('vigilance-encart').style.display = 'block';
 
     fillVigilance(dataVigilance, mobile);
 }
@@ -16,7 +16,7 @@ function fillVigilance(data, mobile) {
         const vigilanceTitle = document.getElementById('vigilance-title');
 
         if (highestVigilanceLevel === 1) {
-            document.getElementById('vigilance-encart').style.setProperty("display", "none", "important");
+            document.getElementById('vigilance-encart').style.setProperty('display', 'none', 'important');
             return;
         }
 
@@ -29,15 +29,15 @@ function fillVigilance(data, mobile) {
         if (highestVigilanceLevel in colorMap) {
             const colorHex = colorMap[highestVigilanceLevel].color;
             const vigilanceEncart = document.getElementById('vigilance-encart');
-            vigilanceEncart.style.setProperty("border", "4px solid " + colorHex);
-            vigilanceEncart.style.setProperty("box-shadow", "0 4px 10px " + colorHex);
+            vigilanceEncart.style.setProperty('border', '4px solid ' + colorHex);
+            vigilanceEncart.style.setProperty('box-shadow', '0 4px 10px ' + colorHex);
             if (mobile) {
                 const textContainer = document.getElementById('text-container');
-                vigilanceIcon.style.setProperty("width", "80px");
-                vigilanceEncart.style.setProperty("width", "100%");
-                vigilanceEncart.style.setProperty("margin-left", "0");
-                textContainer.style.setProperty("font-size", "0.7em");
-                textContainer.style.setProperty("padding-right", "10px");
+                vigilanceIcon.style.setProperty('width', '80px');
+                vigilanceEncart.style.setProperty('width', '100%');
+                vigilanceEncart.style.setProperty('margin-left', '0');
+                textContainer.style.setProperty('font-size', '0.7em');
+                textContainer.style.setProperty('padding-right', '10px');
             }
             vigilanceIcon.src = colorMap[highestVigilanceLevel].icon;
             vigilanceTitle.style.color = colorHex;
