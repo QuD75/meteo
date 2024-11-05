@@ -1,3 +1,5 @@
+import Chart from 'chart.js/auto';
+
 //Fonction de générations du graphique
 function createChart(elementId, label, xAxisLabel, yAxisLabel, data, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
@@ -83,7 +85,6 @@ function createDatasets(label, values, borderColor, backgroundColor, secondaryDa
 
     return datasets;
 }
-
 function createChartOM(elementId, x, y, label, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
     const datasets = createDatasets(label, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
