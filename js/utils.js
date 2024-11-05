@@ -21,7 +21,7 @@ function formatDate(date, hasYear, hasMonth, hasDay, hasHour, hasMinute) {
 //Fonction pour arrondir les valeurs
 function roundToNearestMultiple(value, decimals, floor) {
     const factor = Math.pow(10, decimals);
-    value = Math.round(value * factor) / factor;
+    value = Math.round((value * factor)) / factor;
     if (floor != null) value = Math.round(value / floor) * floor;
     return value;
 }
