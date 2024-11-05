@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const startIndex = times.findIndex(time => time.getHours() === startHour);
 
         // Sélectionne les données pour les heures dans la plage souhaitée
-        const timesToDisplay = times.slice(startIndex, startIndex + hoursToDisplay);
+        let timesToDisplay = times.slice(startIndex, startIndex + hoursToDisplay);
         const tempsToDisplay = jsonData.hourly.temperature_2m.slice(startIndex, startIndex + hoursToDisplay);
         const rainToDisplay = jsonData.hourly.precipitation.slice(startIndex, startIndex + hoursToDisplay);
         const windSpeedToDisplay = jsonData.hourly.wind_speed_10m.slice(startIndex, startIndex + hoursToDisplay);
