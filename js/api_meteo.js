@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(cell);
             });
         }
-        async function fillWeatherSymbol(rowId, weathers, isDayToDisplay, width, marginLeft) {
+        async function fillWeatherSymbol(rowId, weathers, width, marginLeft) {
             const row = document.getElementById(rowId);   
             for (const [index, value] of weathers.entries()) {
                 const cell = document.createElement('td');
