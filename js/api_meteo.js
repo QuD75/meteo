@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
         //fetchData("proxyUrlDay", 'day', 10, displayDataDay);
-        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2', 'day', 10, displayDataDayOpenMeteo);
-        fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
-        fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
+        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2', 'day', 0, displayDataDayOpenMeteo);
+        //fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
+        //fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
     }
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('pressure-day-chart', 'de la pression dans les prochaines 24h', "Heure", "Pression (hPa)", dataDay.data[5].coordinates[0], 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
     function displayDataDayOpenMeteo(jsonData) {
+        document.getElementById("loading-message-day").style.display = "none";
+        document.getElementById("day-container-graphs").style.display = "grid";
+
         const now = new Date();
         const startHour = now.getHours();
         const hoursToDisplay = 24; // Nombre d'heures à afficher (de l'heure actuelle jusqu'à +23 heures)
