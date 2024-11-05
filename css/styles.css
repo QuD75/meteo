@@ -223,6 +223,7 @@ td {
     width: 10px;
     max-width: 10px;
     text-align: center;
+    background-color: var(--light-background);
 }
 
 .grid-graphs-container {
