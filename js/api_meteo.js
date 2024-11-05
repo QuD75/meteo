@@ -70,50 +70,63 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayDataDayOpenMeteo(jsonData) {
         document.getElementById("loading-message-day").style.display = "none";
         document.getElementById("day-container-graphs").style.display = "block";
-
+    
         if (!isMobile) {
             document.getElementById("day-container-tab").style.display = "block";
-        }
-        else {
+        } else {
             document.getElementById("day-container-tab-mobile").style.display = "block";
         }
-
+    
         const now = new Date();
-        const startHour = now.getHours();
+        const startHour = now.getUTCHours(); // Utilise getUTCHours pour l'heure en UTC
         const hoursToDisplay = 24; // Nombre d'heures à afficher (de l'heure actuelle jusqu'à +23 heures)
-
+    
         // Récupère les heures à partir de l'heure actuelle jusqu'à +23 heures
         const times = jsonData.hourly.time.map(time => new Date(time));
         const startIndex = times.findIndex(time => time.getUTCHours() === startHour);
-
+    
         // Sélectionne les données pour les heures dans la plage souhaitée
-        const timesToDisplay = jsonData.hourly.time.slice(startIndex, startIndex + hoursToDisplay);
+        const timesToDisplay = times.slice(startIndex, startIndex + hoursToDisplay);
         const tempsToDisplay = jsonData.hourly.temperature_2m.slice(startIndex, startIndex + hoursToDisplay);
         const rainToDisplay = jsonData.hourly.precipitation.slice(startIndex, startIndex + hoursToDisplay);
         const windSpeedToDisplay = jsonData.hourly.wind_speed_10m.slice(startIndex, startIndex + hoursToDisplay);
         const windGustsToDisplay = jsonData.hourly.wind_gusts_10m.slice(startIndex, startIndex + hoursToDisplay);
-        const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(startIndex, startIndex + hoursToDisplay);
         const pressureToDisplay = jsonData.hourly.pressure_msl.slice(startIndex, startIndex + hoursToDisplay);
-        const weatherCodeToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
-
+    
         const daysRow = document.getElementById("days-24h-row");
         const hoursRow = document.getElementById("hours-24h-row");
-
-        // Parcours des jours et création des cellules fusionnées pour chaque jour
+    
+        // Crée un objet pour stocker le nombre d'heures par jour
+        const hoursPerDay = {};
+    
+        // Parcours des heures pour créer les cellules fusionnées pour chaque jour
         timesToDisplay.forEach(date => {
-            const dayCell = document.createElement("th");
-            dayCell.textContent = new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' });
-            dayCell.colSpan = new Date(date).getHours() - startHour + 1;
-            daysRow.appendChild(dayCell);
-        });
-
-        // Remplit les entêtes des heures
-        timesToDisplay.forEach(hour => {
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' }); // Obtient le nom du jour
+            const hour = date.getUTCHours();
+    
+            // Si c'est un nouveau jour, on initialise la cellule de jour
+            if (!hoursPerDay[dayName]) {
+                hoursPerDay[dayName] = 1; // Commence le comptage des heures
+                const dayCell = document.createElement("th");
+                dayCell.textContent = dayName;
+                dayCell.colSpan = 1; // Initialement, on ne fusionne pas
+                daysRow.appendChild(dayCell);
+            } else {
+                hoursPerDay[dayName]++;
+            }
+    
+            // Remplit les entêtes des heures
             const hourCell = document.createElement("th");
-            hourCell.textContent = new Date(hour).getUTCHours();
+            hourCell.textContent = `${hour}h`;
             hoursRow.appendChild(hourCell);
         });
-
+    
+        // Met à jour la colonne des jours pour fusionner correctement
+        Object.entries(hoursPerDay).forEach(([dayName, count], index) => {
+            const dayCell = daysRow.children[index];
+            dayCell.colSpan = count; // Met à jour la colSpan avec le nombre d'heures
+        });
+    
         // Remplit les données des différentes lignes
         function fillRow(rowId, data, decimals, floor, colorFunction) {
             const row = document.getElementById(rowId);
@@ -127,13 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(cell);
             });
         }
-
+    
         fillRow("temperature-24h-row", tempsToDisplay, 0, null, getTempColor);
         fillRow("rain-24h-row", rainToDisplay, 1, null, getRainColor);
         fillRow("wind-24h-row", windSpeedToDisplay, 0, 5, getWindColor);
         fillRow("wind-gust-24h-row", windGustsToDisplay, 0, 5, getWindColor);
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
     }
+    
     function fillTableDayMobile(data) {
         const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
 
