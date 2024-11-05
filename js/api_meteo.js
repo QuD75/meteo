@@ -276,12 +276,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let timesToDisplay = times;
         const sunriseToDisplay = jsonData.daily.sunrise;
         const sunsetToDisplay = jsonData.daily.sunset;
-        const tempMinToDisplay = jsonData.hourly.temperature_2m_min;
-        const tempMaxToDisplay = jsonData.hourly.temperature_2m_max;
-        const rainToDisplay = jsonData.hourly.precipitation_sum;
-        const windGustToDisplay = jsonData.hourly.wind_gusts_10m_max;
-        const uvToDisplay = jsonData.hourly.uv_index_max;
-        const weatherToDisplay = jsonData.hourly.weather_code;
+        const tempMinToDisplay = jsonData.daily.temperature_2m_min;
+        const tempMaxToDisplay = jsonData.daily.temperature_2m_max;
+        const rainToDisplay = jsonData.daily.precipitation_sum;
+        const windGustToDisplay = jsonData.daily.wind_gusts_10m_max;
+        const uvToDisplay = jsonData.daily.uv_index_max;
+        const weatherToDisplay = jsonData.daily.weather_code;
 
         // Remplit les données des différentes lignes
         function fillRow(rowId, data, decimals, floor, colorFunction) {
