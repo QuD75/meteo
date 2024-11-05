@@ -32,7 +32,7 @@ async function getWeatherIcon(code, day) {
     console.log("Code : " + code);
     console.log("Day : " + day);
     console.log("-------------------");
-    const response = await fetch('/icons/weather/weatherIcons.json');
+    const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
 
     if (weatherData[code]) {
