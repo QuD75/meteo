@@ -136,20 +136,20 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow("pressure-24h-row", pressureToDisplay, 0, null, defaultColorFunc);
 
         // Remplit les données des différentes lignes avec symbole
-        function fillRowSymbol(rowId, data, symbolFunction, marginLeft) {
+        function fillRowSymbol(rowId, data, symbolFunction, widht, marginLeft) {
             const row = document.getElementById(rowId);
             data.forEach(value => {
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
-                putIconStyle(icon, "auto", "100%", "contain", marginLeft);
+                putIconStyle(icon, widht, "auto%", "contain", marginLeft);
                 icon.src = symbolFunction(value);
                 cell.appendChild(icon);
                 row.appendChild(cell);
             });
         }
 
-        fillRowSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, 0);
-        fillRowSymbol("weather-24h-row", weatherToDisplay, getWeatherIcon, 0);
+        fillRowSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, "80%", 0);
+        fillRowSymbol("weather-24h-row", weatherToDisplay, getWeatherIcon, "100%", 0);
 
         createChart('temperature-day-chart', 'de la température dans les prochaines 24h', "Heure", "Température (°C)", dataDay.data[0].coordinates[0], 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', 'des précipitations dans les prochaines 24h', "Heure", "Pluie (mm)", dataDay.data[1].coordinates[0], 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
