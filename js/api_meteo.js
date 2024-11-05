@@ -107,11 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remplit les données des différentes lignes
     function fillRow(rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
-        row.innerHTML = `<td>${row.getAttribute("data-label")}</td>`; // Met le label en premier
         data.forEach(value => {
-            const color = colorFunction(value);
+            const cell = document.createElement('td');
+            const { color, textColor } = colorFunction(value);
             value = roundToNearestMultiple(value, decimals, floor);
-            row.innerHTML += `<td style="background-color: ${color};">${value}</td>`;
+            cell.style.backgroundColor = color;
+            cell.style.color = textColor;
+            cell.textContent = value;
+            row.appendChild(cell);
         });
     }
     
