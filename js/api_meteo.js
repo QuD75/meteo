@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxyUrlDay = `https://proxy-ddj0.onrender.com/meteoday`;
     const proxyUrlWeek = `https://proxy-ddj0.onrender.com/meteoweek`;
 
+    const urlOpenMeteo = 'https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin';
+
     const isMobile = window.innerWidth < 1000;
 
     const setLoadingMessageDisplay = (display) => {
@@ -15,10 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getApiData() {
         setLoadingMessageDisplay('block');
         // Appels API indépendants
-        //fetchData('proxyUrlDay', 'day', 10, displayDataDay);
-        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin', 'day', 0, displayDataDayOpenMeteo);
-        //fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
-        //fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
+        fetchData(urlOpenMeteo, 'day', 0, displayDataDay);
     }
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Fonctions pour le tableau 24h
-    function displayDataDayOpenMeteo(jsonData) {
+    function displayDataDay(jsonData) {
         document.getElementById('loading-message-day').style.display = 'none';
         document.getElementById('day-container-graphs').style.display = 'block';
 
@@ -253,7 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
             tableBody.appendChild(row);
         })
     }
-
+    
+/*
     //Fonctions pour le tableau de la semaine
     function displayDataWeek(dataWeek) {
         document.getElementById('loading-message-week').style.display = 'none';
@@ -389,47 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    //Fonctions de remplissage Desktop
-    function fillCellDesktop(data, round = 0, multiple = 1, floor = null, rowElement, colorFunc = defaultColorFunc, minValue, maxValue, hueMin, hueMax, rain, uv) {
-        data.coordinates[0].dates.forEach(dateData => {
-            const td = document.createElement('td');
-            let valueMultiplied = dateData.value * multiple;
-
-            // Appliquer arrondi si `floor` est défini
-            if (floor != null) valueMultiplied = Math.floor(valueMultiplied / floor) * floor;
-
-            // Déterminer la couleur de la cellule
-            const effectiveColorFunc = colorFunc || defaultColorFunc;
-            const { color, textColor } = effectiveColorFunc(valueMultiplied, minValue, maxValue, hueMin, hueMax, rain, uv);
-
-            // Appliquer style et contenu
-            td.textContent = valueMultiplied.toFixed(round);
-            td.style.backgroundColor = color;
-            td.style.color = textColor;
-            rowElement.appendChild(td);
-        });
-    }
-    function fillSymboleCellDesktop(data, rowElement, marginLeft) {
-        data.coordinates[0].dates.forEach(dateData => {
-            const cell = document.createElement('td');
-            const weatherIcon = document.createElement('img');
-            putIconStyle(weatherIcon, 'auto', '100%', 'contain', marginLeft);
-            weatherIcon.src = getWeatherIcon(dateData.value);
-            cell.appendChild(weatherIcon);
-            rowElement.appendChild(cell);
-        });
-    }
-    function fillWindDirectionCell(data, rowElement) {
-        data.coordinates[0].dates.forEach(dateData => {
-            const td = document.createElement('td');
-            const windDirectionIcon = document.createElement('img');
-            windDirectionIcon.src = getWindDirectionIcon(dateData.value);
-            windDirectionIcon.style.width = '30px';
-            windDirectionIcon.style.height = '30px';
-            td.appendChild(windDirectionIcon);
-            rowElement.appendChild(td);
-        });
-    }
     //Fonctions de remplissage Mobile
     function fillCellMobile(row, colorFunc = defaultColorFunc, value, round, floor) {
         const cell = document.createElement('td');
@@ -450,6 +409,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.appendChild(icon);
         row.appendChild(cell);
     }
+
+*/
 
     getApiData();
 });

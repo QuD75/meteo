@@ -1,8 +1,8 @@
 //Fonction de générations du graphique
-function createDatasets(label, values, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
+function createDatasets(x, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp) {
     const datasets = [{
-        label,
-        data: values,
+        x,
+        data: y,
         borderColor,
         backgroundColor,
         borderWidth: 3,
@@ -14,6 +14,7 @@ function createDatasets(label, values, borderColor, backgroundColor, secondaryDa
 
     if (secondaryDataWind) {
         datasets.push({
+            x: 'Wind Data',
             pointRadius: 0,
             data: secondaryDataWind,
             borderColor: 'rgba(255, 140, 0, 1)',
@@ -26,6 +27,7 @@ function createDatasets(label, values, borderColor, backgroundColor, secondaryDa
 
     if (secondaryDataTemp) {
         datasets.push({
+            x: 'Temperature Data',
             pointRadius: 0,
             data: secondaryDataTemp,
             borderColor: 'rgba(139, 0, 0, 1)',
@@ -38,17 +40,17 @@ function createDatasets(label, values, borderColor, backgroundColor, secondaryDa
 }
 function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
-    const datasets = createDatasets(title, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
+    const datasets = createDatasets(x, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
 
     new Chart(ctx, {
         type: chartType,
         data: {
-            x,
-            datasets
+            labels: x, // Utilise x comme labels pour l'axe des abscisses
+            datasets: datasets // y et les données supplémentaires comme datasets
         },
         options: {
             plugins: {
-                legend: { display: false },
+                legend: { display: true }, // Affiche la légende pour identifier les séries
                 title: {
                     display: true,
                     text: `${title}`,
@@ -59,7 +61,6 @@ function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, ch
                 x: {
                     title: { display: true, text: xAxisLabel },
                     ticks: { maxRotation: 30, minRotation: 30 },
-                    barPercentage: 1.0
                 },
                 y: {
                     title: { display: true, text: yAxisLabel },
