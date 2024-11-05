@@ -28,15 +28,12 @@ function getWindDirectionIcon(wind_deg) {
     ];
     return directions.find(d => wind_deg >= d.min && wind_deg <= d.max)?.icon || '/icons/wind/unknown.png';
 }
-async function getWeatherIcon(code, day) {
-    console.log("Code : " + code);
-    console.log("Day : " + day);
-    console.log("-------------------");
+async function getWeatherIcon(code, dayOrNight) {
     const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
 
     if (weatherData[code]) {
-        return day ? weatherData[code].day.image : weatherData[code].night.image;
+        return dayOrNight === 'day' ? weatherData[code].day.image : weatherData[code].night.image;
     } else {
         return '/icons/weather/wsymbol_0999_unknown.png';
     }

@@ -143,16 +143,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.appendChild(cell);
             });
         }
-        function fillWeatherSymbol(rowId, weathers, widht, marginLeft) {
-            const row = document.getElementById(rowId);
-            weathers.forEach((value, index) => {
+        async function fillWeatherSymbol(rowId, weathers, isDayToDisplay, width, marginLeft) {
+            const row = document.getElementById(rowId);   
+            for (const [index, value] of weathers.entries()) {
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
-                putIconStyle(icon, widht, "auto%", "contain", marginLeft);
-                icon.src = getWeatherIcon(value, isDayToDisplay[index] === 1 ? true : false);
+                
+                // Configure le style de l'icône
+                putIconStyle(icon, width, "auto%", "contain", marginLeft);
+                
+                // Attend l'URL de l'icône avant de l'assigner
+                icon.src = await getWeatherIcon(value, isDayToDisplay[index] ==='1' ? 'day' : 'night');
+                
+                // Ajoute l'icône dans la cellule et la cellule dans la ligne
                 cell.appendChild(icon);
                 row.appendChild(cell);
-            });
+            }
         }
 
         fillWindDirSymbol("wind-direction-24h-row", windDirectionToDisplay, getWindDirectionIcon, "65%", 0);
