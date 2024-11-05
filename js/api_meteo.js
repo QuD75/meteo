@@ -5,13 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth < 1000;
 
-    const mock = getMockValue();
-    function getMockValue() {
-        const url = new URL(window.location.href);
-        const mockParam = url.searchParams.get('mock');
-        return mockParam !== null ? mockParam.toLowerCase() === 'true' : false;
-    }
-
     const setLoadingMessageDisplay = (display) => {
         document.getElementById("loading-message-vigilance").style.display = display;
         document.getElementById("loading-message-day").style.display = display;
@@ -30,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-        if (!mock && cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
+        if (cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
             displayFunction(cachedData.data);
             return cachedData.data;
         } else {
             try {
-                const response = await fetch(mock ? `/json/${cacheKey}.json` : apiUrl);
-                if (!mock && !response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
-                if (!mock) localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+                localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
                 displayFunction(data);
                 return data;
             } catch (error) {
