@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoadingMessageDisplay("block");
         // Appels API indépendants
         //fetchData("proxyUrlDay", 'day', 10, displayDataDay);
-        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2', 'day', 0, displayDataDayOpenMeteo);
+        fetchData('https://api.open-meteo.com/v1/forecast?latitude=47.29&longitude=-2.52&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m&forecast_days=2&timezone=Europe%2FBerlin', 'day', 0, displayDataDayOpenMeteo);
         //fetchData(proxyUrlWeek, 'week', 60, displayDataWeek);
         //fetchData(proxyUrlVigilance, 'vigilance', 60, displayDataVigilance);
     }
@@ -78,12 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const now = new Date();
-        const startHour = now.getUTCHours(); // Utilise getUTCHours pour l'heure en UTC
+        const startHour = now.getHours(); // Utilise getUTCHours pour l'heure en UTC
         const hoursToDisplay = 24; // Nombre d'heures à afficher (de l'heure actuelle jusqu'à +23 heures)
 
         // Récupère les heures à partir de l'heure actuelle jusqu'à +23 heures
         const times = jsonData.hourly.time.map(time => new Date(time));
-        const startIndex = times.findIndex(time => time.getUTCHours() === startHour);
+        const startIndex = times.findIndex(time => time.getHours() === startHour);
 
         // Sélectionne les données pour les heures dans la plage souhaitée
         const timesToDisplay = times.slice(startIndex, startIndex + hoursToDisplay);
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Parcours des heures pour créer les cellules fusionnées pour chaque jour
         timesToDisplay.forEach(date => {
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
-            const hour = date.getUTCHours();
+            const hour = date.getHoursgetHours();
 
             // Si c'est un nouveau jour, on initialise la cellule de jour
             if (!hoursPerDay[dayName]) {
