@@ -69,7 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function displayDataDayOpenMeteo(jsonData) {
         document.getElementById("loading-message-day").style.display = "none";
-        document.getElementById("day-container-graphs").style.display = "grid";
+        document.getElementById("day-container-graphs").style.display = "block";
+
+        if (!isMobile) {
+            document.getElementById("day-container-tab").style.display = "block";
+        }
+        else {
+            document.getElementById("day-container-tab-mobile").style.display = "block";
+        }
 
         const now = new Date();
         const startHour = now.getHours();
