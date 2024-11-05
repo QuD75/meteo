@@ -38,7 +38,7 @@ function createDatasets(label, values, borderColor, backgroundColor, secondaryDa
 }
 function createChartOM(elementId, x, y, title, xAxisLabel, yAxisLabel, round, chartType, borderColor, backgroundColor, secondaryDataWind = null, secondaryDataTemp = null) {
     const ctx = document.getElementById(elementId).getContext('2d');
-    const datasets = createDatasets(label, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
+    const datasets = createDatasets(title, y, borderColor, backgroundColor, secondaryDataWind, secondaryDataTemp);
 
     new Chart(ctx, {
         type: chartType,
