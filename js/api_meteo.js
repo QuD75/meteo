@@ -104,8 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
             const hour = date.getUTCHours();
 
-            console.log("Day name : " + dayName);
-
             // Si c'est un nouveau jour, on initialise la cellule de jour
             if (!hoursPerDay[dayName]) {
                 hoursPerDay[dayName] = 1; // Commence le comptage des heures
@@ -117,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 hoursPerDay[dayName]++;
             }
 
-            console.log("Hours per day: " + hoursPerDay[dayName]);
-
             // Remplit les entêtes des heures
             const hourCell = document.createElement("th");
             hourCell.textContent = `${hour}h`;
@@ -129,6 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.entries(hoursPerDay).forEach(([dayName, count], index) => {
             // Commence à l'index 1 pour ignorer la première cellule
             if (index > 0) {
+                console.log("Day name : " + dayName);
+                console.log("Count : " + count);
                 const dayCell = daysRow.children[index];
                 dayCell.colSpan = count; // Met à jour la colSpan avec le nombre d'heures
             }
