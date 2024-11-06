@@ -3,7 +3,6 @@ function putIconStyle(weatherIcon, width, height, objectFit, marginLeft) {
     weatherIcon.style.width = width;
     weatherIcon.style.height = height;
     weatherIcon.style.objectFit = objectFit;
-    //weatherIcon.style.display = 'block';
     weatherIcon.style.marginLeft = marginLeft;
 }
 function getWindDirectionIcon(wind_deg) {

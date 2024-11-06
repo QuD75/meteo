@@ -122,11 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remplit les données des différentes lignes avec symbole
         function fillWindDirSymbol(rowId, data, widht, marginLeft) {
             const row = document.getElementById(rowId);
+            const rootStyles = getComputedStyle(document.documentElement);
+            const primaryColor = rootStyles.getPropertyValue('--primary-color').trim();
             data.forEach(value => {
+                
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
                 putIconStyle(icon, widht, 'auto%', 'contain', marginLeft);
                 icon.src = getWindDirectionIcon(value);
+                cell.style.backgroundColor = 'white';
                 cell.appendChild(icon);
                 row.appendChild(cell);
             });
