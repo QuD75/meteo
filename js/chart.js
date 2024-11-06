@@ -9,7 +9,7 @@ function createDatasets(x, y, borderColor, backgroundColor, secondaryDataWind, s
         pointRadius: 0,
         tension: 0.5,
         cubicInterpolationMode: 'monotone',
-        fill: secondaryDataWind ? true : 'start'
+        fill: secondaryDataWind ? true : secondaryDataTemp ? false : 'start'
     }];
 
     if (secondaryDataWind) {
