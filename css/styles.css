@@ -173,8 +173,8 @@ td {
 }
 
 th {
-    background-color: var(--primary-color);
-    color: var(--white-color);
+    background-color: var(--primary-color) !important;
+    color: var(--white-color) !important;
 }
 
 th,
