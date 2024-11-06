@@ -227,11 +227,23 @@ td {
     background-color: var(--light-background);
 }
 
-.grid-graphs-container {
+.grid-graphs-container-4 {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
     margin: 20px 0;
+}
+
+.grid-graphs-container-3 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+    grid-template-rows: auto auto; /* 2 lignes */
+    grid-gap: 20px;
+    margin: 20px 0;
+}
+
+.grid-graphs-container-3 > .first-block {
+    grid-column: span 2; /* Cette règle fait en sorte que le premier bloc prenne toute la largeur des 2 colonnes */
 }
 
 .Temp,

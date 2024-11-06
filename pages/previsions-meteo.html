@@ -31,8 +31,10 @@
 
         <div id="day-container">
             <h2>Météo pour les prochaines 24h</h2>
+
             <div id="loading-message-day" style="display: none;">En attente des données pour les prochaines 24h...
                 veuillez patienter</div>
+
             <div id="day-container-tab" class="tab" style="display: none;">
                 <table id="weather-day-tab">
                     <thead>
@@ -91,7 +93,7 @@
                 </table>
             </div>
 
-            <div id="day-container-graphs" class="grid-graphs-container" style="display: none;">
+            <div id="day-container-graphs" class="grid-graphs-container-4" style="display: none;">
                 <div class="Temp">
                     <canvas id="temperature-day-chart"></canvas>
                 </div>
@@ -109,8 +111,10 @@
 
         <div id="week-container">
             <h2>Météo pour les 7 prochains jours</h2>
+
             <div id="loading-message-week" style="display: none;">En attente des données pour la semaine... veuillez
                 patienter</div>
+
             <div id="week-container-tab" class="tab" style="display: none;">
                 <table id="weather-week-tab">
                     <thead>
@@ -163,8 +167,8 @@
                 </table>
             </div>
 
-            <div id="week-container-graphs" class="grid-graphs-container" style="display: none;">
-                <div class="Temp">
+            <div id="week-container-graphs" class="grid-graphs-container-3" style="display: none;">
+                <div class="Temp first-block">
                     <canvas id="temperature-week-chart"></canvas>
                 </div>
                 <div class="Rain">
@@ -172,9 +176,6 @@
                 </div>
                 <div class="Wind">
                     <canvas id="wind-week-chart"></canvas>
-                </div>
-                <div class="Pressure">
-                    <canvas id="pressure-week-chart"></canvas>
                 </div>
             </div>
         </div>
