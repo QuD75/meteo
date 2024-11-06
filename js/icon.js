@@ -1,8 +1,9 @@
 //Fonctions d'icones
-function putIconStyle(weatherIcon, width, height, objectFit) {
-    weatherIcon.style.width = width;
-    weatherIcon.style.height = height;
-    weatherIcon.style.objectFit = objectFit;
+function putIconStyle(icon, width, height, objectFit, brightness = null) {
+    icon.style.width = width;
+    icon.style.height = height;
+    icon.style.objectFit = objectFit;
+    if (brightness != null) icon.style.filter = 'brightness(' + brightness + ')';
 }
 function getWindDirectionIcon(wind_deg) {
     const directions = [
@@ -40,7 +41,7 @@ async function fillWeatherSymbol(rowId, weathers, height, isDayToDisplay) {
         const icon = document.createElement('img');
 
         // Configure le style de l'icône
-        putIconStyle(icon, 'auto', height, 'contain');
+        putIconStyle(icon, 'auto', height, 'contain', 0.7);
 
         // Attend l'URL de l'icône avant de l'assigner
         icon.src = await getWeatherIcon(value, isDayToDisplay?.[index]);
