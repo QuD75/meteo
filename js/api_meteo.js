@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlOpenMeteoDay = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin`;
     const urlOpenMeteoWeek = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,wind_gusts_10m_max&timezone=Europe%2FBerlin`;
 
-    const isMobile = window.innerWidth < 1000;
+    const isMobile = window.innerWidth < 1000000;
 
     const setLoadingMessageDisplay = (display) => {
         document.getElementById('loading-message-vigilance').style.display = display;
@@ -141,87 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         createChartOM('wind-day-chart', timesToDisplay, windSpeedToDisplay, 5, 'Evolution du vent dans les prochaines 24h', 'Heure', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
         createChartOM('pressure-day-chart', timesToDisplay, pressureToDisplay, 1, 'Evolution de la pression dans les prochaines 24h', 'Heure', 'Pression (hPa)', 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
-    function fillTableDayMobile(data) {
-        const tableBody = document.querySelector('#weather-day-tab-mobile tbody');
-
-        // Objet pour stocker les données regroupées par date
-        const groupedData = {};
-
-        // Mapping pour associer les paramètres aux propriétés dans `groupedData`
-        const paramMapping = {
-            't_2m:C': 'temperature',
-            'precip_1h:mm': 'precipitations',
-            'wind_speed_10m:ms': 'windSpeed',
-            'wind_gusts_10m_1h:ms': 'windGusts',
-            'wind_dir_10m:d': 'windDir',
-            'msl_pressure:hPa': 'pressure',
-            'weather_symbol_1h:idx': 'weatherSymbol',
-            'uv:idx': 'uvIndex',
-        };
-
-        // Parcourir chaque paramètre de données
-        data.forEach(parameter => {
-            parameter.coordinates.forEach(coord => {
-                coord.dates.forEach(dateData => {
-                    const dateKey = new Date(dateData.date); // Utilisez une clé de date formatée
-
-                    if (!groupedData[dateKey]) {
-                        groupedData[dateKey] = {
-                            temperature: null,
-                            precipitations: null,
-                            windSpeed: null,
-                            windGusts: null,
-                            windDir: null,
-                            pressure: null,
-                            weatherSymbol: null,
-                            uvIndex: null,
-                        };
-                    }
-                    const property = paramMapping[parameter.parameter];
-                    if (property) groupedData[dateKey][property] = dateData.value;
-                });
-            });
-        });
-
-        // Calcul des occurrences de chaque jour
-        const dayOccurrences = {};
-        Object.keys(groupedData).forEach(dateKey => {
-            const day = new Date(dateKey).getDate();
-            dayOccurrences[day] = (dayOccurrences[day] || 0) + 1;
-        });
-
-        let previousDay = '';
-
-        // 2. Créer les lignes du tableau avec fusion des cellules pour les dates identiques
-        Object.keys(groupedData).forEach(dateKey => {
-            const row = document.createElement('tr');
-            const data = groupedData[dateKey];
-            const day = new Date(dateKey).getDate();
-
-            // Si c'est un nouveau jour ou la première apparition de ce jour
-            if (day !== previousDay) {
-                const dayCell = document.createElement('td');
-                dayCell.setAttribute('rowspan', dayOccurrences[day]); // Applique le rowspan selon le comptage
-                dayCell.textContent = new Date(dateKey).toLocaleDateString('fr-FR', { weekday: 'long' });
-                row.appendChild(dayCell);
-                previousDay = day;
-            }
-            const hourCell = document.createElement('td');
-            hourCell.textContent = formatDate(new Date(dateKey), false, false, false, true, false);
-            row.appendChild(hourCell);
-
-            fillCellMobile(row, getTempColor, data.temperature, 0, 1);
-            fillCellMobile(row, getRainColor, data.precipitations, 1, 1);
-            fillCellMobile(row, getWindColor, data.windSpeed * 3.6, 0, 5);
-            fillCellMobile(row, getWindColor, data.windGusts * 3.6, 0, 5);
-            fillSymbolCellMobile(row, data.windDir, '75%', getWindDirectionIcon);
-            fillCellMobile(row, null, data.pressure, 0, 1);
-            fillCellMobile(row, getUVColor, data.uvIndex, 0, 1);
-            fillSymbolCellMobile(row, data.weatherSymbol, '100%', getWeatherIcon);
-
-            tableBody.appendChild(row);
-        })
-    }
 
     //Fonctions pour le tableau semaine
     function displayDataWeek(jsonData) {
@@ -254,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         let sunTimes = [];
-        sunTimes = sunriseToDisplay.map((value, index) => value + ' - ' + sunsetToDisplay[index]);
+        sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + '');
 
         fillRow(true, 'days-week-row', timesToDisplay, null, null, defaultColorFunc);
         fillRow(false, 'sun-week-row', sunTimes, null, null, defaultColorFunc);
@@ -274,30 +193,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remplit les données des différentes lignes
     function fillRow(isHeading, rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
-        
+
         data.forEach(value => {
             const cell = document.createElement(isHeading ? 'th' : 'td');
             const { color, textColor } = colorFunction(value);
             value = roundToNearestMultiple(value, decimals, floor);
             cell.style.backgroundColor = color;
             cell.style.color = textColor;
-    
+
             // Création des icônes pour chaque cellule (si applicable)
             if (rowId === 'sun-week-row') {
                 const iconBefore = document.createElement('img');
                 const iconAfter = document.createElement('img');
                 const size = '20px';
-    
+
                 // Configuration de l'icône de lever de soleil
                 iconBefore.src = '/icons/sun/lever-du-soleil.png';
                 iconBefore.style.width = size;
                 iconBefore.style.height = 'auto';
-    
+
                 // Configuration de l'icône de coucher de soleil
                 iconAfter.src = '/icons/sun/coucher-du-soleil.png';
                 iconAfter.style.width = size;
                 iconAfter.style.height = 'auto';
-    
+
                 // Ajout des icônes avant et après le texte
                 cell.appendChild(iconBefore);
                 cell.appendChild(document.createTextNode(value));
@@ -306,12 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Si ce n'est pas la ligne des heures de lever/coucher du soleil, ajoutez seulement le texte
                 cell.textContent = value;
             }
-            
+
             // Ajouter la cellule au row
             row.appendChild(cell);
         });
     }
-    
 
     getApiData();
 });
