@@ -8,15 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth < 1;
 
-    const setLoadingMessageDisplay = (display) => {
-        document.getElementById('loading-message-vigilance').style.display = display;
-        document.getElementById('loading-message-day').style.display = display;
-        document.getElementById('loading-message-week').style.display = display;
-    };
-
     // Appel aux API
     async function getApiData() {
-        setLoadingMessageDisplay('block');
         // Appels API indépendants
         fetchData(urlVigilance, 'vigilance', 60, displayDataVigilance);
         fetchData(urlOpenMeteoDay, 'day', 15, displayDataDay);
