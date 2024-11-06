@@ -261,8 +261,6 @@ td {
 .Rain canvas,
 .Wind canvas,
 .Pressure canvas {
-    width: auto;
-    height: 100%;
     background-color: var(--light-background) !important;
 }
 
