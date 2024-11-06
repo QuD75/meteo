@@ -256,13 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let sunTimes = [];
         sunTimes = sunriseToDisplay.map((value, index) => value + ' --> ' + sunsetToDisplay[index]);
         
-        fillRow('days-week-row', timesToDisplay, null, null, defaultColorFunc);
-        fillRow('sun-week-row', sunTimes, null, null, defaultColorFunc);
-        fillRow('temp-min-week-row', tempMinToDisplay, 0, null, getTempColor);
-        fillRow('temp-max-week-row', tempMaxToDisplay, 0, null, getTempColor);
-        fillRow('rain-week-row', rainToDisplay, 1, null, getRainColor);
-        fillRow('wind-week-row', windGustToDisplay, 0, 5, getWindColor);
-        fillRow('uv-week-row', uvToDisplay, 0, null, getUVColor);
+        fillRow('th', 'days-week-row', timesToDisplay, null, null, defaultColorFunc);
+        fillRow('td', 'sun-week-row', sunTimes, null, null, defaultColorFunc);
+        fillRow('td', 'temp-min-week-row', tempMinToDisplay, 0, null, getTempColor);
+        fillRow('td', 'temp-max-week-row', tempMaxToDisplay, 0, null, getTempColor);
+        fillRow('td', 'rain-week-row', rainToDisplay, 1, null, getRainColor);
+        fillRow('td', 'wind-week-row', windGustToDisplay, 0, 5, getWindColor);
+        fillRow('td', 'uv-week-row', uvToDisplay, 0, null, getUVColor);
 
         fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', 0, null);
 
@@ -272,10 +272,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Remplit les données des différentes lignes
-    function fillRow(rowId, data, decimals, floor, colorFunction) {
+    function fillRow(type, rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
         data.forEach(value => {
-            const cell = document.createElement('td');
+            const cell = document.createElement(type);
             const { color, textColor } = colorFunction(value);
             value = roundToNearestMultiple(value, decimals, floor);
             cell.style.backgroundColor = color;
