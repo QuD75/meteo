@@ -41,7 +41,7 @@ async function fillWeatherSymbol(rowId, weathers, height, isDayToDisplay) {
         const icon = document.createElement('img');
 
         // Configure le style de l'icône
-        putIconStyle(icon, 'auto', height, 'contain', 0.8);
+        putIconStyle(icon, 'auto', height, 'contain', 0.9);
 
         // Attend l'URL de l'icône avant de l'assigner
         icon.src = await getWeatherIcon(value, isDayToDisplay?.[index]);
