@@ -274,6 +274,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remplit les données des différentes lignes
     function fillRow(isHeading, rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
+
+        const iconBefore = document.createElement('img');
+        const iconAfter = document.createElement('img');
+
+        if (rowId === 'sun-week-row') {
+            const size = '10px';
+            iconBefore.src = '/icons/sun/lever-du-soleil.png';  // Remplacez par le chemin de votre icône avant
+            iconBefore.style.width = size; // Ajustez la taille de l'icône
+            iconBefore.style.height = size; // Ajustez la taille de l'icône
+            iconAfter.src = '/icons/sun/coucher-du-soleil.png';  // Remplacez par le chemin de votre icône après
+            iconAfter.style.width = size; // Ajustez la taille de l'icône
+            iconAfter.style.height = size; // Ajustez la taille de l'icône
+        }
+
         data.forEach(value => {
             const cell = document.createElement(isHeading ? 'th' : 'td');
             const { color, textColor } = colorFunction(value);
@@ -281,20 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.style.backgroundColor = color;
             cell.style.color = textColor;
             cell.textContent = value;
-
-            if (rowId === 'sun-week-row') {
-                const size = '10px';
-                const iconBefore = document.createElement('img');
-                iconBefore.src = '/icons/sun/lever-du-soleil.png';  // Remplacez par le chemin de votre icône avant
-                iconBefore.style.width = size; // Ajustez la taille de l'icône
-                iconBefore.style.height = size; // Ajustez la taille de l'icône
-                const iconAfter = document.createElement('img');
-                iconAfter.src = '/icons/sun/coucher-du-soleil.png';  // Remplacez par le chemin de votre icône après
-                iconAfter.style.width = size; // Ajustez la taille de l'icône
-                iconAfter.style.height = size; // Ajustez la taille de l'icône
-                row.appendChild(iconBefore);
-            }
-
+            if (rowId === 'sun-week-row') row.appendChild(iconBefore);
             row.appendChild(cell);
             if (rowId === 'sun-week-row') row.appendChild(iconAfter);
         });
