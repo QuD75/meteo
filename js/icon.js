@@ -30,9 +30,19 @@ function getWindDirectionIcon(wind_deg) {
 async function getWeatherIcon(code, dayOrNight) {
     const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
-    return weatherData[code]
-        ? (dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night?.image || weatherData[code].day.image)
-        : '/icons/weather/wsymbol_0999_unknown.png';
+    // Vérification que l'élément pour le code existe dans weatherData
+    if (weatherData[code]) {
+        if (dayOrNight) {
+            // Si dayOrNight est défini, on retourne l'icône du jour ou de la nuit
+            return dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night.image;
+        } else {
+            // Si dayOrNight n'est pas défini, on retourne l'icône du jour par défaut
+            return weatherData[code].day.image;
+        }
+    } else {
+        // Si le code météo n'est pas trouvé, on retourne une icône par défaut
+        return '/icons/weather/wsymbol_0999_unknown.png';
+    }
 }
 async function fillWeatherSymbol(rowId, weathers, height, isDayToDisplay) {
     const row = document.getElementById(rowId);
