@@ -30,7 +30,7 @@ function createDatasets(x, y, borderColor, backgroundColor, secondaryDataWind, s
             x: 'Temperature Data',
             pointRadius: 0,
             data: secondaryDataTemp,
-            borderColor: 'rgba(139, 0, 0, 1)',
+            borderColor: 'red',
             tension: 0.5,
             cubicInterpolationMode: 'monotone',
         });
