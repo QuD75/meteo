@@ -261,6 +261,7 @@ td {
 .Rain canvas,
 .Wind canvas,
 .Pressure canvas {
+    max-height: 306px;
     background-color: var(--light-background) !important;
 }
 
