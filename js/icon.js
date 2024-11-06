@@ -47,6 +47,7 @@ async function fillWeatherSymbol(rowId, weathers, height, marginLeft, isDayToDis
         icon.src = await getWeatherIcon(value, isDayToDisplay?.[index]);
 
         // Ajoute l'icône dans la cellule et la cellule dans la ligne
+        cell.style.backgroundColor = 'white';
         cell.appendChild(icon);
         row.appendChild(cell);
     }
