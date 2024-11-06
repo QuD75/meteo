@@ -112,12 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
 
-        fillRow('temperature-24h-row', tempToDisplay, 0, null, getTempColor);
-        fillRow('rain-24h-row', rainToDisplay, 1, null, getRainColor);
-        fillRow('wind-24h-row', windSpeedToDisplay, 0, 5, getWindColor);
-        fillRow('wind-gust-24h-row', windGustToDisplay, 0, 5, getWindColor);
-        fillRow('pressure-24h-row', pressureToDisplay, 0, null, defaultColorFunc);
-        fillRow('uv-24h-row', uvToDisplay, 0, null, getUVColor);
+        fillRow(false, 'temperature-24h-row', tempToDisplay, 0, null, getTempColor);
+        fillRow(false, 'rain-24h-row', rainToDisplay, 1, null, getRainColor);
+        fillRow(false, 'wind-24h-row', windSpeedToDisplay, 0, 5, getWindColor);
+        fillRow(false, 'wind-gust-24h-row', windGustToDisplay, 0, 5, getWindColor);
+        fillRow(false, 'pressure-24h-row', pressureToDisplay, 0, null, defaultColorFunc);
+        fillRow(false, 'uv-24h-row', uvToDisplay, 0, null, getUVColor);
 
         // Remplit les données des différentes lignes avec symbole
         function fillWindDirSymbol(rowId, data, widht, marginLeft) {
