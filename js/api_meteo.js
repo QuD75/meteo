@@ -274,32 +274,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remplit les données des différentes lignes
     function fillRow(isHeading, rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
-
-        const iconBefore = document.createElement('img');
-        const iconAfter = document.createElement('img');
-
-        if (rowId === 'sun-week-row') {
-            const size = '10px';
-            iconBefore.src = '/icons/sun/lever-du-soleil.png';  // Remplacez par le chemin de votre icône avant
-            iconBefore.style.width = size; // Ajustez la taille de l'icône
-            iconBefore.style.height = size; // Ajustez la taille de l'icône
-            iconAfter.src = '/icons/sun/coucher-du-soleil.png';  // Remplacez par le chemin de votre icône après
-            iconAfter.style.width = size; // Ajustez la taille de l'icône
-            iconAfter.style.height = size; // Ajustez la taille de l'icône
-        }
-
+        
         data.forEach(value => {
             const cell = document.createElement(isHeading ? 'th' : 'td');
             const { color, textColor } = colorFunction(value);
             value = roundToNearestMultiple(value, decimals, floor);
             cell.style.backgroundColor = color;
             cell.style.color = textColor;
-            cell.textContent = value;
-            if (rowId === 'sun-week-row') row.appendChild(iconBefore);
+    
+            // Création des icônes pour chaque cellule (si applicable)
+            if (rowId === 'sun-week-row') {
+                const iconBefore = document.createElement('img');
+                const iconAfter = document.createElement('img');
+                const size = '15px';
+    
+                // Configuration de l'icône de lever de soleil
+                iconBefore.src = '/icons/sun/lever-du-soleil.png';
+                iconBefore.style.width = size;
+                iconBefore.style.height = 'auto';
+    
+                // Configuration de l'icône de coucher de soleil
+                iconAfter.src = '/icons/sun/coucher-du-soleil.png';
+                iconAfter.style.width = size;
+                iconAfter.style.height = 'auto';
+    
+                // Ajout des icônes avant et après le texte
+                cell.appendChild(iconBefore);
+                cell.appendChild(document.createTextNode(value));
+                cell.appendChild(iconAfter);
+            } else {
+                // Si ce n'est pas la ligne des heures de lever/coucher du soleil, ajoutez seulement le texte
+                cell.textContent = value;
+            }
+            
+            // Ajouter la cellule au row
             row.appendChild(cell);
-            if (rowId === 'sun-week-row') row.appendChild(iconAfter);
         });
     }
+    
 
     getApiData();
 });
