@@ -32,8 +32,8 @@ async function getWeatherIcon(code, dayOrNight) {
     const response = await fetch(`/icons/weather/weatherIcons.json`);
     const weatherData = await response.json();
     return weatherData[code]
-    ? (dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night?.image || weatherData[code].day.image)
-    : '/icons/weather/wsymbol_0999_unknown.png';
+        ? (dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night?.image || weatherData[code].day.image)
+        : '/icons/weather/wsymbol_0999_unknown.png';
 }
 async function fillWeatherSymbol(rowId, weathers, width, marginLeft, isDayToDisplay) {
     const row = document.getElementById(rowId);
@@ -45,7 +45,7 @@ async function fillWeatherSymbol(rowId, weathers, width, marginLeft, isDayToDisp
         putIconStyle(icon, width, 'auto%', 'contain', marginLeft);
 
         // Attend l'URL de l'icône avant de l'assigner
-        icon.src = await getWeatherIcon(value, isDayToDisplay[index]);
+        icon.src = await getWeatherIcon(value, isDayToDisplay?.[index]);
 
         // Ajoute l'icône dans la cellule et la cellule dans la ligne
         cell.appendChild(icon);
