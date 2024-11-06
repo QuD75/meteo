@@ -241,8 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Sélectionne les données pour les heures dans la plage souhaitée
         let timesToDisplay = times;
-        const sunriseToDisplay = jsonData.daily.sunrise;
-        const sunsetToDisplay = jsonData.daily.sunset;
+        let sunriseToDisplay = jsonData.daily.sunrise;
+        let sunsetToDisplay = jsonData.daily.sunset;
         const tempMinToDisplay = jsonData.daily.temperature_2m_min;
         const tempMaxToDisplay = jsonData.daily.temperature_2m_max;
         const rainToDisplay = jsonData.daily.precipitation_sum;
@@ -251,8 +251,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const weatherToDisplay = jsonData.daily.weather_code;
 
         timesToDisplay = timesToDisplay.map(date => new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' }));
-
+        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        let sunTimes = [];
+        sunTimes = sunriseToDisplay.map((value, index) => value + ' --> ' + sunsetToDisplay[index]);
+        
         fillRow('days-week-row', timesToDisplay, null, null, defaultColorFunc);
+        fillRow('sun-week-row', sunTimes, null, null, defaultColorFunc);
         fillRow('temp-min-week-row', tempMinToDisplay, 0, null, getTempColor);
         fillRow('temp-max-week-row', tempMaxToDisplay, 0, null, getTempColor);
         fillRow('rain-week-row', rainToDisplay, 1, null, getRainColor);
