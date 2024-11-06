@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (rowId === 'sun-week-row') {
                 const iconBefore = document.createElement('img');
                 const iconAfter = document.createElement('img');
-                const size = '15px';
+                const size = '20px';
     
                 // Configuration de l'icône de lever de soleil
                 iconBefore.src = '/icons/sun/lever-du-soleil.png';
