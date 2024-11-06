@@ -43,18 +43,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    //Fonctions pour le tableau 24h
-    function displayDataDay(jsonData) {
-        document.getElementById('loading-message-day').style.display = 'none';
-        document.getElementById('day-container-graphs').style.display = 'block';
+    function displayData(type, jsonData) {
+        // Variables génériques pour les éléments
+        const loadingMessage = document.getElementById(`loading-message-${type}`);
+        const containerGraphs = document.getElementById(`${type}-container-graphs`);
+        const containerTab = document.getElementById(`${type}-container-tab`);
+        const containerTabMobile = document.getElementById(`${type}-container-tab-mobile`);
 
+        // Masquer le message de chargement et afficher les graphiques
+        loadingMessage.style.display = 'none';
+        containerGraphs.style.display = 'block';
+
+        // Affichage en fonction de la plateforme
         if (!isMobile) {
-            document.getElementById('day-container-tab').style.display = 'block';
-            fillDayContainer(jsonData);
+            containerTab.style.display = 'block';
+            type === 'day' ? fillDayContainer(jsonData) : fillWeekContainer(jsonData); // Appel de la fonction appropriée
         } else {
-            document.getElementById('day-container-tab-mobile').style.display = 'block';
+            containerTabMobile.style.display = 'block';
         }
+    }
 
+    function displayDataDay(jsonData) {
+        displayData('day', jsonData);
     }
     function fillDayContainer(jsonData) {
         const now = new Date();
@@ -146,18 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('pressure-day-chart', timesToDisplay, pressureToDisplay, 1, 'Evolution de la pression dans les prochaines 24h', 'Heure', 'Pression (hPa)', 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
     }
 
-    //Fonctions pour le tableau semaine
     function displayDataWeek(jsonData) {
-        document.getElementById('loading-message-week').style.display = 'none';
-        document.getElementById('week-container-graphs').style.display = 'block';
-
-        if (!isMobile) {
-            document.getElementById('week-container-tab').style.display = 'block';
-            fillWeekContainer(jsonData);
-        } else {
-            document.getElementById('week-container-tab-mobile').style.display = 'block';
-        }
-
+        displayData('week', jsonData);
     }
     function fillWeekContainer(jsonData) {
         const times = jsonData.daily.time.map(time => new Date(time));
