@@ -254,15 +254,15 @@ document.addEventListener('DOMContentLoaded', () => {
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         let sunTimes = [];
-        sunTimes = sunriseToDisplay.map((value, index) => value + ' --> ' + sunsetToDisplay[index]);
-        
-        fillRow('th', 'days-week-row', timesToDisplay, null, null, defaultColorFunc);
-        fillRow('td', 'sun-week-row', sunTimes, null, null, defaultColorFunc);
-        fillRow('td', 'temp-min-week-row', tempMinToDisplay, 0, null, getTempColor);
-        fillRow('td', 'temp-max-week-row', tempMaxToDisplay, 0, null, getTempColor);
-        fillRow('td', 'rain-week-row', rainToDisplay, 1, null, getRainColor);
-        fillRow('td', 'wind-week-row', windGustToDisplay, 0, 5, getWindColor);
-        fillRow('td', 'uv-week-row', uvToDisplay, 0, null, getUVColor);
+        sunTimes = sunriseToDisplay.map((value, index) => value + ' - ' + sunsetToDisplay[index]);
+
+        fillRow(true, 'days-week-row', timesToDisplay, null, null, defaultColorFunc);
+        fillRow(false, 'sun-week-row', sunTimes, null, null, defaultColorFunc);
+        fillRow(false, 'temp-min-week-row', tempMinToDisplay, 0, null, getTempColor);
+        fillRow(false, 'temp-max-week-row', tempMaxToDisplay, 0, null, getTempColor);
+        fillRow(false, 'rain-week-row', rainToDisplay, 1, null, getRainColor);
+        fillRow(false, 'wind-week-row', windGustToDisplay, 0, 5, getWindColor);
+        fillRow(false, 'uv-week-row', uvToDisplay, 0, null, getUVColor);
 
         fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', 0, null);
 
@@ -272,16 +272,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Remplit les données des différentes lignes
-    function fillRow(type, rowId, data, decimals, floor, colorFunction) {
+    function fillRow(isHeading, rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
         data.forEach(value => {
-            const cell = document.createElement(type);
+            const cell = document.createElement(isHeading ? 'th' : 'td');
             const { color, textColor } = colorFunction(value);
             value = roundToNearestMultiple(value, decimals, floor);
             cell.style.backgroundColor = color;
             cell.style.color = textColor;
             cell.textContent = value;
+
+            if (rowId === 'sun-week-row') {
+                const size = '10px';
+                const iconBefore = document.createElement('img');
+                iconBefore.src = '/icons/sun/lever-du-soleil.png';  // Remplacez par le chemin de votre icône avant
+                iconBefore.style.width = size; // Ajustez la taille de l'icône
+                iconBefore.style.height = size; // Ajustez la taille de l'icône
+                const iconAfter = document.createElement('img');
+                iconAfter.src = '/icons/sun/coucher-du-soleil.png';  // Remplacez par le chemin de votre icône après
+                iconAfter.style.width = size; // Ajustez la taille de l'icône
+                iconAfter.style.height = size; // Ajustez la taille de l'icône
+                row.appendChild(iconBefore);
+            }
+
             row.appendChild(cell);
+            if (rowId === 'sun-week-row') row.appendChild(iconAfter);
         });
     }
 
