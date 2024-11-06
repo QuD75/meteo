@@ -57,9 +57,12 @@ function createChart(elementId, x, y, step, title, yAxisLabel, round, chartType,
                     font: { size: 20 }
                 }
             },
+            animation: {
+                duration: 0  // Désactive l'animation
+            },
             scales: {
                 x: {
-                    title: { display: false},
+                    title: { display: false },
                     ticks: { maxRotation: 30, minRotation: 30 },
                 },
                 y: {
