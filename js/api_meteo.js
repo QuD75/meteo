@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rootStyles = getComputedStyle(document.documentElement);
             const primaryColor = rootStyles.getPropertyValue('--primary-color').trim();
             data.forEach(value => {
-                
+
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
                 putIconStyle(icon, widht, 'auto%', 'contain');
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         let sunTimes = [];
-        sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + '');
+        sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + ' ');
 
         fillRow(true, 'days-week-row', timesToDisplay, null, null, defaultColorFunc);
         fillRow(false, 'sun-week-row', sunTimes, null, null, defaultColorFunc);
