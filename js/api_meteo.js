@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow(false, 'uv-24h-row', uvToDisplay, 0, null, getUVColor);
 
         // Remplit les données des différentes lignes avec symbole
-        function fillWindDirSymbol(rowId, data, widht, marginLeft) {
+        function fillWindDirSymbol(rowId, data, widht) {
             const row = document.getElementById(rowId);
             const rootStyles = getComputedStyle(document.documentElement);
             const primaryColor = rootStyles.getPropertyValue('--primary-color').trim();
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const cell = document.createElement('td');
                 const icon = document.createElement('img');
-                putIconStyle(icon, widht, 'auto%', 'contain', marginLeft);
+                putIconStyle(icon, widht, 'auto%', 'contain');
                 icon.src = getWindDirectionIcon(value);
                 cell.style.backgroundColor = 'white';
                 cell.appendChild(icon);
@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        fillWindDirSymbol('wind-direction-24h-row', windDirectionToDisplay, '65%', 0);
-        fillWeatherSymbol('weather-24h-row', weatherToDisplay, '100%', 0, isDayToDisplay);
+        fillWindDirSymbol('wind-direction-24h-row', windDirectionToDisplay, '65%');
+        fillWeatherSymbol('weather-24h-row', weatherToDisplay, '100%', isDayToDisplay);
 
         timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
         createChartOM('temperature-day-chart', timesToDisplay, tempToDisplay, 1, 'Evolution de la température dans les prochaines 24h', 'Heure', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fillRow(false, 'wind-week-row', windGustToDisplay, 0, 5, getWindColor);
         fillRow(false, 'uv-week-row', uvToDisplay, 0, null, getUVColor);
 
-        fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', 0, null);
+        fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', null);
 
         createChartOM('temperature-week-chart', timesToDisplay, tempMinToDisplay, 1, 'Evolution de la température dans les prochaines 24h', 'Heure', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)', tempMaxToDisplay);
         createChartOM('precipitation-week-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations dans les prochaines 24h', 'Heure', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');

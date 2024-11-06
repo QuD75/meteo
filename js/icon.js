@@ -1,9 +1,8 @@
 //Fonctions d'icones
-function putIconStyle(weatherIcon, width, height, objectFit, marginLeft) {
+function putIconStyle(weatherIcon, width, height, objectFit) {
     weatherIcon.style.width = width;
     weatherIcon.style.height = height;
     weatherIcon.style.objectFit = objectFit;
-    weatherIcon.style.marginLeft = marginLeft;
 }
 function getWindDirectionIcon(wind_deg) {
     const directions = [
@@ -34,14 +33,14 @@ async function getWeatherIcon(code, dayOrNight) {
         ? (dayOrNight === 1 ? weatherData[code].day.image : weatherData[code].night?.image || weatherData[code].day.image)
         : '/icons/weather/wsymbol_0999_unknown.png';
 }
-async function fillWeatherSymbol(rowId, weathers, height, marginLeft, isDayToDisplay) {
+async function fillWeatherSymbol(rowId, weathers, height, isDayToDisplay) {
     const row = document.getElementById(rowId);
     for (const [index, value] of weathers.entries()) {
         const cell = document.createElement('td');
         const icon = document.createElement('img');
 
         // Configure le style de l'icône
-        putIconStyle(icon, 'auto', height, 'contain', marginLeft);
+        putIconStyle(icon, 'auto', height, 'contain');
 
         // Attend l'URL de l'icône avant de l'assigner
         icon.src = await getWeatherIcon(value, isDayToDisplay?.[index]);
