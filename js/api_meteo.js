@@ -188,6 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        console.log("Hours per day", hoursPerDay);
+        console.log("Times to display", timesToDisplay);
+
         let previousDayName = '';
 
         timesToDisplay.forEach(async (time, index) => {
