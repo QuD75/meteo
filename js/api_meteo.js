@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillRowMobile(row, value, decimals, floor, colorFunction) {
         const cell = document.createElement("td");
         const { color, textColor } = colorFunction(value);
-        const value = roundToNearestMultiple(value, decimals, floor);
+        value = roundToNearestMultiple(value, decimals, floor);
         cell.style.backgroundColor = color;
         cell.style.color = textColor;
         cell.textContent = value;
