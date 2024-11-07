@@ -188,13 +188,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        console.log("Hours per day", hoursPerDay);
-        console.log("Times to display", timesToDisplay);
-
         let previousDayName = '';
 
         timesToDisplay.forEach(async (time, index) => {
             const hour = new Date(time).getHours();
+
+            console.log("Time: ", time);
+            console.log("Index: ", index);
 
             // Crée une nouvelle ligne dans le tableau
             const row = document.createElement("tr");
