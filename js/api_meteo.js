@@ -62,6 +62,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function getHoursPerDay(timesToDisplay){
+        const hoursPerDay = {}
+        
+        timesToDisplay.forEach(date => {
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+
+            // Si c'est un nouveau jour, on initialise la cellule de jour
+            if (!hoursPerDay[dayName]) {
+                hoursPerDay[dayName] = 1; // Commence le comptage des heures
+            } else {
+                hoursPerDay[dayName]++;
+            }
+        });
+
+        return hoursPerDay;
+    }
+
     function displayDataDay(jsonData) {
         const loadingMessage = document.getElementById(`loading-message-day`);
         const containerGraphs = document.getElementById(`day-container-graphs`);
@@ -175,18 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.querySelector("#weather-day-tab-mobile tbody");
 
         // Crée un objet pour stocker le nombre d'heures par jour
-        const hoursPerDay = {};
-
-        // Parcours des heures pour créer les cellules fusionnées pour chaque jour
-        timesToDisplay.forEach(date => {
-            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
-            // Si c'est un nouveau jour, on initialise la cellule de jour
-            if (!hoursPerDay[dayName]) {
-                hoursPerDay[dayName] = 1; // Commence le comptage des heures
-            } else {
-                hoursPerDay[dayName]++;
-            }
-        });
+        const hoursPerDay = getHoursPerDay(timesToDisplay);
 
         let previousDayName = '';
 
