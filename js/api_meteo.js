@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const lat = '47.29';
     const long = '-2.52';
-    //const dep = '44';
-    const dep = '66';
+    const dep = '44';
     const urlVigilance = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id=${dep}&limit=20`
     const urlOpenMeteoDay = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,precipitation,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day&forecast_days=2&timezone=Europe%2FBerlin`;
     const urlOpenMeteoWeek = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,wind_gusts_10m_max&timezone=Europe%2FBerlin`;
@@ -62,24 +61,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fillDayContainer(jsonData) {
         const now = new Date();
-        const startHour = now.getHours(); // Utilise getUTCHours pour l'heure en UTC
-        const hoursToDisplay = 24; // Nombre d'heures à afficher (de l'heure actuelle jusqu'à +23 heures)
+        const startHour = now.getHours(); // Heure locale
 
         // Récupère les heures à partir de l'heure actuelle jusqu'à +23 heures
         const times = jsonData.hourly.time.map(time => new Date(time));
-        const startIndex = times.findIndex(time => time.getHours() === startHour);
+        const beginIndex = times.findIndex(time => time.getHours() === startHour);
+        const endIndex = beginIndex + 24;
 
         // Sélectionne les données pour les heures dans la plage souhaitée
-        let timesToDisplay = times.slice(startIndex, startIndex + hoursToDisplay);
-        const tempToDisplay = jsonData.hourly.temperature_2m.slice(startIndex, startIndex + hoursToDisplay);
-        const rainToDisplay = jsonData.hourly.precipitation.slice(startIndex, startIndex + hoursToDisplay);
-        const windSpeedToDisplay = jsonData.hourly.wind_speed_10m.slice(startIndex, startIndex + hoursToDisplay);
-        const windGustToDisplay = jsonData.hourly.wind_gusts_10m.slice(startIndex, startIndex + hoursToDisplay);
-        const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(startIndex, startIndex + hoursToDisplay);
-        const pressureToDisplay = jsonData.hourly.pressure_msl.slice(startIndex, startIndex + hoursToDisplay);
-        const uvToDisplay = jsonData.hourly.uv_index.slice(startIndex, startIndex + hoursToDisplay);
-        const weatherToDisplay = jsonData.hourly.weather_code.slice(startIndex, startIndex + hoursToDisplay);
-        const isDayToDisplay = jsonData.hourly.is_day.slice(startIndex, startIndex + hoursToDisplay);
+        let timesToDisplay = times.slice(beginIndex, endIndex);
+        const tempToDisplay = jsonData.hourly.temperature_2m.slice(beginIndex, endIndex);
+        const rainToDisplay = jsonData.hourly.precipitation.slice(beginIndex, endIndex);
+        const windSpeedToDisplay = jsonData.hourly.wind_speed_10m.slice(beginIndex, endIndex);
+        const windGustToDisplay = jsonData.hourly.wind_gusts_10m.slice(beginIndex, endIndex);
+        const windDirectionToDisplay = jsonData.hourly.wind_direction_10m.slice(beginIndex, endIndex);
+        const pressureToDisplay = jsonData.hourly.pressure_msl.slice(beginIndex, endIndex);
+        const uvToDisplay = jsonData.hourly.uv_index.slice(beginIndex, endIndex);
+        const weatherToDisplay = jsonData.hourly.weather_code.slice(beginIndex, endIndex);
+        const isDayToDisplay = jsonData.hourly.is_day.slice(beginIndex, endIndex);
 
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
@@ -154,10 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
         displayData('week', jsonData);
     }
     function fillWeekContainer(jsonData) {
-        const times = jsonData.daily.time.map(time => new Date(time));
-
         // Sélectionne les données pour les heures dans la plage souhaitée
-        let timesToDisplay = times;
+        let timesToDisplay = jsonData.daily.time.map(time => new Date(time));
         let sunriseToDisplay = jsonData.daily.sunrise;
         let sunsetToDisplay = jsonData.daily.sunset;
         const tempMinToDisplay = jsonData.daily.temperature_2m_min;
