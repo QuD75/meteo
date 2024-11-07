@@ -188,11 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const previousDayName = '';
+        let previousDayName = '';
 
         timesToDisplay.forEach(async (time, index) => {
-            const date = new Date(time);
-            const hour = date.getHours();
+            const hour = new Date(time).getHours();
 
             // Crée une nouvelle ligne dans le tableau
             const row = document.createElement("tr");
