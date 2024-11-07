@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, windSpeedToDisplay[index], 0, 5, getWindColor);
             fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
 
-            /*
+            
             const windDirCell = document.createElement("td");
             const windDirIcon = document.createElement('img');
             windDirIcon.src = getWindDirectionIcon(windDirectionToDisplay[index]);
@@ -217,7 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
             windDirCell.appendChild(windDirIcon);
             row.appendChild(windDirCell);
 
+            
+
             fillRowMobile(row, pressureToDisplay[index], 0, null, defaultColorFunc);
+            /*
 
             const weatherCodeCell = document.createElement("td");
             const weatherIcon = document.createElement('img');
