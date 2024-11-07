@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
 
             // Ajoute la ligne au tableau
-            tableBody.appendChild(row);
+            tbody.appendChild(row);
         });
     }
 
