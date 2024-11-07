@@ -193,9 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
         timesToDisplay.forEach(async (time, index) => {
             const hour = new Date(time).getHours();
 
-            console.log("Time: ", time);
-            console.log("Index: ", index);
-
             // Crée une nouvelle ligne dans le tableau
             const row = document.createElement("tr");
 
@@ -211,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const hourCell = document.createElement("td");
             hourCell.textContent = hour;
             row.appendChild(hourCell);
-
+/*
             fillRowMobile(row, tempToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
             fillRowMobile(row, windSpeedToDisplay[index], 0, 5, getWindColor);
@@ -236,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(weatherCodeCell);
 
             fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
+            */
 
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
