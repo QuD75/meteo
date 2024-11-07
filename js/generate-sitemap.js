@@ -16,7 +16,7 @@ const sitemapTemplate = `
       <priority>1.0</priority>
    </url>
    <url>
-      <loc>https://qud75.github.io/pages/previsions.htmk</loc>
+      <loc>https://qud75.github.io/pages/previsions-meteo.html</loc>
       <lastmod>${getCurrentDate()}</lastmod>
       <priority>1.0</priority>
    </url>
