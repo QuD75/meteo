@@ -122,25 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysRow = document.getElementById('days-24h-row');
         const hoursRow = document.getElementById('hours-24h-row');
 
-        // Crée un objet pour stocker le nombre d'heures par jour
-        const hoursPerDay = {};
+        const hoursPerDay = getHoursPerDay(timesToDisplay);
 
         // Parcours des heures pour créer les cellules fusionnées pour chaque jour
         timesToDisplay.forEach(date => {
-            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
             const hour = date.getHours();
-
-            // Si c'est un nouveau jour, on initialise la cellule de jour
-            if (!hoursPerDay[dayName]) {
-                hoursPerDay[dayName] = 1; // Commence le comptage des heures
-                const dayCell = document.createElement('th');
-                dayCell.textContent = dayName;
-                dayCell.colSpan = 1; // Initialement, on ne fusionne pas
-                daysRow.appendChild(dayCell);
-            } else {
-                hoursPerDay[dayName]++;
-            }
-
             // Remplit les entêtes des heures
             const hourCell = document.createElement('th');
             hourCell.textContent = `${hour}h`;
@@ -149,9 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Met à jour la colonne des jours pour fusionner correctement
         Object.entries(hoursPerDay).forEach(([dayName, count], index) => {
-            const dayCell = daysRow.children[index + 1]; //A cause de la cellule 'Paramètres'
+            let dayCell = document.createElement('th');
+            dayCell = daysRow.children[index + 1]; //A cause de la cellule 'Paramètres'
+            dayCell.textContent = dayName;
             dayCell.colSpan = count; // Met à jour la colSpan avec le nombre d'heures
-
+            daysRow.appendChild(dayCell);
         });
 
         fillRowDesktop(false, 'temperature-24h-row', tempToDisplay, 0, null, getTempColor);
