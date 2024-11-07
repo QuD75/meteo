@@ -208,9 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const hourCell = document.createElement("td");
             hourCell.textContent = hour;
             row.appendChild(hourCell);
-/*
+
             fillRowMobile(row, tempToDisplay[index], 0, null, getTempColor);
-            fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
+            /*fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
             fillRowMobile(row, windSpeedToDisplay[index], 0, 5, getWindColor);
             fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
 
