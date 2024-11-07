@@ -62,23 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function getHoursPerDay(timesToDisplay){
-        const hoursPerDay = {}
-        
-        timesToDisplay.forEach(date => {
-            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
-
-            // Si c'est un nouveau jour, on initialise la cellule de jour
-            if (!hoursPerDay[dayName]) {
-                hoursPerDay[dayName] = 1; // Commence le comptage des heures
-            } else {
-                hoursPerDay[dayName]++;
-            }
-        });
-
-        return hoursPerDay;
-    }
-
     function displayDataDay(jsonData) {
         const loadingMessage = document.getElementById(`loading-message-day`);
         const containerGraphs = document.getElementById(`day-container-graphs`);
@@ -208,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, windSpeedToDisplay[index], 0, 5, getWindColor);
             fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
 
-            
             const windDirCell = document.createElement("td");
             const windDirIcon = document.createElement('img');
             windDirIcon.src = getWindDirectionIcon(windDirectionToDisplay[index]);
@@ -217,10 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             windDirCell.appendChild(windDirIcon);
             row.appendChild(windDirCell);
 
-            
-
             fillRowMobile(row, pressureToDisplay[index], 0, null, defaultColorFunc);
-            /*
 
             const weatherCodeCell = document.createElement("td");
             const weatherIcon = document.createElement('img');
@@ -229,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherCodeCell.style.backgroundColor = 'white';
             weatherCodeCell.appendChild(weatherIcon);
             row.appendChild(weatherCodeCell);
+            /*
 
             fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
             */
@@ -274,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('wind-week-chart', timesToDisplay, windGustToDisplay, 5, 'Evolution du vent sur la semaine', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
     }
 
-    // Remplit les données des différentes lignes
     function fillRowDesktop(isHeading, rowId, data, decimals, floor, colorFunction) {
         const row = document.getElementById(rowId);
 
@@ -322,6 +301,22 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.style.color = textColor;
         cell.textContent = value;
         row.appendChild(cell);
+    }
+    function getHoursPerDay(timesToDisplay){
+        const hoursPerDay = {}
+        
+        timesToDisplay.forEach(date => {
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+
+            // Si c'est un nouveau jour, on initialise la cellule de jour
+            if (!hoursPerDay[dayName]) {
+                hoursPerDay[dayName] = 1; // Commence le comptage des heures
+            } else {
+                hoursPerDay[dayName]++;
+            }
+        });
+
+        return hoursPerDay;
     }
 
     getApiData();
