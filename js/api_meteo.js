@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchData(apiUrl, cacheKey, duration, displayFunction) {
         const now = Date.now();
         const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-        if (cachedData && (now - cachedData.timestamp < duration * 60 * 1000)) {
+        if (cachedData && (now - cachedData.timestamp < duration * 60000)) {
             displayFunction(cachedData.data);
             return cachedData.data;
         } else {
