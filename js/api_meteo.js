@@ -174,27 +174,37 @@ document.addEventListener('DOMContentLoaded', () => {
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector("#weather-day-tab-mobile tbody");
 
-        let currentDay = null;
-        let rowSpan = 0;
+        // Crée un objet pour stocker le nombre d'heures par jour
+        const hoursPerDay = {};
+
+        // Parcours des heures pour créer les cellules fusionnées pour chaque jour
+        timesToDisplay.forEach(date => {
+            const dayName = date.toLocaleDateString('fr-FR', { weekday: 'long' });
+            // Si c'est un nouveau jour, on initialise la cellule de jour
+            if (!hoursPerDay[dayName]) {
+                hoursPerDay[dayName] = 1; // Commence le comptage des heures
+            } else {
+                hoursPerDay[dayName]++;
+            }
+        });
+
+        const previousDayName = '';
 
         timesToDisplay.forEach(async (time, index) => {
             const date = new Date(time);
-            const day = date.toLocaleDateString('fr-FR', { weekday: 'long' });
             const hour = date.getHours();
 
             // Crée une nouvelle ligne dans le tableau
             const row = document.createElement("tr");
 
-            // Si c'est le début d'une nouvelle journée, insérer une cellule fusionnée
-            if (day !== currentDay) {
-                const dayCell = document.createElement("td");
-                dayCell.textContent = day;
-                rowSpan = timesToDisplay.filter(h => new Date(h).toLocaleDateString('fr-FR') === date.toLocaleDateString('fr-FR')).length;
-                dayCell.rowSpan = rowSpan;
+            const dayCell = document.createElement("td");
+            const dayName = time.toLocaleDateString('fr-FR', { weekday: 'long' });
+            if (previousDayName !== dayName) {
+                dayCell.rowSpan = hoursPerDay[dayName];
+                dayCell.textContent = dayName;
                 row.appendChild(dayCell);
-                currentDay = day;
+                previousDayName = dayName;
             }
-
             // Ajout des autres cellules pour chaque heure
             const hourCell = document.createElement("td");
             hourCell.textContent = hour;
