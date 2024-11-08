@@ -274,6 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
             fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
 
+            console.log(row);
+
             // Remplir la cellule du code météo avec une fonction asynchrone
             const weatherCodeCell = document.createElement('td');
             const weatherIcon = document.createElement('img');
@@ -282,9 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherCodeCell.style.backgroundColor = 'white';
             weatherCodeCell.appendChild(weatherIcon);
             row.appendChild(weatherCodeCell);
-
-            console.log(sunriseToDisplay[index]);
-            console.log(sunsetToDisplay[index]);
 
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
