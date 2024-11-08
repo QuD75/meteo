@@ -248,10 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', null);
     }
     async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
-        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
-        const sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + ' ');
-
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector('#weather-week-tab-mobile tbody');
 
@@ -267,10 +263,11 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(dayCell);
             console.log(row);
 
+            sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+            sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
             // Remplir les colonnes de données avec des fonctions asynchrones
             const sunTimes = sunriseToDisplay[index] + ' - ' + sunsetToDisplay[index];
             fillRowMobile(row, sunTimes, 0, null, defaultColorFunc);
-            console.log(row);
             fillRowMobile(row, tempMinToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, tempMaxToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
