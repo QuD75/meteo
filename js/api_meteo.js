@@ -236,8 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillWeekContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(date, false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
-        let sunTimes = [];
-        sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + ' ');
+        const sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + ' ');
 
         fillRowDesktop(true, 'days-week-row', timesToDisplay, null, null, defaultColorFunc);
         fillRowDesktop(false, 'sun-week-row', sunTimes, null, null, defaultColorFunc);
@@ -251,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        const sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + ' ');
 
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector('#weather-week-tab-mobile tbody');
@@ -267,14 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(dayCell);
 
             // Remplir les colonnes de données avec des fonctions asynchrones
-            fillRowMobile(row, sunriseToDisplay[index] + ' - ' + sunsetToDisplay[index], 0, null, defaultColorFunc);
+            fillRowMobile(row, sunTimes[index], 0, null, defaultColorFunc);
             fillRowMobile(row, tempMinToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, tempMaxToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
             fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
             fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
-
-            console.log(row);
 
             // Remplir la cellule du code météo avec une fonction asynchrone
             const weatherCodeCell = document.createElement('td');
