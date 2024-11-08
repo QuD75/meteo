@@ -283,7 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherCodeCell.appendChild(weatherIcon);
             row.appendChild(weatherCodeCell);
 
-            console.log(row);
+            console.log(sunriseToDisplay[index]);
+            console.log(sunsetToDisplay[index]);
 
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
