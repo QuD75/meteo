@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     async function fillDayMobileContainer(timesToDisplay, tempToDisplay, rainToDisplay, windSpeedToDisplay, windGustToDisplay, windDirectionToDisplay, pressureToDisplay, uvToDisplay, weatherToDisplay, isDayToDisplay) {
         // Récupération de l'élément tbody du tableau
-        const tbody = document.querySelector("#weather-day-tab-mobile tbody");
+        const tbody = document.querySelector('#weather-day-tab-mobile tbody');
 
         // Crée un objet pour stocker le nombre d'heures par jour
         const hoursPerDay = getHoursPerDay(timesToDisplay);
@@ -147,10 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const hour = time.getHours();
 
             // Crée une nouvelle ligne dans le tableau
-            const row = document.createElement("tr");
+            const row = document.createElement('tr');
 
             // Gestion de la fusion des lignes de jours
-            const dayCell = document.createElement("td");
+            const dayCell = document.createElement('td');
             const dayName = time.toLocaleDateString('fr-FR', { weekday: 'long' });
 
             if (previousDayName !== dayName) {
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Ajout des autres cellules pour chaque heure
-            const hourCell = document.createElement("td");
+            const hourCell = document.createElement('td');
             hourCell.textContent = `${hour}h`;
             row.appendChild(hourCell);
 
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
 
             // Remplir la cellule de direction du vent
-            const windDirCell = document.createElement("td");
+            const windDirCell = document.createElement('td');
             const windDirIcon = document.createElement('img');
             windDirIcon.src = getWindDirectionIcon(windDirectionToDisplay[index]);
             putIconStyle(windDirIcon, '15px', '15px', '15px', '15px', 'contain');
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, pressureToDisplay[index], 0, null, defaultColorFunc);
 
             // Remplir la cellule du code météo avec une fonction asynchrone
-            const weatherCodeCell = document.createElement("td");
+            const weatherCodeCell = document.createElement('td');
             const weatherIcon = document.createElement('img');
             weatherIcon.src = await getWeatherIcon(weatherToDisplay[index], isDayToDisplay[index]);
             putIconStyle(weatherIcon, '30px', '30px', '30px', '30px', 'contain', 0.9);
@@ -253,15 +253,15 @@ document.addEventListener('DOMContentLoaded', () => {
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
 
         // Récupération de l'élément tbody du tableau
-        const tbody = document.querySelector("#weather-week-tab-mobile tbody");
+        const tbody = document.querySelector('#weather-week-tab-mobile tbody');
 
         // Utiliser une boucle for...of avec un index pour conserver l'ordre
         for (const [index, time] of timesToDisplay.entries()) {
             // Crée une nouvelle ligne dans le tableau
-            const row = document.createElement("tr");
+            const row = document.createElement('tr');
 
             // Jours
-            const dayCell = document.createElement("td");
+            const dayCell = document.createElement('td');
             const dayName = new Date(time).toLocaleDateString('fr-FR', { weekday: 'long' });
             dayCell.textContent = dayName;
             row.appendChild(dayCell);
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
 
             // Remplir la cellule du code météo avec une fonction asynchrone
-            const weatherCodeCell = document.createElement("td");
+            const weatherCodeCell = document.createElement('td');
             const weatherIcon = document.createElement('img');
             weatherIcon.src = await getWeatherIcon(weatherToDisplay[index]);
             putIconStyle(weatherIcon, '30px', '30px', '30px', '30px', 'contain', 0.9);
@@ -284,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(weatherCodeCell);
 
             // Ajoute la ligne au tableau
+            console.log("row", row);
             tbody.appendChild(row);
         }
     }
@@ -328,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     function fillRowMobile(row, value, decimals, floor, colorFunction) {
-        const cell = document.createElement("td");
+        const cell = document.createElement('td');
         const { color, textColor } = colorFunction(value);
         value = roundToNearestMultiple(value, decimals, floor);
         cell.style.backgroundColor = color;
