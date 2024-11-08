@@ -191,6 +191,7 @@ td {
         height: 15px;
         padding: 0 !important;
         border: 1px solid var(--border-color);
+        overflow: hidden;
     }
 }
 
