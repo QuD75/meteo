@@ -269,7 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Remplir les colonnes de données avec des fonctions asynchrones
             const sunTimes = sunriseToDisplay[index] + ' - ' + sunsetToDisplay[index];
-            console.log(sunTimes);
             fillRowMobile(row, sunTimes, 0, null, defaultColorFunc);
             console.log(row);
             fillRowMobile(row, tempMinToDisplay[index], 0, null, getTempColor);
