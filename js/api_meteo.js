@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const windDirCell = document.createElement("td");
             const windDirIcon = document.createElement('img');
             windDirIcon.src = getWindDirectionIcon(windDirectionToDisplay[index]);
-            putIconStyle(windDirIcon, '10px', '10px', '10px', '10px', 'contain');
+            putIconStyle(windDirIcon, '15px', '15px', '15px', '15px', 'contain');
             windDirCell.style.backgroundColor = 'white';
             windDirCell.appendChild(windDirIcon);
             row.appendChild(windDirCell);
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const weatherCodeCell = document.createElement("td");
             const weatherIcon = document.createElement('img');
             weatherIcon.src = await getWeatherIcon(weatherToDisplay[index], isDayToDisplay[index]);
-            putIconStyle(weatherIcon, '10px', '10px', '10px', '10px', 'contain', 0.9);
+            putIconStyle(weatherIcon, '15px', '15px', '15px', '15px', 'contain', 0.9);
             weatherCodeCell.style.backgroundColor = 'white';
             weatherCodeCell.appendChild(weatherIcon);
             row.appendChild(weatherCodeCell);
