@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayName = new Date(time).toLocaleDateString('fr-FR', { weekday: 'long' });
             dayCell.textContent = dayName;
             row.appendChild(dayCell);
+            console.log(row);
 
             // Remplir les colonnes de données avec des fonctions asynchrones
             const sunTimes = sunriseToDisplay[index] + ' - ' + sunsetToDisplay[index];
