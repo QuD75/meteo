@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
             fillDayMobileContainer(timesToDisplay, tempToDisplay, rainToDisplay, windSpeedToDisplay, windGustToDisplay, windDirectionToDisplay, pressureToDisplay, uvToDisplay, weatherToDisplay, isDayToDisplay);
             containerTabMobile.style.display = 'block';
         }
+
+        timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
         createChart('temperature-day-chart', timesToDisplay, tempToDisplay, 1, 'Evolution de la température dans les prochaines 24h', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations dans les prochaines 24h', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-day-chart', timesToDisplay, windSpeedToDisplay, 5, 'Evolution du vent dans les prochaines 24h', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
@@ -130,8 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fillWindDirSymbol('wind-direction-24h-row', windDirectionToDisplay, '65%');
         fillWeatherSymbol('weather-24h-row', weatherToDisplay, '100%', isDayToDisplay);
-
-        timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
     }
     async function fillDayMobileContainer(timesToDisplay, tempToDisplay, rainToDisplay, windSpeedToDisplay, windGustToDisplay, windDirectionToDisplay, pressureToDisplay, uvToDisplay, weatherToDisplay, isDayToDisplay) {
         // Récupération de l'élément tbody du tableau
@@ -196,8 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
         }
-
-        timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
     }
 
     function displayDataWeek(jsonData) {
@@ -211,12 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
         containerGraphs.style.display = 'block';
 
         // Sélectionne les données pour les heures dans la plage souhaitée
-        const timesToDisplay = jsonData.daily.time.map(time => new Date(time));
+        let timesToDisplay = jsonData.daily.time.map(time => new Date(time));
         const sunriseToDisplay = jsonData.daily.sunrise;
         const sunsetToDisplay = jsonData.daily.sunset;
         const tempMinToDisplay = jsonData.daily.temperature_2m_min;
         const tempMaxToDisplay = jsonData.daily.temperature_2m_max;
-        const rainToDisplay =  jsonData.daily.precipitation_sum;
+        const rainToDisplay = jsonData.daily.precipitation_sum;
         const weatherToDisplay = jsonData.daily.weather_code;
         const windGustToDisplay = jsonData.daily.wind_gusts_10m_max;
         const uvToDisplay = jsonData.daily.uv_index_max;
@@ -229,12 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
             fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay);
             containerTabMobile.style.display = 'block';
         }
+
+        timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
         createChart('temperature-week-chart', timesToDisplay, tempMinToDisplay, 1, 'Evolution de la température sur la semaine', 'Température (°C)', 0, 'line', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)', null, tempMaxToDisplay);
         createChart('precipitation-week-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations sur la semaine', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-week-chart', timesToDisplay, windGustToDisplay, 5, 'Evolution du vent sur la semaine', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
     }
     function fillWeekContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        timesToDisplay = timesToDisplay.map(date => date.toLocaleDateString('fr-FR', { weekday: 'long' }));
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(date, false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
         let sunTimes = [];
@@ -250,10 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', null);
     }
     async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        timesToDisplay = timesToDisplay.map(date => date.toLocaleDateString('fr-FR', { weekday: 'long' }));
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(date, false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
-        
+
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector("#weather-week-tab-mobile tbody");
 
