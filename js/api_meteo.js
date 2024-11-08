@@ -36,33 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function displayData(type, jsonData) {
-        // Variables génériques pour les éléments
-        const loadingMessage = document.getElementById(`loading-message-${type}`);
-        const containerGraphs = document.getElementById(`${type}-container-graphs`);
-        const containerTab = document.getElementById(`${type}-container-tab`);
-        const containerTabMobile = document.getElementById(`${type}-container-tab-mobile`);
-
-        // Masquer le message de chargement et afficher les graphiques
-        loadingMessage.style.display = 'none';
-    
-        // Affichage en fonction de la plateforme
-        if (!isMobile) {
-            if (type === 'day') {
-                fillDayContainer(jsonData)
-            }
-            if (type === 'week') {
-                fillWeekContainer(jsonData);
-            }
-            containerTab.style.display = 'block';
-            
-        } else {
-            type === 'day' ? fillDayMobileContainer(jsonData) : fillWeekContainer(jsonData); // Appel de la fonction appropriée
-            containerTabMobile.style.display = 'block';
-        }
-        containerGraphs.style.display = 'block';
-    }
-
     function displayDataDay(jsonData) {
         const loadingMessage = document.getElementById(`loading-message-day`);
         const containerGraphs = document.getElementById(`day-container-graphs`);
@@ -188,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Ajout des autres cellules pour chaque heure
             const hourCell = document.createElement("td");
-            hourCell.textContent = hour;
+            hourCell.textContent = `${hour}h`;
             row.appendChild(hourCell);
 
             // Remplir les colonnes de données avec des fonctions asynchrones
@@ -232,20 +205,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayDataWeek(jsonData) {
-        displayData('week', jsonData);
-    }
-    function fillWeekContainer(jsonData) {
+        const loadingMessage = document.getElementById(`loading-message-week`);
+        const containerGraphs = document.getElementById(`week-container-graphs`);
+        const containerTab = document.getElementById(`week-container-tab`);
+        const containerTabMobile = document.getElementById(`week-container-tab-mobile`);
+
+        // Masquer le message de chargement et afficher les graphiques
+        loadingMessage.style.display = 'none';
+        containerGraphs.style.display = 'block';
+
         // Sélectionne les données pour les heures dans la plage souhaitée
-        let timesToDisplay = jsonData.daily.time.map(time => new Date(time));
-        let sunriseToDisplay = jsonData.daily.sunrise;
-        let sunsetToDisplay = jsonData.daily.sunset;
+        let timesToDisplay = times;
+        const sunriseToDisplay = jsonData.daily.sunrise;
+        const sunsetToDisplay = jsonData.daily.sunset;
         const tempMinToDisplay = jsonData.daily.temperature_2m_min;
         const tempMaxToDisplay = jsonData.daily.temperature_2m_max;
-        const rainToDisplay = jsonData.daily.precipitation_sum;
+        const rainToDisplay =  jsonData.daily.precipitation_sum;
+        const weatherToDisplay = jsonData.daily.weather_code;
         const windGustToDisplay = jsonData.daily.wind_gusts_10m_max;
         const uvToDisplay = jsonData.daily.uv_index_max;
-        const weatherToDisplay = jsonData.daily.weather_code;
 
+        // Affichage en fonction de la plateforme
+        if (!isMobile) {
+            fillWeekContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay);
+            containerTab.style.display = 'block';
+        } else {
+            fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay);
+            containerTabMobile.style.display = 'block';
+        }
+    }
+    function fillWeekContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
         timesToDisplay = timesToDisplay.map(date => new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' }));
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
@@ -265,6 +254,52 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('temperature-week-chart', timesToDisplay, tempMinToDisplay, 1, 'Evolution de la température sur la semaine', 'Température (°C)', 0, 'line', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)', null, tempMaxToDisplay);
         createChart('precipitation-week-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations sur la semaine', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
         createChart('wind-week-chart', timesToDisplay, windGustToDisplay, 5, 'Evolution du vent sur la semaine', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
+    }
+    async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
+        timesToDisplay = timesToDisplay.map(date => new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' }));
+        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        
+        // Récupération de l'élément tbody du tableau
+        const tbody = document.querySelector("#weather-week-tab-mobile tbody");
+
+        // Utiliser une boucle for...of avec un index pour conserver l'ordre
+        for (const [index, time] of timesToDisplay.entries()) {
+            // Crée une nouvelle ligne dans le tableau
+            const row = document.createElement("tr");
+
+            // Jours
+            const dayCell = document.createElement("td");
+            const dayName = new Date(time).toLocaleDateString('fr-FR', { weekday: 'long' });
+            dayCell.textContent = dayName;
+            row.appendChild(dayCell);
+
+            // Remplir les colonnes de données avec des fonctions asynchrones
+            fillRowMobile(row, sunriseToDisplay[index] + ' - ' + sunsetToDisplay[index], 0, null, defaultColorFunc);
+            fillRowMobile(row, tempMinToDisplay[index], 0, null, getTempColor);
+            fillRowMobile(row, tempMaxToDisplay[index], 0, null, getTempColor);
+            fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
+            fillRowMobile(row, windGustToDisplay[index], 0, 5, getWindColor);
+            fillRowMobile(row, uvToDisplay[index], 0, null, getUVColor);
+
+            // Remplir la cellule du code météo avec une fonction asynchrone
+            const weatherCodeCell = document.createElement("td");
+            const weatherIcon = document.createElement('img');
+            weatherIcon.src = await getWeatherIcon(weatherToDisplay[index], isDayToDisplay[index]);
+            putIconStyle(weatherIcon, '30px', '30px', '30px', '30px', 'contain', 0.9);
+            weatherCodeCell.style.backgroundColor = 'white';
+            weatherCodeCell.appendChild(weatherIcon);
+            row.appendChild(weatherCodeCell);
+
+            // Ajoute la ligne au tableau
+            tbody.appendChild(row);
+        }
+
+        createChart('temperature-day-chart', timesToDisplay, tempToDisplay, 1, 'Evolution de la température dans les prochaines 24h', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
+        createChart('precipitation-day-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations dans les prochaines 24h', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
+        createChart('wind-day-chart', timesToDisplay, windSpeedToDisplay, 5, 'Evolution du vent dans les prochaines 24h', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
+        createChart('pressure-day-chart', timesToDisplay, pressureToDisplay, 1, 'Evolution de la pression dans les prochaines 24h', 'Pression (hPa)', 0, 'line', 'rgba(0, 100, 0, 1)', 'rgba(0, 100, 0, 0.2)');
+
     }
 
     function fillRowDesktop(isHeading, rowId, data, decimals, floor, colorFunction) {
