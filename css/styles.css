@@ -187,7 +187,6 @@ td {
 }
 
 @media (max-width: 10000000px) {
-    th,
     td {
         height: 10px;
         max-height: 10px;
