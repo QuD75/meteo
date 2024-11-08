@@ -267,7 +267,10 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(dayCell);
 
             // Remplir les colonnes de données avec des fonctions asynchrones
-            fillRowMobile(row, sunTimes[index], 0, null, defaultColorFunc);
+            const sunTimes = sunriseToDisplay[index] + ' - ' + sunsetToDisplay[index];
+            console.log(sunTimes);
+            fillRowMobile(row, sunTimes, 0, null, defaultColorFunc);
+            console.log(row);
             fillRowMobile(row, tempMinToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, tempMaxToDisplay[index], 0, null, getTempColor);
             fillRowMobile(row, rainToDisplay[index], 1, null, getRainColor);
