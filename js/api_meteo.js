@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const weatherCodeCell = document.createElement("td");
             const weatherIcon = document.createElement('img');
             weatherIcon.src = await getWeatherIcon(weatherToDisplay[index], isDayToDisplay[index]);
-            putIconStyle(weatherIcon, '15px', '15px', '15px', '15px', 'contain', 0.9);
+            putIconStyle(weatherIcon, '20px', '20px', '20px', '20px', 'contain', 0.9);
             weatherCodeCell.style.backgroundColor = 'white';
             weatherCodeCell.appendChild(weatherIcon);
             row.appendChild(weatherCodeCell);
