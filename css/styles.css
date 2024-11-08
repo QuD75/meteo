@@ -77,6 +77,7 @@ nav ul li a {
     nav ul li {
         flex: 0 1 auto;
     }
+
     nav ul li a {
         font-size: 0.9em;
     }
@@ -185,6 +186,16 @@ td {
     border: 1px solid var(--border-color);
 }
 
+@media (max-width: 1000px) {
+    th,
+    td {
+        height: 10px;
+        max-height: 10px;
+        padding: 0 !important;
+        border: 1px solid var(--border-color);
+    }
+}
+
 #weather-day-tab,
 #weather-day-tab-mobile,
 #weather-week-tab,
@@ -236,14 +247,17 @@ td {
 
 .grid-graphs-container-3 {
     display: grid !important;
-    grid-template-columns: 1fr 1fr; /* 2 colonnes */
-    grid-template-rows: auto auto; /* 2 lignes */
+    grid-template-columns: 1fr 1fr;
+    /* 2 colonnes */
+    grid-template-rows: auto auto;
+    /* 2 lignes */
     grid-gap: 20px;
     margin: 20px 0;
 }
 
-.grid-graphs-container-3 > .first-block {
-    grid-column: span 2; /* Cette règle fait en sorte que le premier bloc prenne toute la largeur des 2 colonnes */
+.grid-graphs-container-3>.first-block {
+    grid-column: span 2;
+    /* Cette règle fait en sorte que le premier bloc prenne toute la largeur des 2 colonnes */
 }
 
 .Temp,
@@ -270,6 +284,7 @@ main iframe {
     height: auto;
     aspect-ratio: 16 / 9;
 }
+
 @media (max-width: 1000px) {
     main iframe {
         width: 100%;
