@@ -286,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
         }
+        console.log(tbody);
     }
 
     function fillRowDesktop(isHeading, rowId, data, decimals, floor, colorFunction) {
