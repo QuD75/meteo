@@ -186,7 +186,7 @@ td {
     border: 1px solid var(--border-color);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 10000000px) {
     th,
     td {
         height: 10px;
