@@ -189,7 +189,6 @@ td {
 @media (max-width: 10000000px) {
     td {
         height: 15px;
-        max-height: 15px;
         padding: 0 !important;
         border: 1px solid var(--border-color);
     }
