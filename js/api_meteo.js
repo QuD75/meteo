@@ -226,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay);
             containerTabMobile.style.display = 'block';
+            console.log(containerTabMobile);
         }
 
         timesToDisplay = timesToDisplay.map(date => date.toLocaleDateString('fr-FR', { weekday: 'long' }));
@@ -285,7 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
-            console.log("Tbody", tbody);
         }
     }
 
