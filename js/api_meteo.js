@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Utiliser une boucle for...of avec un index pour conserver l'ordre
         for (const [index, time] of timesToDisplay.entries()) {
-            const hour = new Date(time).getHours();
+            const hour = time.getHours();
 
             // Crée une nouvelle ligne dans le tableau
             const row = document.createElement("tr");
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         containerGraphs.style.display = 'block';
 
         // Sélectionne les données pour les heures dans la plage souhaitée
-        let timesToDisplay = times;
+        const timesToDisplay = jsonData.daily.time.map(time => new Date(time));
         const sunriseToDisplay = jsonData.daily.sunrise;
         const sunsetToDisplay = jsonData.daily.sunset;
         const tempMinToDisplay = jsonData.daily.temperature_2m_min;
@@ -235,9 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     function fillWeekContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        timesToDisplay = timesToDisplay.map(date => new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' }));
-        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
-        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        timesToDisplay = timesToDisplay.map(date => date.toLocaleDateString('fr-FR', { weekday: 'long' }));
+        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(date, false, false, false, true, true));
+        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
         let sunTimes = [];
         sunTimes = sunriseToDisplay.map((value, index) => ' ' + value + ' - ' + sunsetToDisplay[index] + ' ');
 
@@ -256,9 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
         createChart('wind-week-chart', timesToDisplay, windGustToDisplay, 5, 'Evolution du vent sur la semaine', 'Vent (km/h)', 0, 'line', 'rgba(204, 204, 0, 1)', 'rgba(255, 255, 0, 0.2)', windGustToDisplay);
     }
     async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        timesToDisplay = timesToDisplay.map(date => new Date(date).toLocaleDateString('fr-FR', { weekday: 'long' }));
-        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
-        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        timesToDisplay = timesToDisplay.map(date => date.toLocaleDateString('fr-FR', { weekday: 'long' }));
+        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(date, false, false, false, true, true));
+        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
         
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector("#weather-week-tab-mobile tbody");
