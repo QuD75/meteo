@@ -284,8 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(weatherCodeCell);
 
             // Ajoute la ligne au tableau
-            console.log("row", row);
             tbody.appendChild(row);
+            console.log("Tbody", tbody);
         }
     }
 
