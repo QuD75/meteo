@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Utiliser une boucle for...of avec un index pour conserver l'ordre
         for (const [index, time] of timesToDisplay.entries()) {
-            const hour = dateObj.getHours();
+            const hour = new Date(time).getHours();
 
             // Crée une nouvelle ligne dans le tableau
             const row = document.createElement("tr");
