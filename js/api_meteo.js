@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Variables génériques pour les éléments
         const loadingMessage = document.getElementById(`loading-message-${type}`);
         const containerGraphs = document.getElementById(`${type}-container-graphs`);
-        const containerGraphsMobile = document.getElementById(`${type}-container-graphs-mobile`);
         const containerTab = document.getElementById(`${type}-container-tab`);
         const containerTabMobile = document.getElementById(`${type}-container-tab-mobile`);
 
@@ -56,12 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 fillWeekContainer(jsonData);
             }
             containerTab.style.display = 'block';
-            containerGraphs.style.display = 'block';
+            
         } else {
             type === 'day' ? fillDayMobileContainer(jsonData) : fillWeekContainer(jsonData); // Appel de la fonction appropriée
             containerTabMobile.style.display = 'block';
-            containerGraphsMobile.style.display = 'block';
         }
+        containerGraphs.style.display = 'block';
     }
 
     function displayDataDay(jsonData) {

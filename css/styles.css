@@ -244,9 +244,12 @@ td {
     margin: 20px 0;
 }
 
-#day-container-graphs-mobile {
-    display: flex;
-    margin: 20px 0;
+@media (max-width: 1000000px) {
+    #day-container-graphs {
+        display: flex;
+        flex-direction: column;
+        margin: 20px 0;
+    }
 }
 
 #week-container-graphs {
