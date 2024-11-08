@@ -1,8 +1,11 @@
 //Fonctions d'icones
-function putIconStyle(icon, width, height, objectFit, brightness = null) {
+function putIconStyle(icon, width, maxWidth, height, maxHeight, objectFit, brightness = null) {
     icon.style.width = width;
     icon.style.height = height;
+    if (maxWidth != null) icon.style.maxWidth = maxWidth;
+    if (maxHeight != null) icon.style.maxHeight = maxHeight;
     icon.style.objectFit = objectFit;
+    icon.style.overflow = "hidden";
     if (brightness != null) icon.style.filter = 'brightness(' + brightness + ')';
 }
 function getWindDirectionIcon(wind_deg) {
