@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Remplir la cellule du code météo avec une fonction asynchrone
             const weatherCodeCell = document.createElement("td");
             const weatherIcon = document.createElement('img');
-            weatherIcon.src = await getWeatherIcon(weatherToDisplay[index], isDayToDisplay[index]);
+            weatherIcon.src = await getWeatherIcon(weatherToDisplay[index]);
             putIconStyle(weatherIcon, '30px', '30px', '30px', '30px', 'contain', 0.9);
             weatherCodeCell.style.backgroundColor = 'white';
             weatherCodeCell.appendChild(weatherIcon);
