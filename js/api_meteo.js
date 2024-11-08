@@ -226,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay);
             containerTabMobile.style.display = 'block';
-            console.log(containerTabMobile);
         }
 
         timesToDisplay = timesToDisplay.map(date => date.toLocaleDateString('fr-FR', { weekday: 'long' }));
@@ -250,8 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', null);
     }
     async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(date, false, false, false, true, true));
-        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(date, false, false, false, true, true));
+        sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
+        sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
 
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector('#weather-week-tab-mobile tbody');
