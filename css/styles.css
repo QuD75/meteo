@@ -237,14 +237,19 @@ td {
     background-color: var(--light-background);
 }
 
-.grid-graphs-container-4 {
+#day-container-graphs {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
     margin: 20px 0;
 }
 
-.grid-graphs-container-3 {
+#day-container-graphs-mobile {
+    display: flex;
+    margin: 20px 0;
+}
+
+#week-container-graphs {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
     /* 2 colonnes */
@@ -254,7 +259,7 @@ td {
     margin: 20px 0;
 }
 
-.grid-graphs-container-3>.first-block {
+#week-container-graphs>.first-block {
     grid-column: span 2;
     /* Cette règle fait en sorte que le premier bloc prenne toute la largeur des 2 colonnes */
 }

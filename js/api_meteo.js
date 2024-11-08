@@ -40,25 +40,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Variables génériques pour les éléments
         const loadingMessage = document.getElementById(`loading-message-${type}`);
         const containerGraphs = document.getElementById(`${type}-container-graphs`);
+        const containerGraphsMobile = document.getElementById(`${type}-container-graphs-mobile`);
         const containerTab = document.getElementById(`${type}-container-tab`);
         const containerTabMobile = document.getElementById(`${type}-container-tab-mobile`);
 
         // Masquer le message de chargement et afficher les graphiques
         loadingMessage.style.display = 'none';
-        containerGraphs.style.display = 'block';
-
+    
         // Affichage en fonction de la plateforme
         if (!isMobile) {
-            containerTab.style.display = 'block';
             if (type === 'day') {
                 fillDayContainer(jsonData)
             }
             if (type === 'week') {
                 fillWeekContainer(jsonData);
             }
+            containerTab.style.display = 'block';
+            containerGraphs.style.display = 'block';
         } else {
             type === 'day' ? fillDayMobileContainer(jsonData) : fillWeekContainer(jsonData); // Appel de la fonction appropriée
             containerTabMobile.style.display = 'block';
+            containerGraphsMobile.style.display = 'block';
         }
     }
 
@@ -221,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
         }
-        
+
         timesToDisplay = timesToDisplay.map(date => formatDate(date, false, false, false, true, false));
         createChart('temperature-day-chart', timesToDisplay, tempToDisplay, 1, 'Evolution de la température dans les prochaines 24h', 'Température (°C)', 0, 'line', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.2)');
         createChart('precipitation-day-chart', timesToDisplay, rainToDisplay, 0.1, 'Evolution des précipitations dans les prochaines 24h', 'Pluie (mm)', 1, 'bar', 'rgba(0, 0, 139, 1)', 'rgba(0, 0, 139, 0.2)');
