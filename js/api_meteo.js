@@ -249,12 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fillWeatherSymbol('weather-week-row', weatherToDisplay, '100%', null);
     }
     async function fillWeekMobileContainer(timesToDisplay, sunriseToDisplay, sunsetToDisplay, tempMinToDisplay, tempMaxToDisplay, rainToDisplay, windGustToDisplay, uvToDisplay, weatherToDisplay) {
-        console.log(sunriseToDisplay);
-        console.log(sunsetToDisplay);
         sunriseToDisplay = sunriseToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
         sunsetToDisplay = sunsetToDisplay.map(date => formatDate(new Date(date), false, false, false, true, true));
-        console.log(sunriseToDisplay);
-        console.log(sunsetToDisplay);
 
         // Récupération de l'élément tbody du tableau
         const tbody = document.querySelector('#weather-week-tab-mobile tbody');
@@ -286,6 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherCodeCell.style.backgroundColor = 'white';
             weatherCodeCell.appendChild(weatherIcon);
             row.appendChild(weatherCodeCell);
+
+            console.log(row);
 
             // Ajoute la ligne au tableau
             tbody.appendChild(row);
