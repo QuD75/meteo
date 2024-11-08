@@ -246,7 +246,7 @@ td {
 
 @media (max-width: 1000000px) {
     #day-container-graphs {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         margin: 20px 0;
     }
